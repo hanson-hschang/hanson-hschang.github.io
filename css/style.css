@@ -12,7 +12,7 @@ html {
 body {
     height:     100%;
     position: relative;
-    
+
     color:          white;
 	font-family:    Courier, Arial, Helvetica, sans-serif;
 	font-size:      14px;
@@ -23,7 +23,7 @@ body {
 	margin:     auto;
 	overflow:   hidden;
     box-sizing: border-box;
-    /* border:     3px solid #8AC007; */
+    border:     3px solid #8AC007;
 }
 
 #background {
