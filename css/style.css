@@ -190,11 +190,18 @@ footer a {
     height: 100px;
 
     text-align: left;
+    position: relative;
 }
 
 .showcase a {
     text-decoration: None;
     color:white;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
 }
 
 .showcase a:link {
@@ -205,21 +212,11 @@ footer a {
     color:white;
 }
 
-.showcase div {
-    position: relative;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-	font-size:      12px;
-}
-
 .showcase h1 {
-    margin-block: 0em;
+    text-indent: 30px;
     position: relative;
     top: 50%;
-    left: 50%;
-    transform: translate(-45%, -50%);
-    width: 90%;
+    transform: translate(0, -50%);
 }
 
 #research-lab {
@@ -230,6 +227,11 @@ footer a {
     width: 100%;
     height: 100%;
     border-radius: 10px;
+
+    /* position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); */
 }
 
 
