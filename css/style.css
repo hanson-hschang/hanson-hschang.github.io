@@ -193,6 +193,7 @@ footer a {
 
 .showcase a {
     text-decoration: None;
+    color:white;
 }
 
 .showcase a:visited {
