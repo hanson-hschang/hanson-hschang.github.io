@@ -1,0 +1,238 @@
+* {
+    padding:    0px;
+    margin:     0px;
+}
+
+html {
+    width:      100%;
+    height:     100%;
+}
+
+
+body {
+    height:     100%;
+    position: relative;
+
+    color:          white;
+	font-family:    Courier, Arial, Helvetica, sans-serif;
+	font-size:      14px;
+    text-align:     center;
+}
+
+.container {
+	margin:     auto;
+	overflow:   hidden;
+    box-sizing: border-box;
+    /* border:     3px solid #8AC007; */
+}
+
+#background {
+    margin: 0px;
+    height: 100%;
+
+    background-image:    linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../images/background.jpg');
+    background-size:     cover;
+    background-repeat:   no-repeat;
+    background-position: center center;
+}
+
+/* ---------- Header styles included from here ---------- */
+
+header {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+header h1{
+    font-weight: normal;
+}
+
+header em{
+    font-family: "Copperplate";
+    font-style: normal;
+}
+
+.row {
+    width: fit-content;
+}
+
+.column {
+    float: left;
+    height: 150px;
+    padding: 0px 5px;
+}
+
+#header-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50px;
+    
+    position: relative;
+    top: 50%;
+    transform: translate(0, -50%);
+
+    background-image:    url('../images/header_image.JPG');
+    background-size:     cover;
+    background-repeat:   no-repeat;
+    background-position: center center;
+}
+
+#header-info {
+    text-align: left;
+    width: fit-content;
+    padding-bottom: 10px;
+
+    position: relative;
+    top: 50%;
+    transform: translate(0, -50%);
+}
+
+/* ---------- Footer styles included from here ---------- */
+
+footer {
+    width: 400px;
+
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+footer ul {
+	padding:    0;
+	list-style: none;
+}
+
+footer li {
+    display: inline-block;
+    padding: 5%;
+}
+
+footer a {
+	padding:    10%;    /* change this value when number of icons changes */
+}
+
+#social-icon {
+    width: 30px;
+    height: 30px;
+}
+
+/* ---------- Content styles included from here ---------- */
+
+.content {
+    width: 320px;
+    height: calc(100% - 210px);
+
+    position: absolute;
+    top: 160px;
+    left: 50%;
+    transform: translate(-50%, 0);
+
+    overflow: scroll
+}
+
+/* Responsive layout - 
+    makes the two columns in header stack on top of each other instead of next to each other 
+    makes the icons in footer closer to each other
+    makes the content width adapt too smaller screen
+*/
+@media screen and (max-width: 400px) {
+    .row {
+        text-align: center;
+    }
+
+    .column {
+        padding: 0px 0px;
+        width: 100%;
+        height: fit-content;
+    }
+
+    #header-img {
+        top: 0%;
+        transform: translate(0, 0%);
+    }
+
+    #header-info {
+        text-align: center;
+        width: fit-content;
+        padding-top: 10px;
+        padding-bottom: 10px;
+
+        top: 0%;
+        transform: translate(0, 0%);
+    }
+
+    footer {
+        width: 80%;
+    }
+
+    footer a {
+        padding:    5%;    /* change this value when number of icons changes */
+    }
+
+    .content {
+        width: 80%;
+        height: calc(100% - 270px);
+    
+        position: absolute;
+        top: 200px;
+        left: 50%;
+        transform: translate(-50%, 0);
+    }
+}
+
+.emptyspace {
+    height: calc(100% - 115px);
+}
+
+.showcase {
+    margin: 5px auto;
+    width: 100%;
+    height: 100px;
+
+    text-align: left;
+    position: relative;
+}
+
+.showcase a {
+    text-decoration: None;
+    color:white;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+}
+
+.showcase a:link {
+    color:white;
+}
+
+.showcase a:visited {
+    color:white;
+}
+
+.showcase h1 {
+    text-indent: 30px;
+    position: relative;
+    top: 50%;
+    transform: translate(0, -50%);
+}
+
+#research-lab {
+	background-image:   linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('../images/research_lab.jpeg');
+    background-size:    cover;
+	background-position:center center;
+
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+
+    /* position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); */
+}
