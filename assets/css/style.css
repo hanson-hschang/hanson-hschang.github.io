@@ -1022,6 +1022,8 @@ section {
 .contact .info {
   width: 100%;
   background: #fff;
+  padding: 30px;
+  box-shadow: 0 0 24px 0 rgba(0, 0, 0, 0.12);
 }
 
 .contact .info i {
@@ -1053,9 +1055,10 @@ section {
   color: #728394;
 }
 
+.contact .info .name,
 .contact .info .email,
 .contact .info .address {
-  margin-top: 40px;
+  margin-bottom: 40px;
 }
 
 .contact .info .name:hover i,
@@ -1068,6 +1071,8 @@ section {
 .contact .php-email-form {
   width: 100%;
   background: #fff;
+  padding: 30px;
+  box-shadow: 0 0 24px 0 rgba(0, 0, 0, 0.12);
 }
 
 .contact .php-email-form .form-group {
@@ -1128,6 +1133,7 @@ section {
 
 .contact .php-email-form textarea {
   padding: 10px 12px;
+  height: 388px;
 }
 
 .contact .php-email-form button[type=submit] {
