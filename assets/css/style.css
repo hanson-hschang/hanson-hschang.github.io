@@ -433,6 +433,12 @@ section {
   margin-bottom: 0;
 }
 
+#about_img {
+  /* width: 100px;
+  height: 100px; */
+  border-radius: 50px;
+}
+
 /*--------------------------------------------------------------
 # Facts
 --------------------------------------------------------------*/
@@ -1048,13 +1054,13 @@ section {
 }
 
 .contact .info .email,
-.contact .info .phone {
+.contact .info .address {
   margin-top: 40px;
 }
 
+.contact .info .name:hover i,
 .contact .info .email:hover i,
-.contact .info .address:hover i,
-.contact .info .phone:hover i {
+.contact .info .address:hover i {
   background: #0563bb;
   color: #fff;
 }
