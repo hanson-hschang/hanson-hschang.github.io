@@ -398,7 +398,8 @@ section {
   margin-bottom: 0;
 }
 
-.section-title h3 {
+.section-title em {
+  font-style: normal;
   font-weight: 700;
   font-size: 26px;
   color: #728394;
@@ -543,7 +544,6 @@ section {
   line-height: 18px;
   font-size: 18px;
   font-weight: 600;
-  text-transform: uppercase;
   font-family: "Poppins", sans-serif;
   color: #0563bb;
   margin-bottom: 10px;
