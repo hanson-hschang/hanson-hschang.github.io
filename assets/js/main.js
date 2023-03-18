@@ -153,7 +153,7 @@
   }
 
   const typed2 = select('.typed2')
-  if (typed) {
+  if (typed2) {
     let typed2_strings = typed2.getAttribute('data-typed-items')
     typed2_strings = typed2_strings.split(',')
     new Typed('.typed2', {
