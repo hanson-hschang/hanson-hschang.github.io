@@ -307,7 +307,6 @@ h6 {
   color: #45505b;
   margin: 15px 0 0 0;
   font-size: 26px;
-  /* font-family: "Poppins", sans-serif; */
   font-family: "Courier New", Courier, monospace;
 }
 
@@ -399,15 +398,15 @@ section {
   margin-bottom: 0;
 }
 
-/*--------------------------------------------------------------
-# About
---------------------------------------------------------------*/
-.about .content h3 {
+.section-title h3 {
   font-weight: 700;
   font-size: 26px;
   color: #728394;
 }
 
+/*--------------------------------------------------------------
+# About
+--------------------------------------------------------------*/
 .about .content ul {
   list-style: none;
   padding: 0;
@@ -430,13 +429,17 @@ section {
   line-height: 0;
 }
 
-.about .content p:last-child {
-  margin-bottom: 0;
+.about .content p {
+  text-align: justify;
 }
 
+/* .about .content p:last-child {
+  margin-bottom: 0;
+} */
+
 #about_img {
-  /* width: 100px;
-  height: 100px; */
+  width: 100%;
+  display: flex;
   border-radius: 50px;
 }
 
@@ -483,7 +486,7 @@ section {
 }
 
 /*--------------------------------------------------------------
-# Akills
+# Skills
 --------------------------------------------------------------*/
 .skills .progress {
   height: 60px;
