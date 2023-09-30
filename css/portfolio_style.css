@@ -1,0 +1,9 @@
+
+.swiper-slide img {   /* CSS for responsive images */
+    max-width: 60vw; /* Set maximum height to 80% of the viewport width */
+    max-height: 80vh; /* Set maximum height to 80% of the viewport height */
+    width: auto;    /* Allow images to maintain their aspect ratio */
+    height: auto;    /* Allow images to maintain their aspect ratio */
+    display: block;  /* Remove extra spacing below inline images */
+    margin: 0 auto;  /* Center align images horizontally */
+}
