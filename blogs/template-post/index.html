@@ -238,7 +238,10 @@
 
       loadScriptsSerially(scriptList)
         .catch(error => console.error('Error in script loading:', error));
-      loadPosts('/blogs/recent-posts.md', '/blogs/template-post/template-recent-post-entry.html');
+      loadPosts(
+        '/blogs/template-recent-post-entry/content.md', 
+        '/blogs/template-recent-post-entry/index.html'
+      );
     </script>
 
   </body>
