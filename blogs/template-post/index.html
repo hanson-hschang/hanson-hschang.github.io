@@ -39,6 +39,8 @@
 
     <!-- JS Files -->
     <script src="/assets/js/serial-script-loader.js"></script>
+    <script src="/assets/js/blog-post-loader.js"></script>
+
     
   </head>
 
@@ -175,36 +177,12 @@
 
                 <h3 class="widget-title">Recent Posts</h3>
 
-                <div class="post-item">
-                  <h4><a href="blog-details.html">Nihil blanditiis at in nihil autem</a></h4>
-                  <time datetime="2020-01-01">Jan 1, 2020</time>
-                </div><!-- End recent post item-->
-
-                <div class="post-item">
-                  <h4><a href="blog-details.html">Quidem autem et impedit</a></h4>
-                  <time datetime="2020-01-01">Jan 1, 2020</time>
-                </div><!-- End recent post item-->
-
-                <div class="post-item">
-                  <h4><a href="blog-details.html">Id quia et et ut maxime similique occaecati ut</a></h4>
-                  <time datetime="2020-01-01">Jan 1, 2020</time>
-                </div><!-- End recent post item-->
-
-                <div class="post-item">
-                  <h4><a href="blog-details.html">Laborum corporis quo dara net para</a></h4>
-                  <time datetime="2020-01-01">Jan 1, 2020</time>
-                </div><!-- End recent post item-->
-
-                <div class="post-item">
-                  <h4><a href="blog-details.html">Et dolores corrupti quae illo quod dolor</a></h4>
-                  <time datetime="2020-01-01">Jan 1, 2020</time>
-                </div><!-- End recent post item-->
+                <ul id="post-entries"></ul>
 
               </div>
 
               <!-- Tags Widget -->
-              <div class="tags-widget widget-item">
-
+              <!-- <div class="tags-widget widget-item">
                 <h3 class="widget-title">Tags</h3>
                 <ul>
                   <li><a href="#">App</a></li>
@@ -219,8 +197,7 @@
                   <li><a href="#">Tips</a></li>
                   <li><a href="#">Marketing</a></li>
                 </ul>
-
-              </div>
+              </div> -->
 
             </div>
 
@@ -261,6 +238,7 @@
 
       loadScriptsSerially(scriptList)
         .catch(error => console.error('Error in script loading:', error));
+      loadPosts('/blogs/recent-posts.md', '/blogs/template-post/template-recent-post-entry.html');
     </script>
 
   </body>
