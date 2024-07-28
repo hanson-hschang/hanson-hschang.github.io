@@ -11,6 +11,11 @@ https://stackoverflow.com/questions/12683417/localhost-wont-immediately-update
 For mac: cmd + shift + R 
 For windows: ctrl + shift + R
 
+For Safari:
+https://www.gavel.io/resources/what-is-a-hard-refresh-how-to-do-a-hard-refresh-in-any-browser
+1. opt + cmd + E to clear Cashe
+2. cmd + R to refresh
+
 The framework of this website is based on the following templates.
 
 Template Name: MyResume
