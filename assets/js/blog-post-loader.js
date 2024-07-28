@@ -52,8 +52,6 @@ function createPostEntry(post, template) {
   const filledTemplate = template.replace(/\${(\w+)}/g, (match, key) => {
     // Replace the placeholder with the corresponding value from the post object
     // If the key doesn't exist in the post object, return the original placeholder
-    console.log('key:', key);
-    console.log('match:', match);
     return post.hasOwnProperty(key) ? post[key] : match;
   });
   const element = document.createElement('div');
