@@ -1,5 +1,5 @@
 |  key      |  value    |
-|  -------  |  -------  |
+|  :-----:  |  :------  |
 |  title    |  Website Coding for Beginner  |
 |  date     |  Jun 16, 2022  |
 |  link     |  https://observablehq.com/@hanson-hschang/learn-to-code-a-website-from-scratch  |
