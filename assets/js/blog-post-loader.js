@@ -49,11 +49,13 @@ async function fetchTemplate(templatePath) {
 
 // Function to create a post entry HTML element
 function createPostEntry(post, template) {
-  const filledTemplate = template
-    .replace('${link}', post.link)
-    .replace('${title}', post.title)
-    .replace('${date}', post.date)
-    .replace('${excerpt}', post.excerpt);
+  const filledTemplate = template.replace(/\${(\w+)}/g, (match, key) => {
+    // Replace the placeholder with the corresponding value from the post object
+    // If the key doesn't exist in the post object, return the original placeholder
+    console.log('key:', key);
+    console.log('match:', match);
+    return post.hasOwnProperty(key) ? post[key] : match;
+  });
   const element = document.createElement('div');
   element.innerHTML = filledTemplate.trim();
   return element.firstChild;
