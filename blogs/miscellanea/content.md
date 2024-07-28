@@ -1,5 +1,6 @@
 |  key      |  value    |
 |  :-----:  |  :------  |
+|  category |  miscellanea  |
 |  title    |  Website Coding for Beginner  |
 |  date     |  Jun 16, 2022  |
 |  link     |  /blogs/miscellanea/2022_06_16__Website_Coding_for_Beginner  |

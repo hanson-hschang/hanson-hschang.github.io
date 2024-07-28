@@ -1,5 +1,6 @@
 |  key      |  value    |
 |  :-----:  |  :------  |
+|  category |  life  |
 |  title    |  What’s Cooking Philly?  |
 |  date     |  May 31, 2022  |
 |  link     |  /blogs/life/2022_05_31__What's_Cooking_Philly  |

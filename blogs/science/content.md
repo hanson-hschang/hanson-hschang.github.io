@@ -1,5 +1,6 @@
 |  key      |  value    |
 |  :-----:  |  :------  |
+|  category |  science  |
 |  title    |  How regularization affects the critical points in linear networks  |
 |  date     |  Nov 08, 2018  |
 |  link     |  /blogs/science/2018_11_08__How_regularization_affects_the_critical_points_in_linear_networks  |

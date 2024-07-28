@@ -1,5 +1,6 @@
 |  key      |  value    |
 |  :-----:  |  :------  |
+|  category |  miscellanea  |
 |  title    |  Website Coding for Beginner  |
 |  date     |  Jun 16, 2022  |
 |  link     |  /blogs/miscellanea/2022_06_16__Website_Coding_for_Beginner  |
@@ -7,6 +8,7 @@
 
 |  key      |  value    |
 |  :-----:  |  :------  |
+|  category |  life  |
 |  title    |  What’s Cooking Philly?  |
 |  date     |  May 31, 2022  |
 |  link     |  /blogs/life/2022_05_31__What's_Cooking_Philly  |
@@ -14,6 +16,7 @@
 
 |  key      |  value    |
 |  :-----:  |  :------  |
+|  category |  science  |
 |  title    |  How regularization affects the critical points in linear networks  |
 |  date     |  Nov 08, 2018  |
 |  link     |  /blogs/science/2018_11_08__How_regularization_affects_the_critical_points_in_linear_networks  |
