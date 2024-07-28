@@ -1,4 +1,6 @@
-Template Post Title
-Jan 01, 0001
-/blogs/template-post/
-Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vero temporibus repudiandae, inventore pariatur numquam cumque possimus exercitationem? Accusamus fugiat architecto rerum animi atque eveniet, quo, praesentium dignissimos
+|  key      |  value    |
+|  :-----:  |  :------  |
+|  title    |  How regularization affects the critical points in linear networks  |
+|  date     |  Nov 08, 2018  |
+|  link     |  /blogs/science/2018_11_08__How_regularization_affects_the_critical_points_in_linear_networks  |
+|  excerpt  |  This is a blog post of a quick review of the method described in the paper: "How regularization affects the critical points in linear networks". It contains the mathematical framework and the form of the mimimizer.  |
