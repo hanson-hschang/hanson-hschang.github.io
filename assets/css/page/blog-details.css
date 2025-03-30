@@ -66,6 +66,7 @@
 .blog-details .meta-top {
   margin-top: 20px;
   color: color-mix(in srgb, var(--default-color), transparent 40%);
+  margin-bottom: 10px;
 }
 
 .blog-details .meta-top ul {
@@ -149,6 +150,130 @@
 
 .blog-details .meta-bottom .share i {
   padding-left: 5px;
+}
+
+
+.blog-details .post-tags {
+  margin-top: 0.5em;
+}
+
+.blog-details .tag {
+  display: inline-block;
+  padding: 0.2em 0.6em;
+  font-size: 0.8em;
+  background-color: #f1f8ff;
+  border-radius: 3px;
+  margin-right: 0.5em;
+}
+
+.blog-details .post-content {
+  margin-top: 2em;
+}
+
+
+/* Post header layout */
+.post-header {
+  margin-bottom: 2em;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.5em;
+}
+
+.post-title {
+  margin: 0;
+  flex: 1;
+}
+
+/* Share button styles */
+.share-container {
+  position: relative;
+  margin-left: 20px;
+}
+
+.share-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #f0f0f0;
+  color: #333;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.share-button:hover {
+  background-color: #e0e0e0;
+}
+
+.share-button svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Share menu */
+.share-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 10px);
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: 200px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+  z-index: 100;
+  overflow: hidden;
+}
+
+.share-menu.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.share-menu-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  color: #333;
+  text-decoration: none;
+  transition: background-color 0.15s;
+}
+
+.share-menu-item:hover {
+  background-color: #f5f5f5;
+}
+
+.share-menu-item:active {
+  background-color: #e0e0e0;
+}
+
+.share-menu-divider {
+  height: 1px;
+  background-color: #e0e0e0;
+  margin: 0;
+  padding: 0;
+}
+
+.share-menu-item svg {
+  width: 20px;
+  height: 20px;
+  margin-right: 12px;
+  fill: #333;
+}
+
+.share-menu-item span {
+  font-size: 14px;
+  font-weight: 500;
 }
 
 /*--------------------------------------------------------------

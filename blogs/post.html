@@ -37,9 +37,21 @@
     <link rel="stylesheet" href="/assets/css/page/blog-details.css">
     <link rel="stylesheet" href="/assets/css/page/widgets.css">
 
+
+    <!-- Include Marked.js for Markdown parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
+    <!-- MathJax for LaTeX support -->
+    <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+    
+
     <!-- JS Files -->
     <script src="/assets/js/serial-script-loader.js"></script>
     <script src="/assets/js/blog-post-loader.js"></script>
+    <script src="/assets/js/markdown-parser.js"></script>
+    <script src="/assets/js/post-renderer.js"></script>
 
     
   </head>
@@ -62,7 +74,7 @@
             <ol>
               <li><a href="/">Home</a></li>
               <li><a href="/blogs/">Blogs</a></li>
-              <li><a href="/blogs/${category}">${category}</a></li>
+              <li class="post-category"><a href="/blogs/${category}">${category}</a></li>
               <li class="current"></li>
             </ol>
           </nav>
@@ -81,33 +93,37 @@
               <article class="article">
 
                 <div class="post-img">
-                  <img src="media/thumbnail.jpg" alt="" class="img-fluid">
+                  <img src="/assets/img/post-thumbnail.jpg" alt="" class="img-fluid">
                 </div>
 
                 <!-- Article Title -->
-                <div class="title">
-                  <h2>${title}</h2>
+                <div class="post-header">
                   <div class="meta-top">
-                    <ul>
+                    <ul class="d-flex justify-content-between">
                       <li class="d-flex align-items-center">
                         <i class="bi bi-calendar-event"></i>
-                        <time>${date}</time>
+                        <time class="post-date">${date}</time>
                       </li>
-                      <li class="d-flex align-items-center">
+                      <!-- <li class="d-flex align-items-center">
                         <i class="bi bi-clock"></i>
                         <span>${reading-time} min read</span>
-                      </li>
+                      </li> -->
                       <!-- <li class="d-flex align-items-center">
                         <i class="bi bi-chat-dots"></i> 
                         <span>${number-of-comments} comments</span>
                       </li> -->
+                      <li class="d-flex align-items-center">
+                        <div id="share" class="share-container" include-html="/assets/views/share.html"></div>  
+                      </li>
                     </ul>
                   </div>
+                  <h2 class="post-title">${title}</h2>
+                  <div class="post-tags"></div>
                 </div>
   
                 <!-- Article Content -->
-                <div class="content">
-                  <p>
+                <div class="post-content">
+                  <!-- <p>
                     Similique neque nam consequuntur ad non maxime aliquam quas. Quibusdam animi praesentium. Aliquam et laboriosam eius aut nostrum quidem aliquid dicta.
                   </p>
                   <blockquote>
@@ -128,7 +144,7 @@
                   <h3>Ut repellat blanditiis est dolore sunt dolorum quae.</h3>
                   <p>
                     Rerum ea est assumenda pariatur quasi et quam. Facilis nam porro amet nostrum. In assumenda quia quae a id praesentium. Quos deleniti libero sed occaecati aut porro autem. 
-                  </p>
+                  </p> -->
                 </div>
   
               </article>
@@ -234,6 +250,7 @@
         "/assets/vendor/isotope-layout/isotope.pkgd.min.js",
         "/assets/vendor/swiper/swiper-bundle.min.js",
         "/assets/js/page.js",
+        "/assets/js/share.js"
       ];
 
       loadScriptsSerially(scriptList)
