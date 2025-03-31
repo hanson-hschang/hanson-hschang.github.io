@@ -170,7 +170,6 @@
   margin-top: 2em;
 }
 
-
 /* Post header layout */
 .post-header {
   margin-bottom: 2em;
@@ -274,6 +273,86 @@
 .share-menu-item span {
   font-size: 14px;
   font-weight: 500;
+}
+
+/* LaTeX equation styles */
+.MathJax {
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 100%;
+}
+
+.post-content .mjx-chtml {
+  margin: 1em 0;
+}
+
+.post-content .mjx-chtml.MJXc-display {
+  margin: 1.5em 0;
+  padding: 0;
+}
+
+/* Ensure equation numbers are visible */
+.post-content .mjx-chtml .mjx-right {
+  margin-right: 0 !important;
+  float: right !important;
+  text-align: right !important;
+}
+
+/* LaTeX equation overflow handling with centered content */
+.post-content .MathJax_Display,
+.post-content .mjx-chtml.MJXc-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  margin: 1em 0;
+  padding: 0.5em 0;
+  width: 100% !important; /* Force width to ensure scrollbar works */
+  max-width: 100%;
+  display: flex !important; /* Use flexbox for centering */
+  justify-content: center !important;
+}
+
+/* Center the math content while allowing it to be wider than container */
+.post-content .mjx-chtml .mjx-math {
+  min-width: min-content !important; /* Allow content to determine width */
+  display: inline-block !important;
+  text-align: center !important;
+  margin: 0 auto !important;
+}
+
+/* Style the scrollbar for better appearance */
+.post-content .mjx-chtml.MJXc-display::-webkit-scrollbar,
+.post-content .MathJax_Display::-webkit-scrollbar {
+  height: 8px;
+}
+
+.post-content .mjx-chtml.MJXc-display::-webkit-scrollbar-track,
+.post-content .MathJax_Display::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.post-content .mjx-chtml.MJXc-display::-webkit-scrollbar-thumb,
+.post-content .MathJax_Display::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 4px;
+}
+
+.post-content .mjx-chtml.MJXc-display::-webkit-scrollbar-thumb:hover,
+.post-content .MathJax_Display::-webkit-scrollbar-thumb:hover {
+  background: #999;
+}
+
+/* Ensure equation container doesn't overflow */
+.post-content .MathJax_SVG_Display,
+.post-content .MathJax {
+  max-width: 100%;
+}
+
+/* Ensure container for equations has proper overflow */
+.post-content .mjx-container {
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 100%;
 }
 
 /*--------------------------------------------------------------

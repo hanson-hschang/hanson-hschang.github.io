@@ -42,10 +42,42 @@
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     
     <!-- MathJax for LaTeX support -->
-    <script type="text/javascript" id="MathJax-script" async
-        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          displayMath: [['$$', '$$'], ['\\[', '\\]']],
+          tags: 'ams',
+          tagSide: 'right',
+          tagIndent: '0.8em',
+          processEscapes: true,
+          processEnvironments: true,
+          packages: {'[+]': ['noerrors', 'ams']}
+        },
+        options: {
+          skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+          ignoreHtmlClass: 'tex2jax_ignore',
+          processHtmlClass: 'tex2jax_process'
+        },
+        chtml: {
+          scale: 1,
+          minScale: 0.5,
+          mtextInheritFont: false,
+          displayAlign: 'center',
+          displayIndent: '0',
+          adaptiveCSS: true
+        },
+        svg: {
+          scale: 1,
+          minScale: 0.5,
+          mtextInheritFont: false,
+          displayAlign: 'center',
+          displayIndent: '0',
+          adaptiveCSS: true
+        }
+      };
     </script>
-    
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
     <!-- JS Files -->
     <script src="/assets/js/serial-script-loader.js"></script>
