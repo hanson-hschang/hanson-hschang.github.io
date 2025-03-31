@@ -97,8 +97,18 @@ $$
 and therefore, 
 $$
 \begin{align}
-A_t=S_t+\bar S_t=e^{2t\bar S_0}S_0e^{-2t\bar S_0}+\bar S_0=e^{2t\bar S_0}(S_0+\bar S_0)e^{-2t\bar S_0}=e^{t(A_0-{A_0}^\transpose)}A_0e^{-t(A_0-{A_0}^\transpose)}
+A_t=e^{t(A_0-{A_0}^\transpose)}A_0e^{-t(A_0-{A_0}^\transpose)}
 \end{align}
+A_t
+$$
+with the derivation as follows
+$$
+\begin{align*}
+A_t&=S_t+\bar S_t\\
+&=e^{2t\bar S_0}S_0e^{-2t\bar S_0}+\bar S_0\\
+&=e^{2t\bar S_0}(S_0+\bar S_0)e^{-2t\bar S_0}\\
+&=e^{t(A_0-{A_0}^\transpose)}A_0e^{-t(A_0-{A_0}^\transpose)}
+\end{align*}
 $$
 Note that the third equality holds since any two functions of the same matrix are commutable. In addition, if we substitute (6) with (7) and (8), and set $t=0$, we will have a constrain on $A_0$: 
 $$
@@ -119,7 +129,11 @@ X_t=e^{t(A_0-{A_0}^\transpose)}\bar X_t=e^{t(A_0-{A_0}^\transpose)}e^{t{A_0}^\tr
 $$
 Similarly, the solution to (5) is 
 $$
-Y_t=e^{t(A_0-{A_0}^\transpose)}e^{-tA_0}Y_0=e^{t(A_0-{A_0}^\transpose)}e^{(T-t)A_0}e^{-T(A_0-{A_0}^\transpose)}Y_T=e^{t(A_0-{A_0}^\transpose)}e^{(T-t)A_0}e^{-T(A_0-{A_0}^\transpose)}(Z-X_T)
+\begin{align*}
+Y_t&=e^{t(A_0-{A_0}^\transpose)}e^{-tA_0}Y_0\\
+&=e^{t(A_0-{A_0}^\transpose)}e^{(T-t)A_0}e^{-T(A_0-{A_0}^\transpose)}Y_T\\
+&=e^{t(A_0-{A_0}^\transpose)}e^{(T-t)A_0}e^{-T(A_0-{A_0}^\transpose)}(Z-X_T)
+\end{align*}
 $$
 Note that $\phi_{t;0}$ is also solved by comparing (7) and (12) 
 $$
@@ -127,7 +141,10 @@ $$
 $$
 Furthermore, the constrain on $A_0$ can be rewritten as 
 $$
-\lambda A_0=\left(e^{TA_0}e^{-T(A_0-{A_0}^\transpose)}\right)\left(R-e^{T(A_0-{A_0}^\transpose)}e^{T{A_0}^\transpose}\right)\Sigma_{X_0}=\left(e^{TA_0}e^{-T(A_0-{A_0}^\transpose)}R-e^{TA_0}e^{T{A_0}^\transpose}\right)\Sigma_{X_0}
+\begin{align*}
+\lambda A_0&=\left(e^{TA_0}e^{-T(A_0-{A_0}^\transpose)}\right)\left(R-e^{T(A_0-{A_0}^\transpose)}e^{T{A_0}^\transpose}\right)\Sigma_{X_0}\\
+&=\left(e^{TA_0}e^{-T(A_0-{A_0}^\transpose)}R-e^{TA_0}e^{T{A_0}^\transpose}\right)\Sigma_{X_0}
+\end{align*}
 $$
 
 Reference: [How regularization affects the critical points in linear networks](https://papers.nips.cc/paper/6844-how-regularization-affects-the-critical-points-in-linear-networks)
