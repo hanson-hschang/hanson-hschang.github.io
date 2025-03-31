@@ -17,40 +17,40 @@ document.addEventListener('DOMContentLoaded', function() {
   const categoryLink = document.querySelector('.post-category');
   categoryLink.innerHTML = `<a href="/blogs/${postCategory}">${postCategory.charAt(0).toUpperCase() + postCategory.slice(1)}</a>`;
   
-  // Configure MathJax
-  window.MathJax = {
-    tex: {
-      inlineMath: [['$', '$'], ['\\(', '\\)']],
-      displayMath: [['$$', '$$'], ['\\[', '\\]']],
-      tags: 'ams',
-      tagSide: 'right',
-      tagIndent: '0.8em',
-      processEscapes: true,
-      processEnvironments: true,
-      packages: {'[+]': ['noerrors', 'ams']}
-    },
-    options: {
-      skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-      ignoreHtmlClass: 'tex2jax_ignore',
-      processHtmlClass: 'tex2jax_process'
-    },
-    chtml: {
-      scale: 1,
-      minScale: 0.5,
-      mtextInheritFont: false,
-      displayAlign: 'center',
-      displayIndent: '0',
-      adaptiveCSS: true
-    },
-    svg: {
-      scale: 1,
-      minScale: 0.5,
-      mtextInheritFont: false,
-      displayAlign: 'center',
-      displayIndent: '0',
-      adaptiveCSS: true
-    }
-  };
+  // // Configure MathJax
+  // window.MathJax = {
+  //   tex: {
+  //     inlineMath: [['$', '$'], ['\\(', '\\)']],
+  //     displayMath: [['$$', '$$'], ['\\[', '\\]']],
+  //     tags: 'ams',
+  //     tagSide: 'right',
+  //     tagIndent: '0.8em',
+  //     processEscapes: true,
+  //     processEnvironments: true,
+  //     packages: {'[+]': ['noerrors', 'ams']}
+  //   },
+  //   options: {
+  //     skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+  //     ignoreHtmlClass: 'tex2jax_ignore',
+  //     processHtmlClass: 'tex2jax_process'
+  //   },
+  //   chtml: {
+  //     scale: 1,
+  //     minScale: 0.5,
+  //     mtextInheritFont: false,
+  //     displayAlign: 'center',
+  //     displayIndent: '0',
+  //     adaptiveCSS: true
+  //   },
+  //   svg: {
+  //     scale: 1,
+  //     minScale: 0.5,
+  //     mtextInheritFont: false,
+  //     displayAlign: 'center',
+  //     displayIndent: '0',
+  //     adaptiveCSS: true
+  //   }
+  // };
   
   // Load the markdown content
   fetch(`${postCategory}/${postName}/content.md`)
