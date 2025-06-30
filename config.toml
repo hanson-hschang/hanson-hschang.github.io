@@ -1,0 +1,29 @@
+# The URL the site will be built for
+base_url = "https://hanson-hschang.github.io/"
+
+# The site title and description
+title = "Hanson.HSChang"
+description = "This is Hanson's personal website."
+author = "Dr. Chang, Heng-Sheng"
+
+# Whether to automatically compile all Sass files in the sass directory
+compile_sass = true
+
+# Whether to build a search index to be used later on by a JavaScript library
+build_search_index = true
+
+[markdown]
+# Whether to do syntax highlighting
+# Theme can be customized by setting the `highlight_theme` variable to a theme supported by Zola
+highlight_code = true
+
+[extra]
+quote = "If we know what we were doing, it wouldn't be called research. --- Albert Einstein"
+social_links = [
+    { name = "GitHub", url = "https://github.com/hanson-hschang", icon_class = "bi bi-github" },
+    { name = "Google Scholar", url = "https://scholar.google.com/citations?user=S7AWv3oAAAAJ", icon_class = "ai ai-google-scholar" },
+    { name = "LinkedIn", url = "https://www.linkedin.com/in/hanson-hschang/", icon_class = "bi bi-linkedin" },
+    { name = "Instagram", url = "https://www.instagram.com/hanson.hschang/", icon_class = "bi bi-instagram" }
+]
+copyright = "&copy; All Rights Reserved"
+credits = "Powered by [BootstrapMade](https://bootstrapmade.com/) and [Zola](https://www.getzola.org/)"
