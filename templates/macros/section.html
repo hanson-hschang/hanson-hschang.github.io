@@ -1,6 +1,8 @@
+{% import "macros/breadcrumbs.html" as breadcrumbs_macro %}
 {% import "macros/title.html" as title_macro %}
 {% import "macros/content.html" as content_macro %}
 {% import "macros/cards.html" as cards_macro %}
+{% import "macros/post-entry.html" as post_entry_macro %}
 
 
 {#
@@ -61,3 +63,28 @@
   {% endfor %}
 
 {% endmacro render %}
+
+{% macro blog(pos) %}
+
+  {{ breadcrumbs_macro::render(crumbs=pos.components) }}
+
+  <section id="{{ pos.title | lower }}" class="category section">
+  
+    {{ title_macro::render(title=pos.title) }}
+  
+  </section>
+
+  {% if pos.pages %}
+    <ol id="post-entries" class="container" data-aos="fade-up">
+      {% for page in pos.pages %}
+        {{ post_entry_macro::render(
+          title=page.title,
+          date=page.date | date(format="%b %d, %Y"),
+          link=page.permalink,
+          excerpt=page.extra.excerpt
+        ) }}
+      {% endfor %}
+    </ol>
+  {% endif %}
+
+{% endmacro blog %}
