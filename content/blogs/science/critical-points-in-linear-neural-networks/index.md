@@ -4,8 +4,9 @@ date = 2018-11-08
 updated = 2019-02-20
 in_search_index = true
 draft = false
-tag = ["Neural Networks", "Optimality"]
-category = ["blogs", "science"]
+[taxonomies]
+tags = ["Neural Networks", "Optimality"]
+categories = ["blogs", "science"]
 [extra]
 excerpt = "The existence and optimality properties of the critical points of the linear neural networks with mean-squared loss function in the face of regularization."
 +++
