@@ -1,6 +1,6 @@
 {# 
   Whichever page includes this partial will need to import the following at the top of the file.
-  import "macros/social-link.html" as social_link_macro
+  import "macros/icon-link.html" as icon_link_macro
 #}
 
 <footer id="footer" class="footer position-relative">
@@ -8,7 +8,7 @@
     <h3 class="sitename">{{ config.author }}</h3>
     <p class="quote">{{ config.extra.quote }}</p>
     {{ 
-      social_link_macro::render(
+      icon_link_macro::social(
         links=config.extra.social_links, 
         extra_classes="d-flex justify-content-center"
       ) 

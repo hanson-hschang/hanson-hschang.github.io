@@ -1,9 +1,24 @@
 {% extends "base.html" %}
+{% import "macros/blog.html" as blog_macro %}
 
-{% block content %}
-<h1 class="title">
-  {{ page.title }}
-</h1>
-<p class="subtitle"><strong>{{ page.date }}</strong></p>
-{{ page.content | safe }}
-{% endblock content %}
+
+{% block head %}
+  {{ super() }}
+  <link rel="stylesheet" href="{{ get_url(path='assets/css/breadcrumbs.css') }}">
+  <link rel="stylesheet" href="{{ get_url(path='assets/css/blog-post.css') }}">
+  <link rel="stylesheet" href="{{ get_url(path='assets/css/widgets.css') }}">
+{% endblock head %}
+
+{% block main %}
+
+  {{ blog_macro::post(page=page) }}
+
+{% endblock main %}
+
+
+{% block scripts %}
+  {{ super() }}
+  <script src="{{ get_url(path='assets/vendor/aos/aos.js') }}"></script>
+  <script src="{{ get_url(path='assets/js/home.js') }}"></script>
+  <script src="{{ get_url(path='assets/js/share.js') }}"></script>
+{% endblock scripts %}
