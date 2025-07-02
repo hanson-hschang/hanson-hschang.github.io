@@ -32,6 +32,11 @@
     <link rel="stylesheet" href="{{ get_url(path='assets/vendor/swiper/swiper-bundle.min.css') }}">
     <link rel="stylesheet" href="{{ get_url(path='assets/vendor/academicons/css/academicons.min.css') }}"/>
 
+    <!-- Debug CSS -->
+    {% if page.extra.tex %}
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css">
+    {% endif %}
+
     <!-- CSS Files -->
     <link rel="stylesheet" href="{{ get_url(path='assets/css/base.css') }}">
     <link rel="stylesheet" href="{{ get_url(path='assets/css/footer.css') }}">
@@ -52,7 +57,24 @@
     <div id="preloader"></div>
 
     <!-- Java Scripts -->
-    {% block scripts %} {% endblock scripts %}
+    {% block scripts %}
+      {% if page.extra.tex %}
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js"></script>
+        <script>
+          document.addEventListener("DOMContentLoaded", function() {
+            const katexMacros = {{ page.extra.tex.macros | json_encode | default(value="{}") | safe }};
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$', right: '$', display: false},
+                ],
+                macros: katexMacros
+            });
+          });
+        </script>
+      {% endif %}
+    {% endblock scripts %}
      
   </body>
 
