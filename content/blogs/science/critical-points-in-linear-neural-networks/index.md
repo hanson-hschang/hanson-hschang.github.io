@@ -9,12 +9,14 @@ tags = ["Neural Networks", "Optimality"]
 categories = ["blogs", "science"]
 [extra]
 excerpt = "The existence and optimality properties of the critical points of the linear neural networks with mean-squared loss function in the face of regularization."
+[extra.tex]
+side = "client"
+[extra.tex.macros]
+"\\transpose" = "\\intercal"
+"\\Real" = "\\mathbb{R}^{#1}"
+"\\expectation" = "\\mathsf{E}\\left[#1\\right]"
+"\\dif" = "\\mathrm{d}"
 +++
-
-$\newcommand{\transpose}{\intercal}$
-$\newcommand{\Real}[1]{\mathbb{R}^{#1}}$
-$\newcommand{\expectation}[1]{\mathsf{E}\left[#1\right]}$
-$\newcommand{\dif}{\mathrm{d}}$
 
 Given an input initial random vector $X_0\in\Real{n}$ with $p_X$ distribution and covariance matrix $\Sigma_{X_0}=\expectation{X_0{X_0}^\transpose}$. Assume the input-output model is in the following linear form: $$Z=RX_0+\xi$$ where $\xi\in\Real{n}$ is the noise and $Z\in\Real{n}$ is the output. In addition, the noise $\xi$ is assumed to have $p_\xi$ distribution and be independent to the input $X_0$, i.e. $\expectation{\xi{X_0}^\transpose}=0$. The problem is using i.i.d. input-output samples $\{({X_0}^{(k)},Z^{(k)})\}_{k=1}^K$ to learn the weights of a linear feed-forward neural network $$\dfrac{\dif X_t}{\dif t}=A_tX_t$$ in order to match the input-output relation $R$. Note that $A_t$ are the network weights, $t$ denotes the input layer with at most depth $T$, and $K$ is the total number of training samples.
 

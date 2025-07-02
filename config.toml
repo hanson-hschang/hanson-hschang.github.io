@@ -13,8 +13,8 @@ compile_sass = true
 build_search_index = true
 
 taxonomies = [
-  { name = "tags", feed = true, rss = true },
-  { name = "categories", feed = true, rss = true },
+  { name = "tags" },
+  { name = "categories" },
 ]
 
 [markdown]
@@ -22,7 +22,18 @@ taxonomies = [
 # Theme can be customized by setting the `highlight_theme` variable to a theme supported by Zola
 highlight_code = true
 
+# Whether external links are to be opened in a new tab
+# If this is true, a `rel="noopener"` will always automatically be added for security reasons
+external_links_target_blank = true
+
+# Whether to set rel="nofollow" for all external links
+external_links_no_follow = false
+
+# Whether to set rel="noreferrer" for all external links
+external_links_no_referrer = true
+
 [extra]
+server_side_katex = true # true: enable server-side KaTeX rendering via scripts/katex.js (this will also include KaTeX CSS and fonts in the build)
 quote = "If we know what we were doing, it wouldn't be called research. --- Albert Einstein"
 social_links = [
     { name = "GitHub", url = "https://github.com/hanson-hschang", icon_class = "bi bi-github" },
