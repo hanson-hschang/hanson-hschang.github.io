@@ -63,8 +63,17 @@
   margin-bottom: 20px;
 }
 
+/* meta top styles */
+
+.meta-top-divider {
+  height: 1px;
+  background-color: #e0e0e0;
+  margin: 10px 0;
+  padding: 0;
+}
+
 .blog-post .meta-top {
-  margin-top: 20px;
+  margin-top: 10px;
   color: color-mix(in srgb, var(--default-color), transparent 40%);
   margin-bottom: 10px;
 }
@@ -78,11 +87,15 @@
   margin: 0;
 }
 
-.blog-post .meta-top ul li+li {
+.blog-post .meta-top #info li+li {
   padding-left: 20px;
 }
 
-.blog-post .meta-top #date i {
+.blog-post .meta-top #action li+li {
+  padding-left: 10px;
+}
+
+.blog-post .meta-top #info li i {
   font-size: 16px;
   margin-right: 8px;
   line-height: 0;
@@ -187,10 +200,11 @@
   flex: 1;
 }
 
+
 /* Share button styles */
 .share-container {
   position: relative;
-  margin-left: 20px;
+  /* margin-left: 20px; */
 }
 
 .share-button {
@@ -199,17 +213,18 @@
   justify-content: center;
   width: 36px;
   height: 36px;
-  border-radius: 50%;
-  background-color: #f0f0f0;
-  color: #333;
+  /* border-radius: 50%; */
+  background-color: var(--background-color);
+  /* background-color: #f0f0f0; */
+  /* color: #333; */
   border: none;
   cursor: pointer;
-  transition: background-color 0.2s;
+  /* transition: background-color 0.2s; */
 }
 
-.share-button:hover {
+/* .share-button:hover {
   background-color: #e0e0e0;
-}
+} */
 
 .share-button i {
   font-size: 20px;
