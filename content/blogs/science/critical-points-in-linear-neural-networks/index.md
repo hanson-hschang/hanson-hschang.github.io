@@ -1,21 +1,19 @@
 +++
-title = "How regularization affects the critical points in linear neural networks"
+title = 'How regularization affects the critical points in linear neural networks'
 date = 2018-11-08
 updated = 2019-02-20
 in_search_index = true
 draft = false
 [taxonomies]
-tags = ["Neural Networks", "Optimality"]
-categories = ["blogs", "science"]
+tags = ['Neural Networks', 'Optimality']
+categories = ['blogs', 'science']
 [extra]
-excerpt = "The existence and optimality properties of the critical points of the linear neural networks with mean-squared loss function in the face of regularization."
-[extra.tex]
-side = "client"
+excerpt = 'The existence and optimality properties of the critical points of the linear neural networks with mean-squared loss function in the face of regularization.'
 [extra.tex.macros]
-"\\transpose" = "\\intercal"
-"\\Real" = "\\mathbb{R}^{#1}"
-"\\expectation" = "\\mathsf{E}\\left[#1\\right]"
-"\\dif" = "\\mathrm{d}"
+'\transpose' = '\intercal'
+'\Real' = '\mathbb{R}^{#1}'
+'\expectation' = '\mathsf{E}\left[#1\right]'
+'\dif' = '\mathrm{d}'
 +++
 
 Given an input initial random vector $X_0\in\Real{n}$ with $p_X$ distribution and covariance matrix $\Sigma_{X_0}=\expectation{X_0{X_0}^\transpose}$. Assume the input-output model is in the following linear form: $$Z=RX_0+\xi$$ where $\xi\in\Real{n}$ is the noise and $Z\in\Real{n}$ is the output. In addition, the noise $\xi$ is assumed to have $p_\xi$ distribution and be independent to the input $X_0$, i.e. $\expectation{\xi{X_0}^\transpose}=0$. The problem is using i.i.d. input-output samples $\{({X_0}^{(k)},Z^{(k)})\}_{k=1}^K$ to learn the weights of a linear feed-forward neural network $$\dfrac{\dif X_t}{\dif t}=A_tX_t$$ in order to match the input-output relation $R$. Note that $A_t$ are the network weights, $t$ denotes the input layer with at most depth $T$, and $K$ is the total number of training samples.
@@ -23,7 +21,7 @@ Given an input initial random vector $X_0\in\Real{n}$ with $p_X$ distribution an
 Consider the following regularized form of the optimization problem: 
 $$
 \begin{align*}
-\underset{A_t}{\textsf{minimize}}\quad&\text{J}[A_t]=\expectation{\lambda\int_0^T\dfrac{1}{2}\text{tr}({A_t}^\transpose A_t)\ \dif t+\dfrac{1}{2}(X_T-Z)^2}\\
+\underset{A_t}{\textsf{minimize}}\quad&\text{J}[A_t]=\expectation{\lambda\int_0^T\dfrac{1}{2}\text{tr}({A_t}^\transpose A_t)\ \dif t+\dfrac{1}{2}(X_T-Z)^2}\\\\
 \textsf{subject to}\quad&\dfrac{\dif X_t}{\dif t}=A_tX_t,\ X_0\textsf{ given}
 \end{align*}
 $$
@@ -58,8 +56,8 @@ $$
 Therefore, from (1), (2) and (3), we have 
 $$
 \begin{align}
-\dfrac{\dif X_t}{\dif t}&=\ \ \ A_tX_t,\quad\textsf{with }X_0\textsf{ given}\\
-\dfrac{\dif Y_t}{\dif t}&=-{A_t}^\transpose Y_t,\quad\textsf{with }Y_T=Z-X_T\\
+\dfrac{\dif X_t}{\dif t}&=\ \ \ A_tX_t,\quad\textsf{with }X_0\textsf{ given}\\\\
+\dfrac{\dif Y_t}{\dif t}&=-{A_t}^\transpose Y_t,\quad\textsf{with }Y_T=Z-X_T\\\\
 A_t&=\dfrac{1}{\lambda}\expectation{Y_t{X_t}^\transpose}\\
 \end{align}
 $$
@@ -67,7 +65,7 @@ $$
 Next, we would like to solve the 3 differential equation. We start with assuming the solution of equations (4) and (5) in the form of 
 $$
 \begin{align}
-X_t&=\phi_{t;0}X_0\\
+X_t&=\phi_{t;0}X_0\\\\
 Y_t&={\phi_{T;t}}^\transpose Y_T={\phi_{T;t}}^\transpose(Z-X_T)={\phi_{T;t}}^\transpose(RX_0+\xi-\phi_{T;0}X_0)
 \end{align}
 $$
@@ -102,14 +100,13 @@ $$
 \begin{align}
 A_t=e^{t(A_0-{A_0}^\transpose)}A_0e^{-t(A_0-{A_0}^\transpose)}
 \end{align}
-A_t
 $$
 with the derivation as follows
 $$
 \begin{align*}
-A_t&=S_t+\bar S_t\\
-&=e^{2t\bar S_0}S_0e^{-2t\bar S_0}+\bar S_0\\
-&=e^{2t\bar S_0}(S_0+\bar S_0)e^{-2t\bar S_0}\\
+A_t&=S_t+\bar S_t\\\\
+&=e^{2t\bar S_0}S_0e^{-2t\bar S_0}+\bar S_0\\\\
+&=e^{2t\bar S_0}(S_0+\bar S_0)e^{-2t\bar S_0}\\\\
 &=e^{t(A_0-{A_0}^\transpose)}A_0e^{-t(A_0-{A_0}^\transpose)}
 \end{align*}
 $$
@@ -133,8 +130,8 @@ $$
 Similarly, the solution to (5) is 
 $$
 \begin{align*}
-Y_t&=e^{t(A_0-{A_0}^\transpose)}e^{-tA_0}Y_0\\
-&=e^{t(A_0-{A_0}^\transpose)}e^{(T-t)A_0}e^{-T(A_0-{A_0}^\transpose)}Y_T\\
+Y_t&=e^{t(A_0-{A_0}^\transpose)}e^{-tA_0}Y_0\\\\
+&=e^{t(A_0-{A_0}^\transpose)}e^{(T-t)A_0}e^{-T(A_0-{A_0}^\transpose)}Y_T\\\\
 &=e^{t(A_0-{A_0}^\transpose)}e^{(T-t)A_0}e^{-T(A_0-{A_0}^\transpose)}(Z-X_T)
 \end{align*}
 $$
@@ -145,7 +142,7 @@ $$
 Furthermore, the constrain on $A_0$ can be rewritten as 
 $$
 \begin{align*}
-\lambda A_0&=\left(e^{TA_0}e^{-T(A_0-{A_0}^\transpose)}\right)\left(R-e^{T(A_0-{A_0}^\transpose)}e^{T{A_0}^\transpose}\right)\Sigma_{X_0}\\
+\lambda A_0&=\left(e^{TA_0}e^{-T(A_0-{A_0}^\transpose)}\right)\left(R-e^{T(A_0-{A_0}^\transpose)}e^{T{A_0}^\transpose}\right)\Sigma_{X_0}\\\\
 &=\left(e^{TA_0}e^{-T(A_0-{A_0}^\transpose)}R-e^{TA_0}e^{T{A_0}^\transpose}\right)\Sigma_{X_0}
 \end{align*}
 $$
