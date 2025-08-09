@@ -4,3 +4,6 @@
 
 # Zola build directory
 public/
+
+# processed images
+static/processed_images/
