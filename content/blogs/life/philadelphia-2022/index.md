@@ -4,7 +4,7 @@ date = 2022-05-31
 is_search_index = true
 draft = false
 [taxonomies]
-tags = []
+tags = ['Philadelphia', 'travel', 'restaurant']
 categories = ['blogs', 'life']
 [extra]
 excerpt = "If you haven't eaten a cheese steak, you can't say you've been to Philadelphia --- Every friend who knows I'm going to Philadelphia"
@@ -14,7 +14,7 @@ excerpt = "If you haven't eaten a cheese steak, you can't say you've been to Phi
 
 儘管費城是北美十三殖民地(Thirteen Colonies)之一，但因其後續不斷湧入的移民，讓這座城市的飲食文化充滿了多元的異國風情，而非以獨特的「美國」食物著稱。因此，我在這裡發現了許多提供各國料理的餐廳。
 
-# 尋寶地：Reading Terminal Market
+# Reading Terminal Market
 
 {{ image(path="img/reading-terminal-market.jpg", width=300, alt="Reading Terminal Market") }}
 
@@ -34,3 +34,14 @@ excerpt = "If you haven't eaten a cheese steak, you can't say you've been to Phi
 - [Angelo's Pizzeria](https://angelospizzeriasouthphiladelphia.com/)
 
 雖然味道對我來說沒有太大差異，但作為費城的代表性美食，它絕對是值得體驗一次的當地風味。
+
+# 其他精選美食
+
+除了經典的起司牛排，費城其他的異國料理：
+
+- [National Mechanics](https://www.nationalmechanics.com/)：他們的 Smash Burger 令人驚喜。
+- [Zorba's Tavern](https://www.zorbastavern.com/)：冷前菜拼盤很適合分享，皮塔餅搭配六種不同的醬料，風味十足。
+- [Bonchon Philadelphia](https://www.bonchon.com/locations/ll/us/pa/philadelphia/1020-cherry-st)：剛落地的第一餐宵夜，比較是個連鎖的，第一次吃到韓式刈包ＸＤ
+- [Cilantro Mediterranean Cuisine](https://www.cilantromediterraneancuisine.com/)：Kefta Kabob 香氣濃郁，口感豐富。
+- [生計燒臘](https://www.sangkeechinatown.com/)：在美國能吃到道地的三寶飯，從村來的我太開心了！！！
+- [Luke's Lobster Rittenhouse](https://lukeslobster.com/pages/rittenhouse)：Trio Roll一次滿足對蟹肉、龍蝦和蝦肉的慾望。
