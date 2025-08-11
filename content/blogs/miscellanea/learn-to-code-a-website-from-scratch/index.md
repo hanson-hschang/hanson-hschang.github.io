@@ -5,17 +5,17 @@ updated = 2023-03-15
 in_search_index = true
 draft = false
 [taxonomies]
-tags = ['website', 'programming']
+tags = ['website', 'coding']
 categories = ['blogs', 'miscellanea']
 [extra]
-excerpt = "Before you really start getting into this post, let me phrase it this way. Don't do it. There are actually a lot of alternatives to building a website including Google site, Wix, Weebly, etc, and none of those requires any knowledge of coding. Most importantly, they all have nice and pretty templates for any kind of use you want. So, before you proceed to the following reading, make sure you have checked those web-design platforms and see if you could find the template you like."
+excerpt = "Before you really start getting into this post, let me phrase it this way. Don't do it. There are actually a lot of alternatives to building a website including Google site, Wix, Weebly, etc., and none of those requires any knowledge of coding. Most importantly, they all have nice and pretty templates for any kind of use you want. So, before you proceed to the following reading, make sure you have checked those web-design platforms and see if you could find the template you like."
 +++
 
 > Before you really start getting into this post, let me phrase it this way. 
 > 
 > Don't do it.
 
-There are actually a lot of alternatives to building a website including Google site, Wix, Weebly, etc, and none of those requires any knowledge of coding. 
+There are actually a lot of alternatives to building a website including Google site, Wix, Weebly, etc., and none of those requires any knowledge of coding. 
 Most importantly, they all have nice and pretty templates for any kind of use you want. 
 So, before you proceed to the following reading, make sure you have checked those web-design platforms and see if you could find the template you like.
 
@@ -26,7 +26,8 @@ Here, a few video links will be presented in a recommended learning order so tha
 
 ## What is needed to code a website
 
-[This one-hour crash course](https://youtu.be/qz0aGYrrlhU) made by Mosh gives an idea of what languages and packages are commonly used and needed for setting up a website. In summary, coding up a website is like building up a house, and each language or tool has its different job:
+[This one-hour crash course](https://youtu.be/qz0aGYrrlhU) made by Mosh gives an idea of what languages and packages are commonly used and needed for setting up a website. 
+In summary, coding up a website is like building up a house, and each language or tool has its different job:
 
 
 1. **HTML** is like the structural elements of the website (*presentation*)
@@ -81,7 +82,7 @@ Some people even think that CSS is a broken and chaotic language and it is too d
 One may use 1.5x or even 2.0x speed to go through the concepts and leave the detail behind. 
 You will need to Google the detailed syntax again anyway when you are using it.) 
 Essentially, one nice thing to have in mind, when you are coding in CSS, is the box model (Fig. 3), which together with other tips is well explained in [this video](https://youtu.be/Qhaz36TZG5Y) by Fireship. 
-BTW, they also have pro tips for other languages in their channel. 
+BTW, they also have pro-tips for other languages in their channel. 
 Lastly, when you make it here, you shall be able to complete the following sample website (Fig. 4). 
 Give it a try!
 
@@ -97,13 +98,13 @@ The next thing you will need to learn is the programming language: Javascript.
 
 JavaScript is a scripting language that works on both browsers and servers. 
 Here, we mainly focus on the front-end which is the browser part. 
-It enables you to create dynamically updating elements, control multimedia, animate images, and a lot of other things else. [This not-too-short video](https://youtu.be/W6NZfCO5SIk) made by Mosh gives a basic intro background of Javascript and [this other also not-too-short video](https://youtu.be/hdI2bqOjy3c) from Traversy Media provides an illustrative way of explaining how it controls element behaviors in the website. 
+It enables you to create dynamically updating elements, control multimedia, animate images, and a lot of other things else. [This not-too-short video](https://youtu.be/W6NZfCO5SIk) made by Mosh gives a basic intro background of Javascript and [this other also not-too-short video](https://youtu.be/hdI2bqOjy3c) from Traversy Media provides an illustrative way of explaining how it controls element behaviors on the website. 
 React JS, on the other hand, is a useful JavaScript library for building user interfaces (Fig. 5). 
 Once you have understood the basics of JavaScript from the previous two videos, [this crash course](https://youtu.be/w7ejDZ8SWv8) from Traversy Media should be easy for you to follow. 
 Frameworks other than React (made by Facebook) include [Angular](https://youtu.be/3dHNOWTI7H8) (made by Google) and [Vue](https://youtu.be/qZXt1Aom3Cs). 
 Pick one to start with, and it is easy to understand the others if needed.
 
-{{ image(path="img/react-js.png", width=700, alt="React JS. It is a framework for building up a website. You may define elements like header, button, checkbox, etc in a dynamic way (including animation) and also exchange info from and to databases.") }}
+{{ image(path="img/react-js.png", width=700, alt="React JS. It is a framework for building up a website. You may define elements like header, button, checkbox, etc. in a dynamic way (including animation) and also exchange info from and to databases.") }}
 
 ## Summary
 

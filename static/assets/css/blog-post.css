@@ -30,10 +30,13 @@
 .blog-post .post-content img {
   max-width: 100%;
   height: auto;
-  margin: 20px 0;
   display: block;
+  border-radius:4px;
+  box-shadow:0 10px 16px rgba(0,0,0,0.33), 0 0 0 1px rgba(0, 0, 0, 0.1);
   margin-left: auto;
   margin-right: auto;
+  margin-bottom:20px;
+  margin-top:10px
 }
 
 .blog-post .post-content h3 {
