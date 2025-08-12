@@ -1,6 +1,5 @@
 # Mac files
 .DS_Store
-*/.DS_Store
 
 # Zola build directory
 public/

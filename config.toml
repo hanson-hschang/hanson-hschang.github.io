@@ -17,6 +17,8 @@ taxonomies = [
   { name = "categories" },
 ]
 
+theme = "persona"
+
 [markdown]
 # Whether to do syntax highlighting
 # Theme can be customized by setting the `highlight_theme` variable to a theme supported by Zola
@@ -36,10 +38,10 @@ external_links_no_referrer = true
 server_side_katex = true # true: enable server-side KaTeX rendering via scripts/katex.js (this will also include KaTeX CSS and fonts in the build)
 quote = "If we know what we were doing, it wouldn't be called research. --- Albert Einstein"
 social_links = [
-    { name = "GitHub", url = "https://github.com/hanson-hschang", icon_class = "bi bi-github" },
-    { name = "Google Scholar", url = "https://scholar.google.com/citations?user=S7AWv3oAAAAJ", icon_class = "ai ai-google-scholar" },
-    { name = "LinkedIn", url = "https://www.linkedin.com/in/hanson-hschang/", icon_class = "bi bi-linkedin" },
-    { name = "Instagram", url = "https://www.instagram.com/hanson.hschang/", icon_class = "bi bi-instagram" }
+  { name = "GitHub", url = "https://github.com/hanson-hschang", icon_class = "bi bi-github" },
+  { name = "Google Scholar", url = "https://scholar.google.com/citations?user=S7AWv3oAAAAJ", icon_class = "ai ai-google-scholar" },
+  { name = "LinkedIn", url = "https://www.linkedin.com/in/hanson-hschang/", icon_class = "bi bi-linkedin" },
+  { name = "Instagram", url = "https://www.instagram.com/hanson.hschang/", icon_class = "bi bi-instagram" }
 ]
 copyright = "&copy; All Rights Reserved"
 credits = "Powered by [BootstrapMade](https://bootstrapmade.com/) and [Zola](https://www.getzola.org/)"
