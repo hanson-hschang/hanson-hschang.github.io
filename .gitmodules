@@ -1,0 +1,3 @@
+[submodule "persona"]
+	path = themes/persona
+	url = https://github.com/hanson-hschang/zola-persona-theme.git
