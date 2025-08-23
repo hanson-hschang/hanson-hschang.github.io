@@ -45,3 +45,11 @@ social_links = [
 ]
 copyright = "&copy; All Rights Reserved"
 credits = "Powered by [BootstrapMade](https://bootstrapmade.com/) and [Zola](https://www.getzola.org/)"
+
+[extra.contact]
+infos = [
+  { item = "Name", content = "Heng-Sheng Hanson Chang", icon_class = "bi bi-person"},
+  { item = "Email", content = "hschang@illinois.edu", icon_class = "bi bi-envelope"},
+  { item = "Address", content = "1308 W. Main St. R348, Urbana, IL 61801, USA", icon_class = "bi bi-geo-alt"}
+]
+web3form_public_key = "1d388e81-bda0-432c-9c62-c2a52cfff275"
