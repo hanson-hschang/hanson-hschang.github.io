@@ -2,6 +2,7 @@
 title = "About"
 template = "plain.html"
 [extra]
+icon_class = "bi bi-person-vcard"
 subtitle = "Make Sci-Fi into Science Facts"
 order = 10
 template = "plain.html"

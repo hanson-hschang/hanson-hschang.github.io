@@ -37,6 +37,8 @@ external_links_no_referrer = true
 [extra]
 
 [extra.persona]
+title = "Hanson H.-S. C."
+subtitles = "Research Scientist, Robotics Engineer, River Adventurer, Road Traveler"
 quote = "If we know what we were doing, it wouldn't be called research. --- Albert Einstein"
 social_links = [
   { name = "GitHub", url = "https://github.com/hanson-hschang", icon_class = "bi bi-github" },
