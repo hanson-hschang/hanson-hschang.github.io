@@ -1,10 +1,12 @@
+theme = "persona"
+
 # The URL this site will be built for
 base_url = "https://hanson-hschang.github.io/"
 
-# The site title and description
+# The basic site information
 title = "Hanson.HSChang"
-description = "This is Hanson's personal website."
 author = "Dr. Chang, Heng-Sheng"
+description = "This is Hanson's personal website."
 
 # Whether to automatically compile all Sass files in the sass directory
 compile_sass = true
@@ -13,11 +15,9 @@ compile_sass = true
 build_search_index = true
 
 taxonomies = [
-  { name = "tags" },
-  { name = "categories" },
+  { name = "tags", feed = true },
+  { name = "categories", feed = true },
 ]
-
-theme = "persona"
 
 [markdown]
 # Whether to do syntax highlighting
@@ -37,18 +37,25 @@ external_links_no_referrer = true
 [extra]
 
 [extra.persona]
-quote = "If we know what we were doing, it wouldn't be called research. --- Albert Einstein"
+# Note: landing page title and subtitles are configured in content/_index.md
+
+# Social links
 social_links = [
   { name = "GitHub", url = "https://github.com/hanson-hschang", icon_class = "bi bi-github" },
   { name = "Google Scholar", url = "https://scholar.google.com/citations?user=S7AWv3oAAAAJ", icon_class = "ai ai-google-scholar" },
   { name = "LinkedIn", url = "https://www.linkedin.com/in/hanson-hschang/", icon_class = "bi bi-linkedin" },
   { name = "Instagram", url = "https://www.instagram.com/hanson.hschang/", icon_class = "bi bi-instagram" }
 ]
-copyright = "&copy; All Rights Reserved"
-credits = "Powered by [Zola](https://www.getzola.org/), [Bootstrap](https://getbootstrap.com/), and [Web3Forms](https://web3forms.com/)"
+
+# Contact information
 contact_infos = [
   { item = "Name", content = "Heng-Sheng Hanson Chang", icon_class = "bi bi-person"},
   { item = "Email", content = "hschang@illinois.edu", icon_class = "bi bi-envelope"},
   { item = "Address", content = "1308 W. Main St. R348, Urbana, IL 61801, USA", icon_class = "bi bi-geo-alt"}
 ]
 web3form_public_key = "1d388e81-bda0-432c-9c62-c2a52cfff275"
+
+# Footer
+quote = "If we know what we were doing, it wouldn't be called research. --- Albert Einstein"
+copyright = "&copy; All Rights Reserved"
+credits = "Powered by [Zola](https://www.getzola.org/), [Bootstrap](https://getbootstrap.com/), and [Web3Forms](https://web3forms.com/)"
