@@ -5,11 +5,14 @@ base_url = "https://hanson-hschang.github.io/"
 
 # The basic site information
 title = "Hanson.HSChang"
-author = "Dr. Chang, Heng-Sheng"
+author = "Heng-Sheng Chang"
 description = "This is Hanson's personal website."
 
 # Whether to automatically compile all Sass files in the sass directory
 compile_sass = true
+
+# Whether to automatically generate a feed
+generate_feeds = false
 
 # Whether to build a search index to be used later on by a JavaScript library
 build_search_index = true
@@ -21,8 +24,10 @@ taxonomies = [
 
 [markdown]
 # Whether to do syntax highlighting
-# Theme can be customized by setting the `highlight_theme` variable to a theme supported by Zola
 highlight_code = true
+
+# The theme to use for code highlighting
+highlight_theme = "base16-ocean-light"
 
 # Whether external links are to be opened in a new tab
 # If this is true, a `rel="noopener"` will always automatically be added for security reasons
@@ -37,7 +42,7 @@ external_links_no_referrer = true
 [extra]
 
 [extra.persona]
-# Note: landing page title and subtitles are configured in content/_index.md
+# Note: landing page title and subtitles are configured in `content/_index.md`
 
 # Social links
 social_links = [
