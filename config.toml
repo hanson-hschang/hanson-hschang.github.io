@@ -61,6 +61,7 @@ contact_infos = [
 web3form_public_key = "1d388e81-bda0-432c-9c62-c2a52cfff275"
 
 # Footer
-quote = "If we know what we were doing, it wouldn't be called research. --- Albert Einstein"
+quote = "Everything is theoretically impossible, until it is done. --- Robert A. Heinlein"
+# quote = "If we know what we were doing, it wouldn't be called research. --- Albert Einstein"
 copyright = "&copy; All Rights Reserved"
 credits = "Powered by [Zola](https://www.getzola.org/), [Bootstrap](https://getbootstrap.com/), and [Web3Forms](https://web3forms.com/)"

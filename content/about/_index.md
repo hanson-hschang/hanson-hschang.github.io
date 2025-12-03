@@ -20,4 +20,6 @@ I'm constantly seeking to push the limits of what we consider achievable, driven
 In essence, I'm a lifelong discoverer, always eager to unravel the world's mysteries and expand the horizons of possibility. 
 Each day brings new opportunities to learn, grow, and evolve --- and I'm here to seize them all with open arms and an adventurous spirit.
 
-Learn more about me from my [resume](https://hanson-hschang.github.io/resume/) and my [portfolio](https://hanson-hschang.github.io/portfolio/).
+Learn more about my research from the group website [here](https://mehta.mechse.illinois.edu/research/soft-robotics).
+
+<!-- Learn more about me from my [resume](https://hanson-hschang.github.io/resume/) and my [portfolio](https://hanson-hschang.github.io/portfolio/). -->
