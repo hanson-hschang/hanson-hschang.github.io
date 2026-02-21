@@ -8,7 +8,9 @@ draft = false
 tags = ['Neural Networks', 'Optimality']
 categories = ['blogs', 'science']
 [extra]
-excerpt = 'The existence and optimality properties of the critical points of the linear neural networks with mean-squared loss function in the face of regularization.'
+excerpt = """
+The existence and optimality properties of the critical points of the linear neural networks with mean-squared loss function in the face of regularization.
+"""
 [extra.tex.macros]
 '\transpose' = '\intercal'
 '\Real' = '\mathbb{R}^{#1}'

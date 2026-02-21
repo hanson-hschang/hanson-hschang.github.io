@@ -8,7 +8,13 @@ draft = false
 tags = ['website', 'coding']
 categories = ['blogs', 'miscellanea']
 [extra]
-excerpt = "Before you really start getting into this post, let me phrase it this way. Don't do it. There are actually a lot of alternatives to building a website including Google site, Wix, Weebly, etc., and none of those requires any knowledge of coding. Most importantly, they all have nice and pretty templates for any kind of use you want. So, before you proceed to the following reading, make sure you have checked those web-design platforms and see if you could find the template you like."
+excerpt = """
+Before you really start getting into this post, let me phrase it this way. 
+Don't do it. 
+There are actually a lot of alternatives to building a website including Google site, Wix, Weebly, etc., and none of those requires any knowledge of coding. 
+Most importantly, they all have nice and pretty templates for any kind of use you want. 
+So, before you proceed to the following reading, make sure you have checked those web-design platforms and see if you could find the template you like.
+"""
 +++
 
 > Before you really start getting into this post, let me phrase it this way. 
@@ -74,7 +80,7 @@ Inside the body tag, one important thing to writing a clean code is to do it in 
 
 ## CSS (Cascading Style Sheets)
 
-{{ image(path="img/box-model.png", width=700, alt="Box model. I believe it is easier for any developer to have this box model in mind when they are using CSS to decorate their website. It cleanly separates each element brick by brick and gives a clear picture of each element's size, position, and color layout.") }}
+{{ image(path="img/box-model.png", width=500, alt="Box model. I believe it is easier for any developer to have this box model in mind when they are using CSS to decorate their website. It cleanly separates each element brick by brick and gives a clear picture of each element's size, position, and color layout.") }}
 
 It is probably one of the most painful languages for web developers to learn CSS since it is more like a design thing rather than a formal language I think. 
 Some people even think that CSS is a broken and chaotic language and it is too damn hard ><. However, a few essential and useful ideas are conveyed in [this very very long video](https://www.youtube.com/watch?v=yfoY53QXEnI) by Traversy Media. 
