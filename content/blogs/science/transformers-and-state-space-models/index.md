@@ -60,7 +60,7 @@ The paper develops this unification by presenting two equivalent views.
 
 ### View 1: State Space Models as Structured Matrix Multiplication
 
-A structured SSM is typically defined by a recurrence:
+A state space model is typically defined by a recurrence:
 $$
 \begin{align*}
   \state_{t+1} &= A_t \state_t + B_t \input_t \\\\
