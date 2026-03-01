@@ -8,7 +8,7 @@ tags = ['Transformer', 'State Space Models', 'Sequential Data']
 categories = ['blogs', 'science']
 [extra]
 excerpt = """
-A dual perspective on how decoder-only Transformers and State Space Models can be viewed as two sides of the same coin in modeling sequential data, with implications for attention mechanisms and efficient algorithms.
+A dual perspective on how decoder-only Transformers and State Space Models can be viewed as two sides of the same coin in modeling sequential data, with an implication for efficient algorithm design.
 """
 [extra.tex.macros]
 '\defined' = '\coloneqq'
@@ -30,7 +30,7 @@ Over the past several years, **decoder-only Transformers** have become the domin
 At the same time, **state space models**, including architectures such as [Mamba](https://arxiv.org/abs/2312.00752), have emerged as compelling alternatives, offering linear-time scaling and strong long-range modeling capabilities.
 
 The [paper (Mamba 2)](https://arxiv.org/pdf/2405.21060) presents a striking unification of these two paradigms. 
-It shows that decoder-only Transformers and structured state space models are not fundamentally different mechanisms, but rather two computational views of the same underlying structured operator.
+It shows that decoder-only Transformers and state space models are not fundamentally different mechanisms, but rather two computational views of the same underlying structured operator.
 
 This perspective—called **Structured State Space Duality**—provides both conceptual clarity and practical algorithmic benefits.
 
@@ -74,27 +74,27 @@ However, the entire input–output mapping over a sequence of length $T$ can be 
 $$
 \Output = \StructuredMatrix \Input,
 $$
-where $\Input \defined \input_{1:T}$ and $\Output \defined \output_{1:T}$.
-
-The matrix $\StructuredMatrix$ is lower triangular and encodes the cumulative dynamics induced by ${A_t, B_t, C_t}$. What appears to be a recurrence is, in fact, a structured matrix multiplication in disguise.
+where $\Input \defined \input_{1:T}$ and $\Output \defined \output_{1:T}$ are the input and output sequences, and $\StructuredMatrix$ is a structured matrix (lower triangular) that encodes the cumulative dynamics induced by the time-varying matrices $A_t$, $B_t$, and $C_t$.
+What appears to be a recurrence is, in fact, a structured matrix multiplication in disguise.
 
 {{ image(path="img/state-space-model.png", width=1000, alt="Structured State Space Duality") }}
 
-### View 2: Masked Attention as Structured Matrix Multiplication
+### View 2: Masked Attention as Structured Matrix
 
 Masked self-attention is typically written as:
 $$
 \Output = \big((\Query \Key^\transpose)\elementwiseMultiply \Mask\big)\Input.
 $$
 
-Here, $\Query$, $\Key$, and $\Input$ denote the query, key, and value sequences, while $\Mask$ enforces causality. The result can be rewritten as:
+Here, $\Query$, $\Key$, and $\Input$ denote the query, key, and value sequences, while $\Mask$ is a structured mask (e.g., causal mask).
+The result can be rewritten as:
 $$
 \Output = \StructuredMatrix \Input,
 $$
-where $\StructuredMatrix$ now encodes both attention weights and the causal mask.
+where $\StructuredMatrix$ now encodes both attention weights and the structured mask.
 
-Unlike SSMs, this formulation is fully parallel and quadratic in sequence length. 
-Yet algebraically, it is still multiplication by a structured matrix—one that shares deep similarities with the SSM case.
+Unlike state space models, this formulation is fully parallel and scale quadratically in sequence length. 
+Yet algebraically, it is still multiplication by a structured matrix—one that shares deep similarities with the state space model's view point.
 
 {{ image(path="img/masked-attention.png", width=1000, alt="Masked Attention") }}
 
@@ -112,7 +112,7 @@ Thus, recurrence and attention are simply two different contraction orders of th
 
 This duality explains why:
 
-* SSMs scale linearly in $T$ but appear sequential.
+* State space models scale linearly in $T$ but appear sequential.
 * Attention scales quadratically but is highly parallelizable.
 * Both can be derived from a shared algebraic foundation.
 
@@ -132,6 +132,9 @@ This structured approach yields the following computational trade-offs:
 | Inference FLOPS       |        $\Order(TN)$       |            $\Order(N^2)$           |            $\Order(N^2)$            |
 | (Naive) memory        |       $\Order(T^2)$       |           $\Order(TN^2)$           |             $\Order(TN)$            |
 | Matrix Multiplication |        $\checkmark$       |                                    |             $\checkmark$            |
+
+$^*$ The notation $N$ here is the hidden state dimension, and $T$ is the sequence length.
+
 
 The key takeaway is not merely improved constants, but a conceptual reframing: once we recognize the shared structured matrix, we can design algorithms that interpolate between recurrence and attention depending on hardware and scaling constraints.
 
