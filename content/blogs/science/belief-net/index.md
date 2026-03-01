@@ -25,7 +25,7 @@ It’s interpretable, but slow, computationally intensive, and notorious for get
 
 - Transformers: The current gold standard for prediction. They are incredibly powerful but remain "black boxes"—you can’t easily look under the hood to see the underlying transition or emission logic.
 
-> We asked ourselves: *Can we train an HMM like a Transformer?*
+> We asked ourselves: Can we train an HMM like a Transformer?
 
 ### Our Solution: Belief Net
 
