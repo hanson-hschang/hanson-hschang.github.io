@@ -100,25 +100,22 @@ Yet algebraically, it is still multiplication by a structured matrix—one that 
 
 ---
 
-## Duality: Recurrence vs. Parallelism
+## From the Dual-View to Efficient Algorithms
 
-The unifying observation is that both constructions yield structured matrices belonging to the same family (semiseparable matrices). 
+The unifying viewpoint is that both constructions yield structured matrices belonging to the same family (semiseparable matrices). 
 These matrices admit:
 
-* A **recurrent evaluation** (linear-time in sequence length), and
-* A **parallel matrix formulation** (quadratic but hardware-friendly).
+- A **recurrent state-space evolution** (linear-time in sequence length), and
+- A **parallel attention mechanism** (quadratic but hardware-friendly).
 
-Thus, recurrence and attention are simply two different contraction orders of the same structured operator.
-
+Thus, state-space model and masked attention are simply two different contraction orders of the same structured operator.
 This duality explains why:
 
 * State space models scale linearly in $T$ but appear sequential.
 * Attention scales quadratically but is highly parallelizable.
 * Both can be derived from a shared algebraic foundation.
 
----
-
-## Efficient Algorithms via Structure
+### Efficient Algorithms via Structure
 
 Exploiting this structured representation, the authors derive efficient algorithms by decomposing $\StructuredMatrix$ into low-rank block components.
 
