@@ -32,7 +32,7 @@ At the same time, **state space models**, including architectures such as [Mamba
 The [paper (Mamba 2)](https://arxiv.org/pdf/2405.21060) presents a striking unification of these two paradigms. 
 It shows that decoder-only Transformers and state space models are not fundamentally different mechanisms, but rather two computational views of the same underlying structured operator.
 
-This perspective—called **Structured State Space Duality**—provides both conceptual clarity and practical algorithmic benefits.
+This perspective, called **Structured State Space Duality**, provides both conceptual clarity and practical algorithmic benefits.
 
 ---
 
