@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    
+  
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+
+    <!-- Meta Info -->
+    <title>
+  
+    
+    Belief Net: Bridging Probabilistic Modeling and Deep Learning for Sequential Data &middot; Hanson.HSChang
+  
+</title>
+    <meta name="description" content="This is Hanson&#39;s personal website." >
+    <meta name="author" content="Heng-Sheng Chang" >
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="https://hanson-hschang.github.io/assets/img/favicon.ico" >
+    <link rel="apple-touch-icon" href="https://hanson-hschang.github.io/assets/img/apple-touch-icon.png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400&family=Poppins:wght@400;700&display=swap">
+
+    <!-- Vendor CSS Files -->
+    <link rel="stylesheet" href="https://hanson-hschang.github.io/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://hanson-hschang.github.io/vendor/bootstrap-icons/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://hanson-hschang.github.io/vendor/aos/aos.css">
+    <link rel="stylesheet" href="https://hanson-hschang.github.io/vendor/academicons/css/academicons.min.css"/>
+
+    
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="https://hanson-hschang.github.io/assets/stylesheet/main.css">
+    
+  <link rel="stylesheet" href="https://hanson-hschang.github.io/assets/stylesheet/citations.css">
+
+    
+  <link rel="stylesheet" href="https://hanson-hschang.github.io/assets/stylesheet/post.css">
+
+  </head>
+
+  <body>
+
+    <!-- Header -->
+     
+      <!-- Navigation Menu -->
+
+
+
+  
+  
+    
+  
+
+  
+  
+    
+  
+
+
+
+  
+  
+    
+  
+  <header id="header" class="header d-flex justify-content-center">
+    <nav id="navmenu" class="navmenu">
+      <ul>
+        <li><a href="/" aria-label="Link to Home"><i class="bi bi-house"></i><span>Home</span></a></li>
+        
+          <li><a href="/about/"  aria-label="Link to About"><i class="bi bi-person-vcard"></i><span>About</span></a></li>
+        
+          <li><a href="/blogs/" class="active" aria-label="Link to Blogs"><i class="bi bi-pencil-square"></i><span>Blogs</span></a></li>
+        
+        
+          
+            
+              <li><a href="/#contact" aria-label="Link to Contact"><i class="bi bi-chat-text"></i><span>Contact</span></a></li>
+            
+          
+            
+          
+            
+          
+            
+          
+        
+      </ul>
+    </nav>
+  </header>
+
+
+    
+
+    <!-- Navigation Menu Toggle -->
+    <i class="nav-toggle d-lg-none bi bi-list"></i>
+
+    <!-- Main -->
+    <main class="main">
+    
+
+  
+  
+<div class="page-title d-flex align-items-center">
+  <div class="container" data-aos="fade">
+    <nav class="breadcrumbs">
+      <ol>
+        
+        <li><a href="/">Home</a></li>
+        
+          
+          
+            <li><a href="/blogs/">Blogs</a></li>
+          
+        
+          
+          
+            <li><a href="/blogs/science/">Science</a></li>
+          
+        
+          
+          
+            <li class="current"></li>
+          
+        
+      </ol>
+    </nav>
+  </div>
+</div>
+
+  <div class="container">
+    <div class="row">
+      <section id="blog-post" class="blog-post segment col-lg-8">
+        <div class="container" data-aos="fade-up">
+          <article class="blog-post__article">
+            
+            
+  <div class="blog-post__header">
+    <h2 class="blog-post__title">Belief Net: Bridging Probabilistic Modeling and Deep Learning for Sequential Data</h2>
+    
+  <div class="blog-post__tags">
+    
+      
+        <span class="blog-post__tag">transformer</span>
+      
+        <span class="blog-post__tag">probabilistic modeling</span>
+      
+        <span class="blog-post__tag">neural networks</span>
+      
+    
+  </div>
+
+    <div class="blog-post__meta-divider"></div>
+    <div class="blog-post__meta">
+      <div class="d-flex justify-content-between">
+        <ul id="info" class="d-flex justify-content-between">
+          <li id="date" class="d-flex align-items-center">
+            <i class="bi bi-calendar-event" aria-hidden="true"></i>
+            <time class="blog-post__date">February 21, 2026</time>
+          </li>
+          <li id="read" class="d-flex align-items-center">
+            <i class="bi bi-hourglass-split" aria-hidden="true"></i>
+            <time class="blog-post__time">3 min read</time>
+          </li>
+        </ul>
+        <ul id="action" class="d-flex justify-content-between">
+          <li class="d-flex align-items-center">
+            <button id="bookmark-button" class="share__button" aria-label="Bookmark post">
+              <i class="bi bi-bookmark-plus" aria-hidden="true"></i>
+            </button>
+          </li>
+          <li class="d-flex align-items-center">
+            
+  <div id="share" class="share">
+    <button id="share-button" class="share__button" aria-label="Share post">
+      <i class="bi bi-box-arrow-up" aria-hidden="true"></i>
+    </button>
+    
+<div id="share-menu" class="share-menu">
+  <a id="share-link" class="share-menu__item" href="#" >
+    <i class="bi bi-link-45deg" aria-hidden="true"></i>
+    <span>Get link</span>
+  </a>
+  <div class="share-menu__divider"></div>
+  <a id="share-linkedin" class="share-menu__item" href="https://www.linkedin.com/sharing/share-offsite/?url=https://hanson-hschang.github.io/blogs/science/belief-net/" target="_blank" rel="noopener noreferrer">
+    <i class="bi bi-linkedin" aria-hidden="true"></i>
+    <span>Share on LinkedIn</span>
+  </a>
+  <a id="share-facebook" class="share-menu__item" href="https://www.facebook.com/sharer/sharer.php?u=https://hanson-hschang.github.io/blogs/science/belief-net/" target="_blank" rel="noopener noreferrer">
+    <i class="bi bi-facebook" aria-hidden="true"></i>
+    <span>Share on Facebook</span>
+  </a>
+  <a id="share-x" class="share-menu__item" href="https://x.com/intent/tweet?url=https://hanson-hschang.github.io/blogs/science/belief-net/" target="_blank" rel="noopener noreferrer">
+    <i class="bi bi-twitter-x" aria-hidden="true"></i>
+    <span>Share on X</span>
+  </a>
+  <a id="share-email" class="share-menu__item" href="mailto:?subject=Belief Net: Bridging Probabilistic Modeling and Deep Learning for Sequential Data&body=https://hanson-hschang.github.io/blogs/science/belief-net/">
+    <i class="bi bi-envelope-fill" aria-hidden="true"></i>
+    <span>Email</span>
+  </a>
+</div>
+
+  </div>
+
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="blog-post__meta-divider"></div>
+  </div>
+
+            
+  <div class="blog-post__content"><p>This <a rel="noopener noreferrer external" target="_blank" href="https://arxiv.org/abs/2511.10571">research</a>, co-authored with Prof. Prashant G. Mehta and my mentee Reginald Zhiyan Chen at the University of Illinois Urbana-Champaign, addresses a long-standing challenge in sequential data modeling: how do we combine the rock-solid interpretability of Hidden Markov Models (HMMs) with the powerful optimization of modern deep learning?</p>
+<h2 id="the-problem-interpretability-vs-optimization">The Problem: Interpretability vs. Optimization</h2>
+<p>For decades, researchers have faced a "pick your poison" scenario when modeling sequences:</p>
+<ul>
+<li>
+<p>The Baum-Welch Method (an Expectation-Maximization algorithm): The classic approach for learning HMMs.
+It’s interpretable, but slow, computationally intensive, and notorious for getting stuck in local optima.</p>
+</li>
+<li>
+<p>Spectral Algorithms: Extremely fast and provably correct, but they often produce "probabilities" that aren't actually valid (e.g., negative values) and fail when the hidden state space is larger than the observation space (the "overcomplete" setting).</p>
+</li>
+<li>
+<p>Transformers: The current gold standard for prediction. They are incredibly powerful but remain "black boxes"—you can’t easily look under the hood to see the underlying transition or emission logic.</p>
+</li>
+</ul>
+<blockquote>
+<p>We asked ourselves: Can we train an HMM like a Transformer?</p>
+</blockquote>
+<h3 id="our-solution-belief-net">Our Solution: Belief Net</h3>
+<p>The Belief Net is a framework that formulates the HMM's recursive "forward filter" as a structured neural network.
+Instead of abstract weights, the learnable parameters in Belief Net are explicitly the logits of the initial distribution, transition matrix, and emission matrix.
+This means that every parameter has a clear probabilistic interpretation, and the entire model is fully differentiable and trainable end-to-end using standard deep learning techniques.</p>
+  <img alt="Belief Net Architecture" src="https://hanson-hschang.github.io/processed_images/belief-net.752ce914d672f441.png" />
+<h2 id="performance-highlights">Performance Highlights</h2>
+<p>We put Belief Net to the test against classical baselines (Baum-Welch and Spectral algorithms) and modern Transformer architectures (nanoGPT) on two tasks:</p>
+<h3 id="task-1-synthetic-hmm-data">Task 1. Synthetic HMM Data</h3>
+<p>Belief Net consistently outperformed the Baum-Welch algorithm in both convergence speed and accuracy.
+Notably, it succeeded in overcomplete settings where spectral methods completely failed due to rank deficiencies.</p>
+  <img alt="Belief Net Training Results on Synthetic HMM Data" src="https://hanson-hschang.github.io/processed_images/hmm-training.218f50c13a6c127c.png" />
+<h3 id="task-2-real-world-text-data">Task 2. Real-World Text Data</h3>
+<p>When tested on the Federalist Papers dataset, Belief Net achieved lower perplexity than classical HMM methods.
+While Transformers (unsurprisingly) still lead in raw predictive power, Belief Net provides something they can't: <strong>Interpretable Logic</strong>.</p>
+  <img alt="Belief Net Training Results on Real-World Text Data" src="https://hanson-hschang.github.io/processed_images/text-training.5c854c423a9ff451.png" />
+<p>As shown above, we can actually see what the model learned—identifying specific states responsible for emitting uppercase letters or digits, providing a level of transparency that "black-box" models lack.</p>
+<h2 id="looking-ahead">Looking Ahead</h2>
+<p>Belief Net is more than just a faster HMM; it’s a bridge between system identification and representation learning.
+We are excited about future extensions into Partially Observable Markov Decision Processes (POMDPs) and integrating these interpretable filters into reinforcement learning and control pipelines.</p>
+<hr />
+<p>This work, <a rel="noopener noreferrer external" target="_blank" href="https://arxiv.org/abs/2511.10571">Belief Net: A Filter-Based Framework for Learning Hidden Markov Models from Observations</a>, has been accepted to the <strong>Learning for Dynamics and Control conference</strong> (<a rel="noopener noreferrer external" target="_blank" href="https://sites.google.com/usc.edu/l4dc2026/">L4DC 2026</a>).</p>
+</div>
+
+          </article>
+        </div>
+      </section>
+      
+  
+  
+  <aside id="sidebar" class="sidebar col-lg-4">
+    <div class="sidebar__widgets">
+      <div class="recent-posts-widget widget">
+        <h3 class="widget__title">Recent Posts</h3>
+        <ul id="post-entries">
+          
+            <li class="recent-posts-widget__item">
+              <h4><a href="https://hanson-hschang.github.io/blogs/science/transformers-and-state-space-models/">Transformers and State Space Models: A Connection in Sequential Data Modeling</a></h4>
+              <time>Feb 28, 2026</time>
+            </li>
+          
+            <li class="recent-posts-widget__item">
+              <h4><a href="https://hanson-hschang.github.io/blogs/science/belief-net/">Belief Net: Bridging Probabilistic Modeling and Deep Learning for Sequential Data</a></h4>
+              <time>Feb 21, 2026</time>
+            </li>
+          
+            <li class="recent-posts-widget__item">
+              <h4><a href="https://hanson-hschang.github.io/blogs/science/positional-encoding-in-transformer-language-models/">Positional Encoding in Transformer Language Models</a></h4>
+              <time>Feb 13, 2026</time>
+            </li>
+          
+            <li class="recent-posts-widget__item">
+              <h4><a href="https://hanson-hschang.github.io/blogs/science/critical-points-in-linear-neural-networks/">How regularization affects the critical points in linear neural networks</a></h4>
+              <time>Nov 08, 2018</time>
+            </li>
+          
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+    </div>
+  </div>
+
+
+
+    </main>
+
+    <!-- Footer -->
+    <footer id="footer" class="footer position-relative">
+  <div class="container">
+    <h3 class="footer__sitename">Hanson.HSChang</h3>
+    <p class="footer__quote">Everything is theoretically impossible, until it is done. --- Robert A. Heinlein</p>
+    <div class="footer__social-links d-flex justify-content-center">
+      
+  <a href="https://github.com/hanson-hschang" 
+    aria-label="Link to my GitHub profile" 
+    target="_blank" 
+    rel="noopener noreferrer"
+  >
+    <i class="bi bi-github" aria-hidden="true"></i>
+  </a>
+
+  <a href="https://scholar.google.com/citations?user=S7AWv3oAAAAJ" 
+    aria-label="Link to my Google Scholar profile" 
+    target="_blank" 
+    rel="noopener noreferrer"
+  >
+    <i class="ai ai-google-scholar" aria-hidden="true"></i>
+  </a>
+
+  <a href="https://www.linkedin.com/in/hanson-hschang/" 
+    aria-label="Link to my LinkedIn profile" 
+    target="_blank" 
+    rel="noopener noreferrer"
+  >
+    <i class="bi bi-linkedin" aria-hidden="true"></i>
+  </a>
+
+  <a href="https://www.instagram.com/hanson.hschang/" 
+    aria-label="Link to my Instagram profile" 
+    target="_blank" 
+    rel="noopener noreferrer"
+  >
+    <i class="bi bi-instagram" aria-hidden="true"></i>
+  </a>
+
+    </div>
+    <div class="container">
+      <div class="footer__copyright"><p>© All Rights Reserved</p>
+</div>
+      <div class="footer__credits"><p>Powered by <a rel="noopener noreferrer external" target="_blank" href="https://www.getzola.org/">Zola</a>, <a rel="noopener noreferrer external" target="_blank" href="https://getbootstrap.com/">Bootstrap</a>, and <a rel="noopener noreferrer external" target="_blank" href="https://web3forms.com/">Web3Forms</a></p>
+</div>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- Preloader -->
+    <div id="preloader"></div>
+
+    <!-- Java Scripts -->
+    
+  
+      
+    
+  <script src="https://hanson-hschang.github.io/vendor/aos/aos.js"></script>
+  <script src="https://hanson-hschang.github.io/assets/script/home.js"></script>
+  <script src="https://hanson-hschang.github.io/assets/script/share.js"></script>
+
+     
+  </body>
+
+</html>

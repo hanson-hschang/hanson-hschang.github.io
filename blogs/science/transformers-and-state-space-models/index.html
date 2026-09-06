@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    
+  
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+
+    <!-- Meta Info -->
+    <title>
+  
+    
+    Transformers and State Space Models: A Connection in Sequential Data Modeling &middot; Hanson.HSChang
+  
+</title>
+    <meta name="description" content="This is Hanson&#39;s personal website." >
+    <meta name="author" content="Heng-Sheng Chang" >
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="https://hanson-hschang.github.io/assets/img/favicon.ico" >
+    <link rel="apple-touch-icon" href="https://hanson-hschang.github.io/assets/img/apple-touch-icon.png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400&family=Poppins:wght@400;700&display=swap">
+
+    <!-- Vendor CSS Files -->
+    <link rel="stylesheet" href="https://hanson-hschang.github.io/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://hanson-hschang.github.io/vendor/bootstrap-icons/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://hanson-hschang.github.io/vendor/aos/aos.css">
+    <link rel="stylesheet" href="https://hanson-hschang.github.io/vendor/academicons/css/academicons.min.css"/>
+
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css">
+
+    
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="https://hanson-hschang.github.io/assets/stylesheet/main.css">
+    
+  <link rel="stylesheet" href="https://hanson-hschang.github.io/assets/stylesheet/citations.css">
+
+    
+  <link rel="stylesheet" href="https://hanson-hschang.github.io/assets/stylesheet/post.css">
+
+  </head>
+
+  <body>
+
+    <!-- Header -->
+     
+      <!-- Navigation Menu -->
+
+
+
+  
+  
+    
+  
+
+  
+  
+    
+  
+
+
+
+  
+  
+    
+  
+  <header id="header" class="header d-flex justify-content-center">
+    <nav id="navmenu" class="navmenu">
+      <ul>
+        <li><a href="/" aria-label="Link to Home"><i class="bi bi-house"></i><span>Home</span></a></li>
+        
+          <li><a href="/about/"  aria-label="Link to About"><i class="bi bi-person-vcard"></i><span>About</span></a></li>
+        
+          <li><a href="/blogs/" class="active" aria-label="Link to Blogs"><i class="bi bi-pencil-square"></i><span>Blogs</span></a></li>
+        
+        
+          
+            
+              <li><a href="/#contact" aria-label="Link to Contact"><i class="bi bi-chat-text"></i><span>Contact</span></a></li>
+            
+          
+            
+          
+            
+          
+            
+          
+        
+      </ul>
+    </nav>
+  </header>
+
+
+    
+
+    <!-- Navigation Menu Toggle -->
+    <i class="nav-toggle d-lg-none bi bi-list"></i>
+
+    <!-- Main -->
+    <main class="main">
+    
+
+  
+  
+<div class="page-title d-flex align-items-center">
+  <div class="container" data-aos="fade">
+    <nav class="breadcrumbs">
+      <ol>
+        
+        <li><a href="/">Home</a></li>
+        
+          
+          
+            <li><a href="/blogs/">Blogs</a></li>
+          
+        
+          
+          
+            <li><a href="/blogs/science/">Science</a></li>
+          
+        
+          
+          
+            <li class="current"></li>
+          
+        
+      </ol>
+    </nav>
+  </div>
+</div>
+
+  <div class="container">
+    <div class="row">
+      <section id="blog-post" class="blog-post segment col-lg-8">
+        <div class="container" data-aos="fade-up">
+          <article class="blog-post__article">
+            
+            
+  <div class="blog-post__header">
+    <h2 class="blog-post__title">Transformers and State Space Models: A Connection in Sequential Data Modeling</h2>
+    
+  <div class="blog-post__tags">
+    
+      
+        <span class="blog-post__tag">transformer</span>
+      
+        <span class="blog-post__tag">state space models</span>
+      
+        <span class="blog-post__tag">sequential data</span>
+      
+    
+  </div>
+
+    <div class="blog-post__meta-divider"></div>
+    <div class="blog-post__meta">
+      <div class="d-flex justify-content-between">
+        <ul id="info" class="d-flex justify-content-between">
+          <li id="date" class="d-flex align-items-center">
+            <i class="bi bi-calendar-event" aria-hidden="true"></i>
+            <time class="blog-post__date">February 28, 2026</time>
+          </li>
+          <li id="read" class="d-flex align-items-center">
+            <i class="bi bi-hourglass-split" aria-hidden="true"></i>
+            <time class="blog-post__time">4 min read</time>
+          </li>
+        </ul>
+        <ul id="action" class="d-flex justify-content-between">
+          <li class="d-flex align-items-center">
+            <button id="bookmark-button" class="share__button" aria-label="Bookmark post">
+              <i class="bi bi-bookmark-plus" aria-hidden="true"></i>
+            </button>
+          </li>
+          <li class="d-flex align-items-center">
+            
+  <div id="share" class="share">
+    <button id="share-button" class="share__button" aria-label="Share post">
+      <i class="bi bi-box-arrow-up" aria-hidden="true"></i>
+    </button>
+    
+<div id="share-menu" class="share-menu">
+  <a id="share-link" class="share-menu__item" href="#" >
+    <i class="bi bi-link-45deg" aria-hidden="true"></i>
+    <span>Get link</span>
+  </a>
+  <div class="share-menu__divider"></div>
+  <a id="share-linkedin" class="share-menu__item" href="https://www.linkedin.com/sharing/share-offsite/?url=https://hanson-hschang.github.io/blogs/science/transformers-and-state-space-models/" target="_blank" rel="noopener noreferrer">
+    <i class="bi bi-linkedin" aria-hidden="true"></i>
+    <span>Share on LinkedIn</span>
+  </a>
+  <a id="share-facebook" class="share-menu__item" href="https://www.facebook.com/sharer/sharer.php?u=https://hanson-hschang.github.io/blogs/science/transformers-and-state-space-models/" target="_blank" rel="noopener noreferrer">
+    <i class="bi bi-facebook" aria-hidden="true"></i>
+    <span>Share on Facebook</span>
+  </a>
+  <a id="share-x" class="share-menu__item" href="https://x.com/intent/tweet?url=https://hanson-hschang.github.io/blogs/science/transformers-and-state-space-models/" target="_blank" rel="noopener noreferrer">
+    <i class="bi bi-twitter-x" aria-hidden="true"></i>
+    <span>Share on X</span>
+  </a>
+  <a id="share-email" class="share-menu__item" href="mailto:?subject=Transformers and State Space Models: A Connection in Sequential Data Modeling&body=https://hanson-hschang.github.io/blogs/science/transformers-and-state-space-models/">
+    <i class="bi bi-envelope-fill" aria-hidden="true"></i>
+    <span>Email</span>
+  </a>
+</div>
+
+  </div>
+
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="blog-post__meta-divider"></div>
+  </div>
+
+            
+  <div class="blog-post__content"><p>Over the past several years, <strong>decoder-only Transformers</strong> have become the dominant paradigm for sequence modeling, particularly in large-scale language modeling.
+At the same time, <strong>state space models</strong>, including architectures such as <a rel="noopener noreferrer external" target="_blank" href="https://arxiv.org/abs/2312.00752">Mamba</a>, have emerged as compelling alternatives, offering linear-time scaling and strong long-range modeling capabilities.</p>
+<p>The <a rel="noopener noreferrer external" target="_blank" href="https://arxiv.org/pdf/2405.21060">paper (Mamba 2)</a> presents a striking unification of these two paradigms.
+It shows that decoder-only Transformers and state space models are not fundamentally different mechanisms, but rather two computational views of the same underlying structured operator.</p>
+<p>This perspective, called <strong>Structured State Space Duality</strong>, provides both conceptual clarity and practical algorithmic benefits.</p>
+<hr />
+<h2 id="the-key-insight-structured-state-space-duality">The Key Insight: Structured State Space Duality</h2>
+<p>This duality connects three central objects in sequence modeling:</p>
+<ol>
+<li><strong>State space models</strong>, defined through linear recurrences</li>
+<li><strong>Attention mechanisms</strong>, defined through pairwise interactions</li>
+<li><strong>Structured matrices</strong>, algebraic objects that admit fast multiplication</li>
+</ol>
+<p>The central claim is elegant:</p>
+<blockquote>
+<p>Both state space models (linear recurrent form) and masked attention (quadratic parallel form) can be expressed as multiplication by a structured matrix.</p>
+</blockquote>
+<p>In other words, recurrence and attention differ not in <em>what</em> they compute, but in <em>how</em> the same structured operator is evaluated.</p>
+  <img alt="Structured State Space Duality" src="https://hanson-hschang.github.io/processed_images/structured-state-space-duality.d61d366ef227125e.jpg" />
+<hr />
+<h2 id="two-complementary-views-of-structured-matrices">Two Complementary Views of Structured Matrices</h2>
+<p>The paper develops this unification by presenting two equivalent views.</p>
+<h3 id="view-1-state-space-models-as-structured-matrix-multiplication">View 1: State Space Models as Structured Matrix Multiplication</h3>
+<p>A state space model is typically defined by a recurrence:
+$$
+\begin{align*}
+\state_{t+1} &amp;= A_t \state_t + B_t \input_t \\
+\output_t &amp;= C_t \state_t
+\end{align*}
+$$</p>
+<p>Here, $\state_t$ denotes the hidden state, $\input_t$ the input at time $t$, and $\output_t$ the corresponding output. This formulation appears inherently sequential: each step depends on the previous one.</p>
+<p>However, the entire input–output mapping over a sequence of length $T$ can be written compactly as:
+$$
+\Output = \StructuredMatrix \Input,
+$$
+where $\Input \defined \input_{1:T}$ and $\Output \defined \output_{1:T}$ are the input and output sequences, and $\StructuredMatrix$ is a structured matrix (lower triangular) that encodes the cumulative dynamics induced by the time-varying matrices $A_t$, $B_t$, and $C_t$.
+What appears to be a recurrence is, in fact, a structured matrix multiplication in disguise.</p>
+  <img alt="Structured State Space Duality" src="https://hanson-hschang.github.io/processed_images/state-space-model.008d32e0c3f0f2a7.png" />
+<h3 id="view-2-masked-attention-as-structured-matrix">View 2: Masked Attention as Structured Matrix</h3>
+<p>Masked self-attention is typically written as:
+$$
+\Output = \big((\Query \Key^\transpose)\elementwiseMultiply \Mask\big)\Input.
+$$</p>
+<p>Here, $\Query$, $\Key$, and $\Input$ denote the query, key, and value sequences, while $\Mask$ is a structured mask (e.g., causal mask).
+The result can be rewritten as:
+$$
+\Output = \StructuredMatrix \Input,
+$$
+where $\StructuredMatrix$ now encodes both attention weights and the structured mask.</p>
+<p>Unlike state space models, this formulation is fully parallel and scale quadratically in sequence length.
+Yet algebraically, it is still multiplication by a structured matrix—one that shares deep similarities with the state space model's view point.</p>
+  <img alt="Masked Attention" src="https://hanson-hschang.github.io/processed_images/masked-attention.daa8a496aea0dc82.png" />
+<hr />
+<h2 id="from-the-dual-view-to-efficient-algorithms">From the Dual-View to Efficient Algorithms</h2>
+<p>The unifying viewpoint is that both constructions yield structured matrices belonging to the same family (semiseparable matrices).
+These matrices admit:</p>
+<ul>
+<li>A <strong>recurrent state-space evolution</strong> (linear-time in sequence length), and</li>
+<li>A <strong>parallel attention mechanism</strong> (quadratic but hardware-friendly).</li>
+</ul>
+<p>Thus, state-space model and masked attention are simply two different contraction orders of the same structured operator.
+This duality explains why:</p>
+<ul>
+<li>State space models scale linearly in $T$ but appear sequential.</li>
+<li>Attention scales quadratically but is highly parallelizable.</li>
+<li>Both can be derived from a shared algebraic foundation.</li>
+</ul>
+<h3 id="efficient-algorithms-via-structure">Efficient Algorithms via Structure</h3>
+<p>Exploiting this structured representation, the authors derive efficient algorithms by decomposing $\StructuredMatrix$ into low-rank block components.</p>
+  <img alt="Masked Attention" src="https://hanson-hschang.github.io/processed_images/efficient-algorithm.53531a452f48a2d2.jpg" />
+<p>This structured approach yields the following computational trade-offs:</p>
+<table><thead><tr><th style="text-align: left"></th><th style="text-align: center">$\quad$ Attention $\quad$</th><th style="text-align: center">$\quad$ State Space Models $\quad$</th><th style="text-align: center">$\quad$ Structured Matrices $\quad$</th></tr></thead><tbody>
+<tr><td style="text-align: left">Training FLOPS</td><td style="text-align: center">$\Order(T^2N)$</td><td style="text-align: center">$\Order(TN^2)$</td><td style="text-align: center">$\Order(TN^2)$</td></tr>
+<tr><td style="text-align: left">Inference FLOPS</td><td style="text-align: center">$\Order(TN)$</td><td style="text-align: center">$\Order(N^2)$</td><td style="text-align: center">$\Order(N^2)$</td></tr>
+<tr><td style="text-align: left">(Naive) memory</td><td style="text-align: center">$\Order(T^2)$</td><td style="text-align: center">$\Order(TN^2)$</td><td style="text-align: center">$\Order(TN)$</td></tr>
+<tr><td style="text-align: left">Matrix Multiplication</td><td style="text-align: center">$\checkmark$</td><td style="text-align: center"></td><td style="text-align: center">$\checkmark$</td></tr>
+</tbody></table>
+<p>$^*$ The notation $N$ here is the hidden state dimension, and $T$ is the sequence length.</p>
+<p>The key takeaway is not merely improved constants, but a conceptual reframing: once we recognize the shared structured matrix, we can design algorithms that interpolate between recurrence and attention depending on hardware and scaling constraints.</p>
+<hr />
+<h2 id="broader-implications">Broader Implications</h2>
+<p>Structured State Space Duality reframes the design space of sequence models.
+Instead of asking: <em>Should we use recurrence or attention?</em>
+We can ask: <em>Which structured matrix representation best satisfies our computational and modeling constraints?</em></p>
+<p>As sequence lengths grow and hardware efficiency becomes increasingly critical, this algebraic unification may shape the next generation of large-scale models. Transformers and state space models are not competing paradigms; they are complementary views of the same structured computation.</p>
+<hr />
+<p>This post is based on <a rel="noopener noreferrer external" target="_blank" href="https://arxiv.org/pdf/2405.21060">Transformers are SSMs: Generalized Models and Efficient Algorithms through Structured State Space Duality</a> by Prof. Tri Dao and Prof. Albert Gu, adapted here for a broader audience interested in the theoretical foundations of modern sequence modeling.</p>
+</div>
+
+          </article>
+        </div>
+      </section>
+      
+  
+  
+  <aside id="sidebar" class="sidebar col-lg-4">
+    <div class="sidebar__widgets">
+      <div class="recent-posts-widget widget">
+        <h3 class="widget__title">Recent Posts</h3>
+        <ul id="post-entries">
+          
+            <li class="recent-posts-widget__item">
+              <h4><a href="https://hanson-hschang.github.io/blogs/science/transformers-and-state-space-models/">Transformers and State Space Models: A Connection in Sequential Data Modeling</a></h4>
+              <time>Feb 28, 2026</time>
+            </li>
+          
+            <li class="recent-posts-widget__item">
+              <h4><a href="https://hanson-hschang.github.io/blogs/science/belief-net/">Belief Net: Bridging Probabilistic Modeling and Deep Learning for Sequential Data</a></h4>
+              <time>Feb 21, 2026</time>
+            </li>
+          
+            <li class="recent-posts-widget__item">
+              <h4><a href="https://hanson-hschang.github.io/blogs/science/positional-encoding-in-transformer-language-models/">Positional Encoding in Transformer Language Models</a></h4>
+              <time>Feb 13, 2026</time>
+            </li>
+          
+            <li class="recent-posts-widget__item">
+              <h4><a href="https://hanson-hschang.github.io/blogs/science/critical-points-in-linear-neural-networks/">How regularization affects the critical points in linear neural networks</a></h4>
+              <time>Nov 08, 2018</time>
+            </li>
+          
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+    </div>
+  </div>
+
+
+
+    </main>
+
+    <!-- Footer -->
+    <footer id="footer" class="footer position-relative">
+  <div class="container">
+    <h3 class="footer__sitename">Hanson.HSChang</h3>
+    <p class="footer__quote">Everything is theoretically impossible, until it is done. --- Robert A. Heinlein</p>
+    <div class="footer__social-links d-flex justify-content-center">
+      
+  <a href="https://github.com/hanson-hschang" 
+    aria-label="Link to my GitHub profile" 
+    target="_blank" 
+    rel="noopener noreferrer"
+  >
+    <i class="bi bi-github" aria-hidden="true"></i>
+  </a>
+
+  <a href="https://scholar.google.com/citations?user=S7AWv3oAAAAJ" 
+    aria-label="Link to my Google Scholar profile" 
+    target="_blank" 
+    rel="noopener noreferrer"
+  >
+    <i class="ai ai-google-scholar" aria-hidden="true"></i>
+  </a>
+
+  <a href="https://www.linkedin.com/in/hanson-hschang/" 
+    aria-label="Link to my LinkedIn profile" 
+    target="_blank" 
+    rel="noopener noreferrer"
+  >
+    <i class="bi bi-linkedin" aria-hidden="true"></i>
+  </a>
+
+  <a href="https://www.instagram.com/hanson.hschang/" 
+    aria-label="Link to my Instagram profile" 
+    target="_blank" 
+    rel="noopener noreferrer"
+  >
+    <i class="bi bi-instagram" aria-hidden="true"></i>
+  </a>
+
+    </div>
+    <div class="container">
+      <div class="footer__copyright"><p>© All Rights Reserved</p>
+</div>
+      <div class="footer__credits"><p>Powered by <a rel="noopener noreferrer external" target="_blank" href="https://www.getzola.org/">Zola</a>, <a rel="noopener noreferrer external" target="_blank" href="https://getbootstrap.com/">Bootstrap</a>, and <a rel="noopener noreferrer external" target="_blank" href="https://web3forms.com/">Web3Forms</a></p>
+</div>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- Preloader -->
+    <div id="preloader"></div>
+
+    <!-- Java Scripts -->
+    
+  
+      
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const katexMacros = {"\\Input":"V","\\Key":"K","\\Mask":"L","\\Order":"\\mathsf{O}","\\Output":"Y","\\Query":"Q","\\StructuredMatrix":"M","\\defined":"\\coloneqq","\\elementwiseMultiply":"\\circ","\\input":"v","\\output":"y","\\state":"h","\\transpose":"\\intercal"};
+    renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\[', right: '\\]', display: true},
+        {left: '\\(', right: '\\)', display: false},
+      ],
+      macros: katexMacros
+    });
+  });
+</script>
+
+      
+    
+  <script src="https://hanson-hschang.github.io/vendor/aos/aos.js"></script>
+  <script src="https://hanson-hschang.github.io/assets/script/home.js"></script>
+  <script src="https://hanson-hschang.github.io/assets/script/share.js"></script>
+
+     
+  </body>
+
+</html>

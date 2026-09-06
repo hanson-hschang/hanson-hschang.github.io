@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title>Hanson.HSChang - Sequential Data</title>
+    <subtitle>This is Hanson&#39;s personal website.</subtitle>
+    <link rel="self" type="application/atom+xml" href="https://hanson-hschang.github.io/tags/sequential-data/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://hanson-hschang.github.io/"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2026-02-28T00:00:00+00:00</updated>
+    <id>https://hanson-hschang.github.io/tags/sequential-data/atom.xml</id>
+    <entry xml:lang="en">
+        <title>Transformers and State Space Models: A Connection in Sequential Data Modeling</title>
+        <published>2026-02-28T00:00:00+00:00</published>
+        <updated>2026-02-28T00:00:00+00:00</updated>
+        
+        <author>
+          <name>Heng-Sheng Chang</name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://hanson-hschang.github.io/blogs/science/transformers-and-state-space-models/"/>
+        <id>https://hanson-hschang.github.io/blogs/science/transformers-and-state-space-models/</id>
+        
+        <content type="html" xml:base="https://hanson-hschang.github.io/blogs/science/transformers-and-state-space-models/">&lt;p&gt;Over the past several years, &lt;strong&gt;decoder-only Transformers&lt;/strong&gt; have become the dominant paradigm for sequence modeling, particularly in large-scale language modeling.
+At the same time, &lt;strong&gt;state space models&lt;/strong&gt;, including architectures such as &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://arxiv.org/abs/2312.00752&quot;&gt;Mamba&lt;/a&gt;, have emerged as compelling alternatives, offering linear-time scaling and strong long-range modeling capabilities.&lt;/p&gt;
+&lt;p&gt;The &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://arxiv.org/pdf/2405.21060&quot;&gt;paper (Mamba 2)&lt;/a&gt; presents a striking unification of these two paradigms.
+It shows that decoder-only Transformers and state space models are not fundamentally different mechanisms, but rather two computational views of the same underlying structured operator.&lt;/p&gt;
+&lt;p&gt;This perspective, called &lt;strong&gt;Structured State Space Duality&lt;/strong&gt;, provides both conceptual clarity and practical algorithmic benefits.&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h2 id=&quot;the-key-insight-structured-state-space-duality&quot;&gt;The Key Insight: Structured State Space Duality&lt;/h2&gt;
+&lt;p&gt;This duality connects three central objects in sequence modeling:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;State space models&lt;/strong&gt;, defined through linear recurrences&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Attention mechanisms&lt;/strong&gt;, defined through pairwise interactions&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Structured matrices&lt;/strong&gt;, algebraic objects that admit fast multiplication&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;The central claim is elegant:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Both state space models (linear recurrent form) and masked attention (quadratic parallel form) can be expressed as multiplication by a structured matrix.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;In other words, recurrence and attention differ not in &lt;em&gt;what&lt;/em&gt; they compute, but in &lt;em&gt;how&lt;/em&gt; the same structured operator is evaluated.&lt;/p&gt;
+  &lt;img alt=&quot;Structured State Space Duality&quot; src=&quot;https://hanson-hschang.github.io/processed_images/structured-state-space-duality.d61d366ef227125e.jpg&quot; /&gt;
+&lt;hr /&gt;
+&lt;h2 id=&quot;two-complementary-views-of-structured-matrices&quot;&gt;Two Complementary Views of Structured Matrices&lt;/h2&gt;
+&lt;p&gt;The paper develops this unification by presenting two equivalent views.&lt;/p&gt;
+&lt;h3 id=&quot;view-1-state-space-models-as-structured-matrix-multiplication&quot;&gt;View 1: State Space Models as Structured Matrix Multiplication&lt;/h3&gt;
+&lt;p&gt;A state space model is typically defined by a recurrence:
+$$
+\begin{align*}
+\state_{t+1} &amp;amp;= A_t \state_t + B_t \input_t \\
+\output_t &amp;amp;= C_t \state_t
+\end{align*}
+$$&lt;/p&gt;
+&lt;p&gt;Here, $\state_t$ denotes the hidden state, $\input_t$ the input at time $t$, and $\output_t$ the corresponding output. This formulation appears inherently sequential: each step depends on the previous one.&lt;/p&gt;
+&lt;p&gt;However, the entire input–output mapping over a sequence of length $T$ can be written compactly as:
+$$
+\Output = \StructuredMatrix \Input,
+$$
+where $\Input \defined \input_{1:T}$ and $\Output \defined \output_{1:T}$ are the input and output sequences, and $\StructuredMatrix$ is a structured matrix (lower triangular) that encodes the cumulative dynamics induced by the time-varying matrices $A_t$, $B_t$, and $C_t$.
+What appears to be a recurrence is, in fact, a structured matrix multiplication in disguise.&lt;/p&gt;
+  &lt;img alt=&quot;Structured State Space Duality&quot; src=&quot;https://hanson-hschang.github.io/processed_images/state-space-model.008d32e0c3f0f2a7.png&quot; /&gt;
+&lt;h3 id=&quot;view-2-masked-attention-as-structured-matrix&quot;&gt;View 2: Masked Attention as Structured Matrix&lt;/h3&gt;
+&lt;p&gt;Masked self-attention is typically written as:
+$$
+\Output = \big((\Query \Key^\transpose)\elementwiseMultiply \Mask\big)\Input.
+$$&lt;/p&gt;
+&lt;p&gt;Here, $\Query$, $\Key$, and $\Input$ denote the query, key, and value sequences, while $\Mask$ is a structured mask (e.g., causal mask).
+The result can be rewritten as:
+$$
+\Output = \StructuredMatrix \Input,
+$$
+where $\StructuredMatrix$ now encodes both attention weights and the structured mask.&lt;/p&gt;
+&lt;p&gt;Unlike state space models, this formulation is fully parallel and scale quadratically in sequence length.
+Yet algebraically, it is still multiplication by a structured matrix—one that shares deep similarities with the state space model&#39;s view point.&lt;/p&gt;
+  &lt;img alt=&quot;Masked Attention&quot; src=&quot;https://hanson-hschang.github.io/processed_images/masked-attention.daa8a496aea0dc82.png&quot; /&gt;
+&lt;hr /&gt;
+&lt;h2 id=&quot;from-the-dual-view-to-efficient-algorithms&quot;&gt;From the Dual-View to Efficient Algorithms&lt;/h2&gt;
+&lt;p&gt;The unifying viewpoint is that both constructions yield structured matrices belonging to the same family (semiseparable matrices).
+These matrices admit:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A &lt;strong&gt;recurrent state-space evolution&lt;/strong&gt; (linear-time in sequence length), and&lt;/li&gt;
+&lt;li&gt;A &lt;strong&gt;parallel attention mechanism&lt;/strong&gt; (quadratic but hardware-friendly).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Thus, state-space model and masked attention are simply two different contraction orders of the same structured operator.
+This duality explains why:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;State space models scale linearly in $T$ but appear sequential.&lt;/li&gt;
+&lt;li&gt;Attention scales quadratically but is highly parallelizable.&lt;/li&gt;
+&lt;li&gt;Both can be derived from a shared algebraic foundation.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;efficient-algorithms-via-structure&quot;&gt;Efficient Algorithms via Structure&lt;/h3&gt;
+&lt;p&gt;Exploiting this structured representation, the authors derive efficient algorithms by decomposing $\StructuredMatrix$ into low-rank block components.&lt;/p&gt;
+  &lt;img alt=&quot;Masked Attention&quot; src=&quot;https://hanson-hschang.github.io/processed_images/efficient-algorithm.53531a452f48a2d2.jpg&quot; /&gt;
+&lt;p&gt;This structured approach yields the following computational trade-offs:&lt;/p&gt;
+&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th style=&quot;text-align: left&quot;&gt;&lt;/th&gt;&lt;th style=&quot;text-align: center&quot;&gt;$\quad$ Attention $\quad$&lt;/th&gt;&lt;th style=&quot;text-align: center&quot;&gt;$\quad$ State Space Models $\quad$&lt;/th&gt;&lt;th style=&quot;text-align: center&quot;&gt;$\quad$ Structured Matrices $\quad$&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;
+&lt;tr&gt;&lt;td style=&quot;text-align: left&quot;&gt;Training FLOPS&lt;/td&gt;&lt;td style=&quot;text-align: center&quot;&gt;$\Order(T^2N)$&lt;/td&gt;&lt;td style=&quot;text-align: center&quot;&gt;$\Order(TN^2)$&lt;/td&gt;&lt;td style=&quot;text-align: center&quot;&gt;$\Order(TN^2)$&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style=&quot;text-align: left&quot;&gt;Inference FLOPS&lt;/td&gt;&lt;td style=&quot;text-align: center&quot;&gt;$\Order(TN)$&lt;/td&gt;&lt;td style=&quot;text-align: center&quot;&gt;$\Order(N^2)$&lt;/td&gt;&lt;td style=&quot;text-align: center&quot;&gt;$\Order(N^2)$&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style=&quot;text-align: left&quot;&gt;(Naive) memory&lt;/td&gt;&lt;td style=&quot;text-align: center&quot;&gt;$\Order(T^2)$&lt;/td&gt;&lt;td style=&quot;text-align: center&quot;&gt;$\Order(TN^2)$&lt;/td&gt;&lt;td style=&quot;text-align: center&quot;&gt;$\Order(TN)$&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style=&quot;text-align: left&quot;&gt;Matrix Multiplication&lt;/td&gt;&lt;td style=&quot;text-align: center&quot;&gt;$\checkmark$&lt;/td&gt;&lt;td style=&quot;text-align: center&quot;&gt;&lt;/td&gt;&lt;td style=&quot;text-align: center&quot;&gt;$\checkmark$&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;&lt;/table&gt;
+&lt;p&gt;$^*$ The notation $N$ here is the hidden state dimension, and $T$ is the sequence length.&lt;/p&gt;
+&lt;p&gt;The key takeaway is not merely improved constants, but a conceptual reframing: once we recognize the shared structured matrix, we can design algorithms that interpolate between recurrence and attention depending on hardware and scaling constraints.&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h2 id=&quot;broader-implications&quot;&gt;Broader Implications&lt;/h2&gt;
+&lt;p&gt;Structured State Space Duality reframes the design space of sequence models.
+Instead of asking: &lt;em&gt;Should we use recurrence or attention?&lt;/em&gt;
+We can ask: &lt;em&gt;Which structured matrix representation best satisfies our computational and modeling constraints?&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;As sequence lengths grow and hardware efficiency becomes increasingly critical, this algebraic unification may shape the next generation of large-scale models. Transformers and state space models are not competing paradigms; they are complementary views of the same structured computation.&lt;/p&gt;
+&lt;hr /&gt;
+&lt;p&gt;This post is based on &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://arxiv.org/pdf/2405.21060&quot;&gt;Transformers are SSMs: Generalized Models and Efficient Algorithms through Structured State Space Duality&lt;/a&gt; by Prof. Tri Dao and Prof. Albert Gu, adapted here for a broader audience interested in the theoretical foundations of modern sequence modeling.&lt;/p&gt;
+</content>
+        
+    </entry>
+</feed>
