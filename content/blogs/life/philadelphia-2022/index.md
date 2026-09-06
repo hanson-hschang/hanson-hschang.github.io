@@ -18,7 +18,7 @@ If you haven't eaten a cheese steak, you can't say you've been to Philadelphia -
 
 # Reading Terminal Market
 
-{{ image(path="img/reading-terminal-market.jpg", width=300, alt="Reading Terminal Market") }}
+{{ <media.image page={page} path="img/reading-terminal-market.jpg" width={300} alt="Reading Terminal Market" /> }}
 
 緊鄰會議飯店的[Reading Terminal Market](https://readingterminalmarket.org/)根本是吃貨的天堂，看到那隻豬主廚的雕像就知道我來對地方了！這裡我特別推薦兩家店：
 

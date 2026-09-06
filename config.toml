@@ -8,6 +8,9 @@ title = "Hanson.HSChang"
 author = "Heng-Sheng Chang"
 description = "This is Hanson's personal website."
 
+# Prevent source and bibliography files from being rendered as pages
+ignored_content = ["*.src.md", "*.bib", "*.csl"]
+
 # Whether to automatically compile all Sass files in the sass directory
 compile_sass = true
 

@@ -50,7 +50,7 @@ The central claim is elegant:
 
 In other words, recurrence and attention differ not in *what* they compute, but in *how* the same structured operator is evaluated.
 
-{{ image(path="img/structured-state-space-duality.jpg", width=500, alt="Structured State Space Duality") }}
+{{ <media.image page={page} path="img/structured-state-space-duality.jpg" width={500} alt="Structured State Space Duality" /> }}
 
 ---
 
@@ -77,7 +77,7 @@ $$
 where $\Input \defined \input_{1:T}$ and $\Output \defined \output_{1:T}$ are the input and output sequences, and $\StructuredMatrix$ is a structured matrix (lower triangular) that encodes the cumulative dynamics induced by the time-varying matrices $A_t$, $B_t$, and $C_t$.
 What appears to be a recurrence is, in fact, a structured matrix multiplication in disguise.
 
-{{ image(path="img/state-space-model.png", width=1000, alt="Structured State Space Duality") }}
+{{ <media.image page={page} path="img/state-space-model.png" width={1000} alt="Structured State Space Duality" /> }}
 
 ### View 2: Masked Attention as Structured Matrix
 
@@ -96,7 +96,7 @@ where $\StructuredMatrix$ now encodes both attention weights and the structured 
 Unlike state space models, this formulation is fully parallel and scale quadratically in sequence length. 
 Yet algebraically, it is still multiplication by a structured matrix—one that shares deep similarities with the state space model's view point.
 
-{{ image(path="img/masked-attention.png", width=1000, alt="Masked Attention") }}
+{{ <media.image page={page} path="img/masked-attention.png" width={1000} alt="Masked Attention" /> }}
 
 ---
 
@@ -119,7 +119,7 @@ This duality explains why:
 
 Exploiting this structured representation, the authors derive efficient algorithms by decomposing $\StructuredMatrix$ into low-rank block components.
 
-{{ image(path="img/efficient-algorithm.jpg", width=1000, alt="Masked Attention") }}
+{{ <media.image page={page} path="img/efficient-algorithm.jpg" width={1000} alt="Masked Attention" /> }}
 
 This structured approach yields the following computational trade-offs:
 

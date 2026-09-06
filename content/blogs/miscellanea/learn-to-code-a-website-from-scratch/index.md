@@ -53,7 +53,7 @@ In summary, coding up a website is like building up a house, and each language o
 Fig. 1 shows the learning flow and timeline. However, the timeline should vary from person to person. 
 Take your time to understand each language and learn at your pace. =D
 
-{{ image(path="img/learning-flow.png", width=700, alt="Learning Flow. This illustrates what the learning process and order should be like. If you are building your own website, Git might not be very important for you at the beginning. However, if you are working on a project, then the version control tool Git is very important and useful.") }}
+{{ <media.image page={page} path="img/learning-flow.png" width={700} alt="Learning Flow. This illustrates what the learning process and order should be like. If you are building your own website, Git might not be very important for you at the beginning. However, if you are working on a project, then the version control tool Git is very important and useful." /> }}
 
 ## HTML (HyperText Markup Language)
 
@@ -76,11 +76,11 @@ The rest of the HTML tags can be found on [this page](https://www.w3schools.com/
 However, the most commonly used ones can be learned in [this little bit lengthy video](https://youtu.be/UB1O30fR-EE) by Traversy Media. 
 Inside the body tag, one important thing to writing a clean code is to do it in the format of Semantic HTML (Fig. 2), which I find very important and is clearly and cleanly explained in [this concise video](https://youtu.be/wu6PPRKcT8Y) by Ethan Eisenhard.
 
-{{ image(path="img/semantic-html.png", width=700, alt="Semantic HTML. Code in the right way; not the left way. However, it is definitely ok to do the left way when you are just trying something or just getting started with HTML programming.") }}
+{{ <media.image page={page} path="img/semantic-html.png" width={700} alt="Semantic HTML. Code in the right way; not the left way. However, it is definitely ok to do the left way when you are just trying something or just getting started with HTML programming." /> }}
 
 ## CSS (Cascading Style Sheets)
 
-{{ image(path="img/box-model.png", width=500, alt="Box model. I believe it is easier for any developer to have this box model in mind when they are using CSS to decorate their website. It cleanly separates each element brick by brick and gives a clear picture of each element's size, position, and color layout.") }}
+{{ <media.image page={page} path="img/box-model.png" width={500} alt="Box model. I believe it is easier for any developer to have this box model in mind when they are using CSS to decorate their website. It cleanly separates each element brick by brick and gives a clear picture of each element's size, position, and color layout." /> }}
 
 It is probably one of the most painful languages for web developers to learn CSS since it is more like a design thing rather than a formal language I think. 
 Some people even think that CSS is a broken and chaotic language and it is too damn hard ><. However, a few essential and useful ideas are conveyed in [this very very long video](https://www.youtube.com/watch?v=yfoY53QXEnI) by Traversy Media. 
@@ -92,7 +92,7 @@ BTW, they also have pro-tips for other languages in their channel.
 Lastly, when you make it here, you shall be able to complete the following sample website (Fig. 4). 
 Give it a try!
 
-{{ image(path="img/sample-website.png", width=700, alt="Sample website. Till now, you should be able to build a simple website like this using only HTML and CSS. If one has any problem with this, check out [here](https://youtu.be/yfoY53QXEnI?t=4164), and you'll find the sample code in the description and explanation from that starting time.") }}
+{{ <media.image page={page} path="img/sample-website.png" width={700} alt="Sample website. Till now, you should be able to build a simple website like this using only HTML and CSS. If one has any problem with this, check out [here](https://youtu.be/yfoY53QXEnI?t=4164), and you'll find the sample code in the description and explanation from that starting time." /> }}
 
 If you are only looking for designing your own personal website. 
 These two languages might be enough for you. 
@@ -110,7 +110,7 @@ Once you have understood the basics of JavaScript from the previous two videos, 
 Frameworks other than React (made by Facebook) include [Angular](https://youtu.be/3dHNOWTI7H8) (made by Google) and [Vue](https://youtu.be/qZXt1Aom3Cs). 
 Pick one to start with, and it is easy to understand the others if needed.
 
-{{ image(path="img/react-js.png", width=700, alt="React JS. It is a framework for building up a website. You may define elements like header, button, checkbox, etc. in a dynamic way (including animation) and also exchange info from and to databases.") }}
+{{ <media.image page={page} path="img/react-js.png" width={700} alt="React JS. It is a framework for building up a website. You may define elements like header, button, checkbox, etc. in a dynamic way (including animation) and also exchange info from and to databases." /> }}
 
 ## Summary
 
@@ -163,7 +163,6 @@ Wish you have a good journey out there!
 - [10 CSS Pro Tips - Code this, NOT that!](https://youtu.be/Qhaz36TZG5Y)
 - [Responsive Web Design Tutorial](https://youtu.be/Qhaz36TZG5Y)
 - [Learn web development as an absolute beginner](https://youtu.be/ysEN5RaKOlA)
-
 
 
 

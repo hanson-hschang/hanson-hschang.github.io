@@ -33,7 +33,7 @@ The Belief Net is a framework that formulates the HMM's recursive "forward filte
 Instead of abstract weights, the learnable parameters in Belief Net are explicitly the logits of the initial distribution, transition matrix, and emission matrix.
 This means that every parameter has a clear probabilistic interpretation, and the entire model is fully differentiable and trainable end-to-end using standard deep learning techniques.
 
-{{ image(path="img/belief-net.png", width=3000, alt="Belief Net Architecture") }}
+{{ <media.image page={page} path="img/belief-net.png" width={3000} alt="Belief Net Architecture" /> }}
 
 
 ## Performance Highlights
@@ -45,7 +45,7 @@ We put Belief Net to the test against classical baselines (Baum-Welch and Spectr
 Belief Net consistently outperformed the Baum-Welch algorithm in both convergence speed and accuracy. 
 Notably, it succeeded in overcomplete settings where spectral methods completely failed due to rank deficiencies.
 
-{{ image(path="img/hmm-training.png", width=1000, alt="Belief Net Training Results on Synthetic HMM Data") }}
+{{ <media.image page={page} path="img/hmm-training.png" width={1000} alt="Belief Net Training Results on Synthetic HMM Data" /> }}
 
 ### Task 2. Real-World Text Data
 
@@ -53,7 +53,7 @@ When tested on the Federalist Papers dataset, Belief Net achieved lower perplexi
 While Transformers (unsurprisingly) still lead in raw predictive power, Belief Net provides something they can't: **Interpretable Logic**.
 
 
-{{ image(path="img/text-training.png", width=3000, alt="Belief Net Training Results on Real-World Text Data") }}
+{{ <media.image page={page} path="img/text-training.png" width={3000} alt="Belief Net Training Results on Real-World Text Data" /> }}
 
 As shown above, we can actually see what the model learned—identifying specific states responsible for emitting uppercase letters or digits, providing a level of transparency that "black-box" models lack.
 
