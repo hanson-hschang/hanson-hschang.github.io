@@ -7,7 +7,7 @@ Join me as I navigate the beautiful complexity of the world, including the histo
 sort_by = "date"
 page_template = "post.html"
 [extra]
-type = "blog" 
+type = "posts"
 thumbnail = "thumbnail.jpg"
 order = 20
 +++

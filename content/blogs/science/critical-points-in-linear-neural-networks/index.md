@@ -1,4 +1,5 @@
 +++
+template = "post.html"
 title = 'How regularization affects the critical points in linear neural networks'
 date = 2018-11-08
 updated = 2019-02-20

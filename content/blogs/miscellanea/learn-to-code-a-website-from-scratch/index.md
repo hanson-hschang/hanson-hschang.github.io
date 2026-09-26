@@ -1,4 +1,5 @@
 +++
+template = "post.html"
 title = 'Learn to code a website from scratch'
 date = 2022-08-04
 updated = 2023-03-15

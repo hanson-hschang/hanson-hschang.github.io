@@ -7,7 +7,7 @@ Come along through the fascinating odds and ends of a variety of topics that piq
 sort_by = "date"
 page_template = "post.html"
 [extra]
-type = "blog" 
+type = "posts"
 thumbnail = "thumbnail.jpg"
 order = 30
 +++

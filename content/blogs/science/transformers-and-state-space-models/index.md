@@ -1,4 +1,5 @@
 +++
+template = "post.html"
 title = 'Transformers and State Space Models: A Connection in Sequential Data Modeling'
 date = 2026-02-28
 in_search_index = true

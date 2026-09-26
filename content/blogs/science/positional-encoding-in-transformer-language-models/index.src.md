@@ -1,4 +1,5 @@
 +++
+template = "post.html"
 title = 'Positional Encoding in Transformer Language Models'
 date = 2026-02-13
 in_search_index = true

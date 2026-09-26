@@ -7,7 +7,7 @@ Here I share insights, challenges, and "aha" moments as I delve into new concept
 sort_by = "date"
 page_template = "post.html"
 [extra]
-type = "blog" 
+type = "posts"
 thumbnail = "thumbnail.jpg"
 order = 10
 +++

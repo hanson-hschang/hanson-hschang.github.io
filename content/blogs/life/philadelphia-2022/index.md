@@ -1,4 +1,5 @@
 +++
+template = "post.html"
 title = "What's cooking Philly?"
 date = 2022-05-31
 is_search_index = true

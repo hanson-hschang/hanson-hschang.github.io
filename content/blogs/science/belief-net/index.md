@@ -1,4 +1,5 @@
 +++
+template = "post.html"
 title = 'Belief Net: Bridging Probabilistic Modeling and Deep Learning for Sequential Data'
 date = 2026-02-21
 in_search_index = true
