@@ -1,7 +1,7 @@
 +++
 title = "About"
 [extra]
-icon_class = "bi bi-person-vcard"
+icon_class = "bi bi-file-earmark-person"
 subtitle = "Make Sci-Fi into Science Facts"
 order = 10
 type = "plain"
