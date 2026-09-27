@@ -11,6 +11,17 @@ categories = ['blogs', 'science']
 excerpt = """
 A HMM-based learning framework that understand sequential data while ensuring full interpretability and fast convergence.
 """
+[extra.post]
+bibtex = '''
+@inproceedings{chen2026differentiable,
+ title={Differentiable Filtering for Learning Hidden Markov Models},
+ author={Chen, Reginald Zhiyan and Chang, Heng-Sheng and Mehta, Prashant G},
+ booktitle={Annual Learning for Dynamics and Control Conference},
+ pages={1035--1054},
+ year={2026},
+ organization={PMLR}
+}
+'''
 +++
 
 This [research](https://arxiv.org/abs/2511.10571), co-authored with Prof. Prashant G. Mehta and my mentee Reginald Zhiyan Chen at the University of Illinois Urbana-Champaign, addresses a long-standing challenge in sequential data modeling: how do we combine the rock-solid interpretability of Hidden Markov Models (HMMs) with the powerful optimization of modern deep learning?

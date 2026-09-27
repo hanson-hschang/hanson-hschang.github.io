@@ -50,6 +50,9 @@ light_theme = "github-light"
 [extra.persona]
 # Note: landing page title and subtitles are configured in `content/_index.md`
 
+# Label for the navigation through each post's sections.
+outline_title = "Outline"
+
 # Social links
 social_links = [
   { name = "GitHub", url = "https://github.com/hanson-hschang", icon_class = "bi bi-github" },
