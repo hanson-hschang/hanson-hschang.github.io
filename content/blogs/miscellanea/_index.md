@@ -9,5 +9,5 @@ page_template = "post.html"
 [extra]
 type = "posts"
 thumbnail = "thumbnail.jpg"
-order = 30
+order = 20
 +++

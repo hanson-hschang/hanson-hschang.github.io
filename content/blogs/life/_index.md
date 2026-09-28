@@ -2,12 +2,12 @@
 title = "Life"
 description = """
 Explore the ins and outs of my personal experiences. 
-Join me as I navigate the beautiful complexity of the world, including the history, nature, and the culture.
+As I navigate the complexity of the world, the historical nature and cultures reflects my beliefs, values, and perspectives.
 """
 sort_by = "date"
 page_template = "post.html"
 [extra]
 type = "posts"
 thumbnail = "thumbnail.jpg"
-order = 20
+order = 10
 +++
