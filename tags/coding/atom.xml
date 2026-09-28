@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title>Hanson.HSChang - coding</title>
+    <subtitle>This is Hanson&#39;s personal website.</subtitle>
+    <link rel="self" type="application/atom+xml" href="https://hanson-hschang.github.io/tags/coding/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://hanson-hschang.github.io/"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2023-03-15T00:00:00+00:00</updated>
+    <id>https://hanson-hschang.github.io/tags/coding/atom.xml</id>
+    <entry xml:lang="en">
+        <title>Learn to code a website from scratch</title>
+        <published>2022-08-04T00:00:00+00:00</published>
+        <updated>2023-03-15T00:00:00+00:00</updated>
+        
+        <author>
+          <name>Heng-Sheng Chang</name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://hanson-hschang.github.io/blogs/miscellanea/learn-to-code-a-website-from-scratch/"/>
+        <id>https://hanson-hschang.github.io/blogs/miscellanea/learn-to-code-a-website-from-scratch/</id>
+        
+        <content type="html" xml:base="https://hanson-hschang.github.io/blogs/miscellanea/learn-to-code-a-website-from-scratch/">&lt;blockquote&gt;
+&lt;p&gt;Before you really start getting into this post, let me phrase it this way.&lt;/p&gt;
+&lt;p&gt;Don&#39;t do it.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;There are actually a lot of alternatives to building a website including Google site, Wix, Weebly, etc., and none of those requires any knowledge of coding.
+Most importantly, they all have nice and pretty templates for any kind of use you want.
+So, before you proceed to the following reading, make sure you have checked those web-design platforms and see if you could find the template you like.&lt;/p&gt;
+&lt;p&gt;If you have really gone through those tools mentioned above and still can not find the thing you want or just merely want to build a website from scratch like me.
+This is a documentation of how I learned to code a website from the beginner level.
+Here, a few video links will be presented in a recommended learning order so that people can learn to code their websites comfortably.
+(At least, I think it is comfortable for me &amp;gt;.&amp;lt;)&lt;/p&gt;
+&lt;h2 id=&quot;what-is-needed-to-code-a-website&quot;&gt;What is needed to code a website&lt;/h2&gt;
+&lt;p&gt;&lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://youtu.be/qz0aGYrrlhU&quot;&gt;This one-hour crash course&lt;/a&gt; made by Mosh gives an idea of what languages and packages are commonly used and needed for setting up a website.
+In summary, coding up a website is like building up a house, and each language or tool has its different job:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;HTML&lt;/strong&gt; is like the structural elements of the website (&lt;em&gt;presentation&lt;/em&gt;)&lt;/p&gt;
+&lt;p&gt;(like buildings have doors, columns, elevators, etc.)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;CSS&lt;/strong&gt; is like the appearance of each element on the website (&lt;em&gt;styling&lt;/em&gt;)&lt;/p&gt;
+&lt;p&gt;(like the colors of doors, the heights of columns, and the sizes of elevators)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;JavaScript&lt;/strong&gt; is like the action of different elements (&lt;em&gt;functionality&lt;/em&gt;)&lt;/p&gt;
+&lt;p&gt;(like when you ring the doorbell and a message is sent to the house owner; or like when you push a button and an elevator comes to your floor)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;React&lt;/strong&gt; is one of the useful libraries (&lt;em&gt;building tools&lt;/em&gt;) that is commonly used in the field of web-developer.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Fig. 1 shows the learning flow and timeline. However, the timeline should vary from person to person.
+Take your time to understand each language and learn at your pace. =D&lt;/p&gt;
+  &lt;img alt=&quot;Learning Flow. This illustrates what the learning process and order should be like. If you are building your own website, Git might not be very important for you at the beginning. However, if you are working on a project, then the version control tool Git is very important and useful.&quot; src=&quot;https://hanson-hschang.github.io/processed_images/learning-flow.b276ac8cc3591486.png&quot; /&gt;
+&lt;h2 id=&quot;html-hypertext-markup-language&quot;&gt;HTML (HyperText Markup Language)&lt;/h2&gt;
+&lt;pre class=&quot;giallo z-l-code z-d-code&quot; &gt;&lt;code data-lang=&quot;html&quot;&gt;&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;&amp;lt;!&lt;/span&gt;&lt;span class=&quot;z-l-3 z-d-5&quot;&gt;DOCTYPE&lt;/span&gt;&lt;span class=&quot;z-l-6 z-d-7&quot;&gt; html&lt;/span&gt;&lt;span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;z-l-3 z-d-5&quot;&gt;html&lt;/span&gt;&lt;span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;  &amp;lt;&lt;/span&gt;&lt;span class=&quot;z-l-3 z-d-5&quot;&gt;head&lt;/span&gt;&lt;span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-5 z-d-3&quot;&gt;    &amp;lt;!--&lt;/span&gt;&lt;span class=&quot;z-l-5 z-d-3&quot;&gt; Contains metadata/information for the document &lt;/span&gt;&lt;span class=&quot;z-l-5 z-d-3&quot;&gt;--&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;    ...&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;  &amp;lt;/&lt;/span&gt;&lt;span class=&quot;z-l-3 z-d-5&quot;&gt;head&lt;/span&gt;&lt;span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;  &amp;lt;&lt;/span&gt;&lt;span class=&quot;z-l-3 z-d-5&quot;&gt;body&lt;/span&gt;&lt;span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-5 z-d-3&quot;&gt;    &amp;lt;!--&lt;/span&gt;&lt;span class=&quot;z-l-5 z-d-3&quot;&gt; Defines the document&amp;#39;s body &lt;/span&gt;&lt;span class=&quot;z-l-5 z-d-3&quot;&gt;--&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;    ...&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;  &amp;lt;/&lt;/span&gt;&lt;span class=&quot;z-l-3 z-d-5&quot;&gt;body&lt;/span&gt;&lt;span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;z-l-3 z-d-5&quot;&gt;html&lt;/span&gt;&lt;span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Most HTML files (HTML5 to be specific) are in the presented form as above which includes the two most important tags: &lt;code&gt;head&lt;/code&gt; and &lt;code&gt;body&lt;/code&gt;.
+The rest of the HTML tags can be found on &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://www.w3schools.com/TAgs/default.asp&quot;&gt;this page&lt;/a&gt; from W3Schools.
+However, the most commonly used ones can be learned in &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://youtu.be/UB1O30fR-EE&quot;&gt;this little bit lengthy video&lt;/a&gt; by Traversy Media.
+Inside the body tag, one important thing to writing a clean code is to do it in the format of Semantic HTML (Fig. 2), which I find very important and is clearly and cleanly explained in &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://youtu.be/wu6PPRKcT8Y&quot;&gt;this concise video&lt;/a&gt; by Ethan Eisenhard.&lt;/p&gt;
+  &lt;img alt=&quot;Semantic HTML. Code in the right way; not the left way. However, it is definitely ok to do the left way when you are just trying something or just getting started with HTML programming.&quot; src=&quot;https://hanson-hschang.github.io/processed_images/semantic-html.06f6dd20939c95b6.png&quot; /&gt;
+&lt;h2 id=&quot;css-cascading-style-sheets&quot;&gt;CSS (Cascading Style Sheets)&lt;/h2&gt;
+  &lt;img alt=&quot;Box model. I believe it is easier for any developer to have this box model in mind when they are using CSS to decorate their website. It cleanly separates each element brick by brick and gives a clear picture of each element&#39;s size, position, and color layout.&quot; src=&quot;https://hanson-hschang.github.io/processed_images/box-model.840c099958e8e96a.png&quot; /&gt;
+&lt;p&gt;It is probably one of the most painful languages for web developers to learn CSS since it is more like a design thing rather than a formal language I think.
+Some people even think that CSS is a broken and chaotic language and it is too damn hard &amp;gt;&amp;lt;. However, a few essential and useful ideas are conveyed in &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://www.youtube.com/watch?v=yfoY53QXEnI&quot;&gt;this very very long video&lt;/a&gt; by Traversy Media.
+(Don&#39;t get lost in between.
+One may use 1.5x or even 2.0x speed to go through the concepts and leave the detail behind.
+You will need to Google the detailed syntax again anyway when you are using it.)
+Essentially, one nice thing to have in mind, when you are coding in CSS, is the box model (Fig. 3), which together with other tips is well explained in &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://youtu.be/Qhaz36TZG5Y&quot;&gt;this video&lt;/a&gt; by Fireship.
+BTW, they also have pro-tips for other languages in their channel.
+Lastly, when you make it here, you shall be able to complete the following sample website (Fig. 4).
+Give it a try!&lt;/p&gt;
+  &lt;img alt=&quot;Sample website. Till now, you should be able to build a simple website like this using only HTML and CSS. If one has any problem with this, check out [here](https://youtu.be/yfoY53QXEnI?t=4164), and you&#39;ll find the sample code in the description and explanation from that starting time.&quot; src=&quot;https://hanson-hschang.github.io/processed_images/sample-website.c6fdb3baf9357d40.png&quot; /&gt;
+&lt;p&gt;If you are only looking for designing your own personal website.
+These two languages might be enough for you.
+What you need to do is to find a good library and a good template, and then Bob&#39;s your uncle!
+If you want to do more than a static website like having a database that includes your goods, and you want to make a selling website or building a dynamic website that lists down your undone tasks on the calendar.
+The next thing you will need to learn is the programming language: Javascript.&lt;/p&gt;
+&lt;h2 id=&quot;javascript-react-js&quot;&gt;JavaScript &amp;amp; React JS&lt;/h2&gt;
+&lt;p&gt;JavaScript is a scripting language that works on both browsers and servers.
+Here, we mainly focus on the front-end which is the browser part.
+It enables you to create dynamically updating elements, control multimedia, animate images, and a lot of other things else. &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://youtu.be/W6NZfCO5SIk&quot;&gt;This not-too-short video&lt;/a&gt; made by Mosh gives a basic intro background of Javascript and &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://youtu.be/hdI2bqOjy3c&quot;&gt;this other also not-too-short video&lt;/a&gt; from Traversy Media provides an illustrative way of explaining how it controls element behaviors on the website.
+React JS, on the other hand, is a useful JavaScript library for building user interfaces (Fig. 5).
+Once you have understood the basics of JavaScript from the previous two videos, &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://youtu.be/w7ejDZ8SWv8&quot;&gt;this crash course&lt;/a&gt; from Traversy Media should be easy for you to follow.
+Frameworks other than React (made by Facebook) include &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://youtu.be/3dHNOWTI7H8&quot;&gt;Angular&lt;/a&gt; (made by Google) and &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://youtu.be/qZXt1Aom3Cs&quot;&gt;Vue&lt;/a&gt;.
+Pick one to start with, and it is easy to understand the others if needed.&lt;/p&gt;
+  &lt;img alt=&quot;React JS. It is a framework for building up a website. You may define elements like header, button, checkbox, etc. in a dynamic way (including animation) and also exchange info from and to databases.&quot; src=&quot;https://hanson-hschang.github.io/processed_images/react-js.98c2b003dfd1976f.png&quot; /&gt;
+&lt;h2 id=&quot;summary&quot;&gt;Summary&lt;/h2&gt;
+&lt;h3 id=&quot;quick-recap&quot;&gt;Quick Recap&lt;/h3&gt;
+&lt;p&gt;Till now, you should have a basic understanding of how HTML, CSS, and JavaScript work.
+However, to build a nice website, it is very important to use tools that other developers have already put their efforts into so that we don&#39;t have to do everything ourselves.
+This short video not only gives a quick recap of the three main languages but also shares the workflow and other useful packages.
+It also gives some introduction to the back-end including servers and database.
+(which is definitely out of scope for this post but may or may not be included and introduced in future posts.)&lt;/p&gt;
+&lt;h3 id=&quot;useful-tools&quot;&gt;Useful Tools&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;GitHub &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://docs.github.com/en/get-started/quickstart/hello-world&quot;&gt;Tutorial&lt;/a&gt; and &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://pages.github.com/&quot;&gt;Pages (website hosting)&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://htmlrev.com/&quot;&gt;HTMLrev&lt;/a&gt;: a website that offers landing page HTML templates.&lt;/p&gt;
+&lt;p&gt;This may help you jump start your project!
+Most of them includes the &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://getbootstrap.com/&quot;&gt;Bootstrap&lt;/a&gt; library, a very useful tool, and here is a &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://www.w3schools.com/bootstrap/bootstrap_get_started.asp&quot;&gt;tutorial&lt;/a&gt; for it.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://www.npmjs.com/&quot;&gt;npm&lt;/a&gt;: a Package Manager that helps you manage tools.&lt;/p&gt;
+&lt;p&gt;Here is a &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://youtu.be/jHDhaSSKmB0&quot;&gt;tutorial&lt;/a&gt;.
+(One may recommend &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://github.com/nvm-sh/nvm&quot;&gt;nvm&lt;/a&gt; more since it manages versions of packages better.)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://sass-lang.com/&quot;&gt;Sass&lt;/a&gt; (Syntactically Awesome Style Sheets): an extension to CSS.&lt;/p&gt;
+&lt;p&gt;Here is a &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://youtu.be/nu5mdN2JIwM&quot;&gt;crash course&lt;/a&gt; by Traversy Media.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Responsive Design: a web design method that fits any viewing device.&lt;/p&gt;
+&lt;p&gt;A long tutorial with an example can be viewed &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://youtu.be/gH3sBOj6CGA&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;the-next-step&quot;&gt;The Next Step?&lt;/h3&gt;
+&lt;p&gt;I am not sure who will be the readers of this post.
+For me, I started merely wanting to create a portfolio website for myself on GitHub and then later found out that there are actually great amounts of stuff that can be learned in this area.
+(In fact, too many...)
+One may check &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://youtu.be/EqzUcMzfV1w&quot;&gt;this 2022 review video&lt;/a&gt; and go through it to see how many things you have learned or known and how many others you may proceed on learning for just being a front-end engineer.
+Wish you have a good journey out there!&lt;/p&gt;
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Most of the video links are from these two YouTube channels:&lt;/p&gt;
+&lt;p&gt;&lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://www.youtube.com/c/programmingwithmosh&quot;&gt;Programming with Mosh&lt;/a&gt; and &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://www.youtube.com/c/TraversyMedia&quot;&gt;Traversy Media&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://www.w3schools.com/&quot;&gt;W3Schools&lt;/a&gt;: Online web tutorials&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://youtu.be/wu6PPRKcT8Y&quot;&gt;Semantic HTML - How to Write Clean Code (Beginner)&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://youtu.be/Qhaz36TZG5Y&quot;&gt;10 CSS Pro Tips - Code this, NOT that!&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://youtu.be/Qhaz36TZG5Y&quot;&gt;Responsive Web Design Tutorial&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://youtu.be/ysEN5RaKOlA&quot;&gt;Learn web development as an absolute beginner&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+        
+    </entry>
+</feed>

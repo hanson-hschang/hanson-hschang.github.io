@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+
+    <!-- Meta Info -->
+    <title>
+  
+    
+    Positional Encoding in Transformer Language Models &middot; Hanson.HSChang
+  
+</title>
+    
+  
+  <meta name="description" content="">
+  <link rel="canonical" href="https://hanson-hschang.github.io/blogs/science/positional-encoding-in-transformer-language-models/">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Positional Encoding in Transformer Language Models">
+  <meta property="og:description" content="">
+  <meta property="og:url" content="https://hanson-hschang.github.io/blogs/science/positional-encoding-in-transformer-language-models/">
+  <meta property="og:site_name" content="Hanson.HSChang">
+  
+    <meta name="twitter:card" content="summary">
+  
+  <meta name="citation_title" content="Positional Encoding in Transformer Language Models">
+  
+  <meta name="author" content="Heng-Sheng Chang">
+  <meta name="citation_publication_date" content="2026/02/13">
+  
+  
+  
+
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="https://hanson-hschang.github.io/assets/img/favicon.ico" >
+    <link rel="apple-touch-icon" href="https://hanson-hschang.github.io/assets/img/apple-touch-icon.png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400&family=Poppins:wght@400;700&display=swap">
+
+    <!-- Vendor CSS Files -->
+    <link rel="stylesheet" href="https://hanson-hschang.github.io/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://hanson-hschang.github.io/vendor/bootstrap-icons/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://hanson-hschang.github.io/vendor/aos/aos.css">
+    <link rel="stylesheet" href="https://hanson-hschang.github.io/vendor/academicons/css/academicons.min.css"/>
+
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css">
+
+    
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="https://hanson-hschang.github.io/assets/stylesheet/main.css">
+    
+  <link rel="stylesheet" href="https://hanson-hschang.github.io/assets/stylesheet/page-post.css">
+  <link rel="stylesheet" href="https://hanson-hschang.github.io/assets/stylesheet/citations.css">
+
+    
+  </head>
+
+  <body>
+
+    <!-- Header -->
+    
+  <a class="post__skip" href="#post-main">Skip to post</a>
+   
+      <!-- Navigation Menu -->
+
+
+
+  
+  
+    
+  
+
+  
+  
+    
+  
+
+  
+  
+    
+  
+
+
+
+  
+  
+  
+  
+    
+    
+    
+  
+  <header id="header" class="header d-flex justify-content-center">
+    <nav id="navmenu" class="navmenu">
+      <ul>
+        <li><a href="https://hanson-hschang.github.io" aria-label="Link to Home"><i class="bi bi-house"></i><span>Home</span></a></li>
+        
+          
+          
+          
+          <li>
+            <a href="https://hanson-hschang.github.io/about/"  aria-label="Link to About"><i class="bi bi-file-earmark-person" aria-hidden="true"></i><span>About</span></a>
+            
+          </li>
+        
+          
+          
+          
+          <li>
+            <a href="https://hanson-hschang.github.io/resume/"  aria-label="Link to Resume"><i class="bi bi-person-vcard" aria-hidden="true"></i><span>Resume</span></a>
+            
+          </li>
+        
+          
+          
+            
+              
+              
+                
+              
+            
+              
+              
+                
+              
+            
+              
+              
+                
+              
+            
+          
+          
+          <li class="dropdown">
+            <a href="https://hanson-hschang.github.io/blogs/" class="active" aria-label="Link to Blogs"><i class="bi bi-pencil-square" aria-hidden="true"></i><span>Blogs</span><i class="bi bi-chevron-down navmenu__chevron" aria-hidden="true"></i></a>
+            
+              <button class="navmenu__dropdown-toggle" type="button" aria-label="Toggle Blogs sections" aria-expanded="false" aria-controls="nav-subsections-blogs" hidden><i class="bi bi-chevron-down" aria-hidden="true"></i></button>
+              <ul id="nav-subsections-blogs" aria-label="Blogs sections">
+                
+                  
+                  <li><a href="https://hanson-hschang.github.io/blogs/life/">Life</a></li>
+                
+                  
+                  <li><a href="https://hanson-hschang.github.io/blogs/miscellanea/">Miscellanea</a></li>
+                
+                  
+                  <li><a href="https://hanson-hschang.github.io/blogs/science/" class="active" aria-current="location">Science</a></li>
+                
+              </ul>
+            
+          </li>
+        
+        
+          
+            
+              <li><a href="https://hanson-hschang.github.io#contact" aria-label="Link to Contact"><i class="bi bi-chat-text"></i><span>Contact</span></a></li>
+            
+          
+            
+          
+            
+          
+            
+          
+        
+      </ul>
+    </nav>
+  </header>
+
+
+    
+
+
+    <!-- Navigation Menu Toggle -->
+    
+    <i class="nav-toggle d-lg-none bi bi-list"></i>
+    
+
+    <!-- Main -->
+    <main class="main">
+    
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    
+    
+      
+      
+        
+      
+    
+      
+      
+        
+      
+    
+      
+      
+    
+      
+      
+        
+      
+    
+  
+  
+  
+  
+  
+<header class="page-title d-flex align-items-center post-breadcrumbs">
+  <div class="container" data-aos="fade">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <ol>
+        
+        <li><a href="https://hanson-hschang.github.io">Home</a></li>
+        
+          
+          
+            
+            
+          
+            
+            
+            <li><a href="https://hanson-hschang.github.io/blogs/">Blogs</a></li>
+            
+          
+            
+            
+            <li><a href="https://hanson-hschang.github.io/blogs/science/">Science</a></li>
+            
+          
+          <li class="current" aria-current="page">Positional Encoding in Transformer Language Models</li>
+        
+      </ol>
+    </nav>
+  </div>
+</header>
+
+  <article class="post container" id="post-main" aria-labelledby="post-title" tabindex="-1">
+    <header class="post__hero">
+      <div class="post__heading">
+        
+        <h1 id="post-title">Positional Encoding in Transformer Language Models</h1>
+        
+        
+        
+
+<ul class="article-tags" aria-label="Tags">
+  
+  <li class="article-tags__item"><a href="https://hanson-hschang.github.io/tags/positional-encoding/">Positional Encoding</a></li>
+  
+  <li class="article-tags__item"><a href="https://hanson-hschang.github.io/tags/transformer/">Transformer</a></li>
+  
+  <li class="article-tags__item"><a href="https://hanson-hschang.github.io/tags/language-models/">Language Models</a></li>
+  
+</ul>
+
+
+        
+      </div>
+      
+      
+<div class="article-meta">
+  <ul class="article-meta__details" aria-label="Article information">
+    
+    <li><time class="date-text article-meta__date" datetime="2026-02-13">February 13, 2026</time></li>
+    
+    <li><i class="bi bi-hourglass-split" aria-hidden="true"></i><span class="article-meta__reading-time">8 min read</span></li>
+  </ul>
+  
+  
+  
+<aside class="share" data-share aria-label="Article sharing">
+  <button class="share__button" data-share-toggle type="button" aria-expanded="false" aria-controls="article-share-menu" hidden>
+    <i class="bi bi-box-arrow-up" aria-hidden="true"></i><span>Share</span>
+  </button>
+  <nav id="article-share-menu" class="share-menu" aria-label="Share this article">
+    
+    <a class="share-menu__item" href="https://hanson-hschang.github.io/blogs/science/positional-encoding-in-transformer-language-models/">
+      <i class="bi bi-link-45deg" aria-hidden="true"></i><span>Permalink</span>
+    </a>
+    <a class="share-menu__item" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A//hanson-hschang.github.io/blogs/science/positional-encoding-in-transformer-language-models/" target="_blank" rel="noopener noreferrer">
+      <i class="bi bi-linkedin" aria-hidden="true"></i>
+      <span>Share on LinkedIn</span>
+    </a>
+    <a class="share-menu__item" href="https://www.facebook.com/sharer/sharer.php?u=https%3A//hanson-hschang.github.io/blogs/science/positional-encoding-in-transformer-language-models/" target="_blank" rel="noopener noreferrer">
+      <i class="bi bi-facebook" aria-hidden="true"></i>
+      <span>Share on Facebook</span>
+    </a>
+    <a class="share-menu__item" href="https://x.com/intent/tweet?url=https%3A//hanson-hschang.github.io/blogs/science/positional-encoding-in-transformer-language-models/&text=Positional%20Encoding%20in%20Transformer%20Language%20Models" target="_blank" rel="noopener noreferrer">
+      <i class="bi bi-twitter-x" aria-hidden="true"></i>
+      <span>Share on X</span>
+    </a>
+    <a class="share-menu__item" href="mailto:?subject=Positional%20Encoding%20in%20Transformer%20Language%20Models&body=https%3A//hanson-hschang.github.io/blogs/science/positional-encoding-in-transformer-language-models/">
+      <i class="bi bi-envelope-fill" aria-hidden="true"></i>
+      <span>Email</span>
+    </a>
+    <p class="share__status" role="status" aria-live="polite"></p>
+  </nav>
+</aside>
+
+</div>
+
+      
+    </header>
+
+    
+
+    <div class="post__layout">
+      
+      <div class="post__sidebar">
+        <div class="post__sidebar-inner">
+      
+      <aside class="post__contents">
+        <details class="post__outline" data-post-outline>
+          <summary class="post__outline-toggle">
+            <span id="post-outline-title">Outline</span>
+            <i class="bi bi-chevron-down" aria-hidden="true"></i>
+          </summary>
+          <nav aria-labelledby="post-outline-title">
+            <ul>
+              
+              
+              <li data-prose-toc-end hidden></li>
+              
+              
+              
+              
+              
+            </ul>
+          </nav>
+        </details>
+      </aside>
+      
+        </div>
+      </div>
+      
+      <div class="post__body">
+        
+
+        <div class="post__prose"><p>Transformer-based language models have fundamentally reshaped natural language processing. These models achieve remarkable performance across a wide range of language tasks, and a key reason for this success is the <em>self-attention mechanism</em>, which allows models to capture long-range dependencies without relying on recurrence or convolution. However, this architecture introduces a subtle but critical challenge:</p>
+<blockquote>
+<p>Self-attention is inherently permutation invariant: it treats the input as a set of tokens rather than an ordered sequence.</p>
+</blockquote>
+<p>Without additional structure, the model cannot distinguish between sentences that contain the same tokens but in different orders. For example: <span class="math display">\[
+\textit{the dog chased the cat} \quad \text{vs.} \quad \textit{the cat chased the dog}
+\]</span> Although both sentences contain identical words, their meanings differ dramatically because of word order. A pure attention mechanism, by itself, has no way to recognize this difference.</p>
+<p>To address this issue, Transformer models incorporate <strong>positional encoding</strong>—additional vectors that encode the position of each token in the sequence. These encodings provide the model with information about token order, allowing attention mechanisms to reason about sequence structure.</p>
+<p>Over time, positional encoding methods have evolved alongside the rapid growth of language models and their need to process longer contexts. In this post, we examine three broad categories of positional encoding approaches that have shaped modern language models. We also briefly discuss techniques for extending context length beyond the limits seen during training, before concluding with some final thoughts on the importance and performance of positional encoding in transformer architectures.</p>
+<h2 id="variants-of-positional-encoding">Variants of Positional Encoding</h2>
+<p>Since the introduction of the original Transformer, several positional encoding strategies have been proposed to improve model expressiveness, generalization, and scalability.</p>
+<ol type="1">
+<li><strong>Absolute Positional Embeddings</strong> – the original approach where each token position receives a dedicated positional vector.</li>
+<li><strong>Attention with Relative Positional Representations</strong> – a method that models relative distances between tokens directly within the attention mechanism.</li>
+<li><strong>Rotary Positional Transformations</strong> – a geometric approach that encodes positions through rotations applied to query and key vectors.</li>
+</ol>
+<p>While these methods differ in their implementation, they all share the same fundamental goal: to provide the model with information about token order so that it can capture the sequential structure of language.</p>
+<h3 id="absolute-positional-embeddings">1. Absolute Positional Embeddings</h3>
+<p>The original Transformer architecture introduces positional information by <strong>adding a position-dependent vector</strong> to each token embedding in <span class="math inline">\(\Real{\stateDim}\)</span>, where <span class="math inline">\(\stateDim\)</span> is the model embedding dimension. Formally,</p>
+<p><span class="math display">\[
+\state_t = \embedding(:, \observation_t) + \position_t
+\]</span></p>
+<p>where <span class="math inline">\(\embedding\in\Real{\stateDim\times \observationDim}\)</span> is the token embedding matrix, <span class="math inline">\(\observation_t\in\\{1,2,\ldots,\observationDim\\}\)</span> denotes the token index at position <span class="math inline">\(t\)</span> with <span class="math inline">\(\observationDim\)</span> denoting the total number of tokens in the tokenizer, <span class="math inline">\(\embedding(:,\observation_t)\in\Real{\stateDim}\)</span> is the corresponding token embedding, and <span class="math inline">\(\position_t\in\Real{\stateDim}\)</span> is the positional embedding for position <span class="math inline">\(t\)</span>. The resulting representation <span class="math inline">\(\state_t\in\Real{\stateDim}\)</span> is then passed to the attention mechanism for the key, query, and value computations.</p>
+<p>The positional vectors <span class="math inline">\(\position_t\)</span> may either be <strong>learned parameters</strong> or defined using <strong>fixed sinusoidal functions</strong>. In either case, the positional encoding is added directly to the token representation before attention is applied.</p>
+<p>While this method is simple and effective, it has an important limitation. Because the model learns positional vectors only for positions observed during training, it may struggle to generalize to longer sequences than those seen in the training data. This limitation motivated the development of more flexible approaches.</p>
+<h3 id="attention-with-relative-positional-representations">2. Attention with Relative Positional Representations</h3>
+<p>Relative positional encoding addresses the limitations of absolute embeddings by focusing on <strong>relative distances between tokens</strong>, rather than their absolute positions in the sequence. Instead of modifying the input embeddings, this approach incorporates positional information directly into the attention computation. The attention score <span class="math inline">\(\score_{t,\tau}\in\Real{}\)</span> between positions <span class="math inline">\(t\)</span> and <span class="math inline">\(\tau\)</span> (with <span class="math inline">\(\tau\leq t\)</span>) is defined as</p>
+<p><span class="math display">\[
+\score_{t,\tau} =
+\query_t\cdot(\key_\tau+\relativeWeight_{t-\tau})
++
+\relativeBias_{t-\tau}
+\]</span></p>
+<p>where <span class="math inline">\(\cdot\)</span> denotes the dot product, <span class="math inline">\(\query_t,\key_\tau\in\Real{\stateDim}\)</span> are the query and key vectors, <span class="math inline">\(\relativeWeight_{\smalldeltat}\in\Real{\stateDim}\)</span> is a relative positional weight vector, and <span class="math inline">\(\relativeBias_{\smalldeltat}\in\Real{}\)</span> is a scalar bias that also depends on the relative distance <span class="math inline">\(\deltat\)</span>. Both positional terms depend only on the distance <span class="math inline">\(\deltat = t-\tau\)</span>, rather than the individual positions <span class="math inline">\(t\)</span> and <span class="math inline">\(\tau\)</span>.</p>
+<p>This formulation allows the model to learn how interactions between tokens vary with their relative separation. Because relative distances remain meaningful even for longer sequences, this method tends to generalize better to varying input lengths.</p>
+<!-- Relative positional encodings are widely used in transformer variants such as **Transformer-XL, T5, and DeBERTa**. -->
+<h3 id="rotary-positional-transformations">3. Rotary Positional Transformations</h3>
+<p>Rotary Positional Transformations introduce a different perspective: rather than adding positional information to embeddings or attention scores, they encode position through <strong>geometric transformations applied to query and key vectors</strong>. Specifically, the query and key vectors are rotated according to their positions:</p>
+<p><span class="math display">\[
+\query_t&#39; = \exp{\maptoliealgebra{\rotatedAngle_t}}\query_t,
+\quad
+\key_\tau&#39; = \exp{\maptoliealgebra{\rotatedAngle_\tau}}\key_\tau
+\]</span></p>
+<p>where <span class="math inline">\(\rotatedAngle_t\in\angleSpace=[-\pi,\pi)^{\stateDim/2}\)</span> is a position-dependent vector of rotation angles, and <span class="math inline">\(\exp{\maptoliealgebra{\cdot}}:\angleSpace\to(\SO{2})^{\stateDim/2}\subset\Real{\stateDim\times\stateDim}\)</span> converts these angles into a block-diagonal rotation matrix.</p>
+<p>The attention score is then computed using the rotated vectors:</p>
+<p><span class="math display">\[
+\score_{t,\tau} = \query_t&#39; \cdot \key_\tau&#39; = \query_t \cdot \exp{\maptoliealgebra{\rotatedAngle_t-\rotatedAngle_\tau}} \key_\tau
+\]</span></p>
+<p>Through these rotations, positional information is encoded in the relative phase differences <span class="math inline">\(\rotatedAngle_t-\rotatedAngle_\tau\)</span> between token representations. The rotation angles are typically determined by a fixed frequency schedule, allowing the encoding to extend naturally to arbitrary sequence lengths.</p>
+<!-- This property makes RoPE particularly attractive for large language models, and it is used in architectures such as **LLaMA, Mistral, and Qwen**. -->
+<h2 id="extending-context-length">Extending Context Length</h2>
+<p>As language models scale, the ability to handle longer contexts becomes increasingly important. Training directly on extremely long sequences, however, is computationally costly. To address this challenge, researchers have developed techniques that extend a model’s effective context length beyond the range seen during training. These approaches are especially compatible with relative positional encoding methods, which represent positional information through relative distances between tokens rather than absolute positions.</p>
+<p>One practical technique is <strong>position extrapolation via interpolation</strong>. Suppose a model is trained with context length <span class="math inline">\(T\)</span> but needs to process sequences of length <span class="math inline">\(T&#39; &gt; T\)</span>. For relative positional representations, we can simply interpolate the positional vectors to fit the new context length. <span class="math display">\[
+\relativeWeight_{t-\tau}&#39; =
+\relativeWeight_{(t-\tau)\frac{T}{T&#39;}},
+\quad
+\relativeBias_{t-\tau}&#39; =
+\relativeBias_{(t-\tau)\frac{T}{T&#39;}}
+\]</span> and the attention score becomes <span class="math display">\[
+\score_{t,\tau} =
+\query_t\cdot(\key_\tau+\relativeWeight_{t-\tau}&#39;)
++
+\relativeBias_{t-\tau}&#39;
+\]</span> The rotation angles in rotary positional transformations can be similarly interpolated to extend the effective context length without retraining the model: <span class="math display">\[
+\score_{t,\tau} = \query_t \cdot \exp{\maptoliealgebra{\rotatedAngle_t&#39;-\rotatedAngle_\tau&#39;}} \key_\tau
+\]</span> where <span class="math inline">\(\rotatedAngle_{t}&#39;= \rotatedAngle_{t\frac{T}{T&#39;}}\)</span> for any position <span class="math inline">\(t\)</span> in the extended context. This compresses positions into the range observed during training while preserving the learned positional structure, enabling models to operate effectively on longer sequences.</p>
+<p>However, interpolation-based extrapolation introduces an important trade-off. By compressing positions into the range observed during training, the method effectively <strong>reduces the resolution of positional information</strong>. Tokens that are far apart in a long sequence may appear artificially closer after interpolation, which can blur the positional distinctions that the model learned during training. As a result, while interpolation often works well for moderate extensions of the context window, model performance may gradually degrade as the context length grows much larger than the training limit. In practice, these techniques typically remain effective within a limited multiple of the original training context, after which long-range reasoning and attention patterns may become less reliable.</p>
+<h2 id="final-thoughts">Final Thoughts</h2>
+<p>Positional encoding is a fundamental component of transformer-based language models. Without it, the self-attention mechanism cannot capture the sequential structure of language.</p>
+<p>Over time, positional encoding techniques have evolved from simple additive embeddings to more sophisticated methods that modify the attention mechanism itself. Absolute embeddings provided the initial solution, relative representations improved generalization across sequence lengths, and rotary embeddings introduced a geometric formulation that is particularly effective for large language models.</p>
+<p>As models increasingly need to process longer documents and conversations, techniques for extending context length have become an important complement to positional encoding design. Methods such as interpolation allow models to operate beyond their original training context, although they introduce trade-offs in positional resolution that may affect performance at very long ranges.</p>
+<p>As language models continue to scale and are expected to reason over increasingly long documents, innovations in positional encoding and context extension techniques will remain central to enabling models to understand and generate coherent text over extended contexts.</p>
+<hr />
+<p>This post is mainly based on an ICLR blog post in 2025: <a href="https://iclr-blogposts.github.io/2025/blog/positional-embedding/">Positional Embeddings in Transformer Models: Evolution from Text to Vision Domains</a> and a survey paper from Computational Linguistics in 2022: <a href="https://direct.mit.edu/coli/article/48/3/733/111478/Position-Information-in-Transformers-An-Overview">Position information in transformers: An overview</a>.</p>
+</div>
+
+        
+
+        
+
+        
+
+        
+
+        
+
+      </div>
+      
+      <aside class="post__related sidebar" aria-labelledby="post-related-title">
+        <section class="widget">
+          <h2 class="widget__title" id="post-related-title">Related Posts</h2>
+          <ul class="post__related-list">
+            
+            <li><a href="https://hanson-hschang.github.io/blogs/science/transformers-and-state-space-models/">Transformers and State Space Models: A Connection in Sequential Data Modeling</a><time class="date-text" datetime="2026-02-28">February 28, 2026</time></li>
+            
+            <li><a href="https://hanson-hschang.github.io/blogs/science/belief-net/">Belief Net: Bridging Probabilistic Modeling and Deep Learning for Sequential Data</a><time class="date-text" datetime="2026-02-21">February 21, 2026</time></li>
+            
+            <li><a href="https://hanson-hschang.github.io/blogs/science/critical-points-in-linear-neural-networks/">How regularization affects the critical points in linear neural networks</a><time class="date-text" datetime="2018-11-08">November 08, 2018</time></li>
+            
+          </ul>
+        </section>
+      </aside>
+      
+    </div>
+  </article>
+
+    </main>
+
+    <!-- Footer -->
+    <footer id="footer" class="footer position-relative">
+  <div class="container">
+    <p class="footer__sitename">Hanson.HSChang</p>
+    <p class="footer__quote">Everything is theoretically impossible, until it is done. --- Robert A. Heinlein</p>
+    <nav class="footer__social-links d-flex justify-content-center" aria-label="Social links">
+      
+  <a href="https://github.com/hanson-hschang" 
+    aria-label="Link to my GitHub profile" 
+    target="_blank" 
+    rel="noopener noreferrer"
+  >
+    <i class="bi bi-github" aria-hidden="true"></i>
+  </a>
+
+  <a href="https://scholar.google.com/citations?user=S7AWv3oAAAAJ" 
+    aria-label="Link to my Google Scholar profile" 
+    target="_blank" 
+    rel="noopener noreferrer"
+  >
+    <i class="ai ai-google-scholar" aria-hidden="true"></i>
+  </a>
+
+  <a href="https://www.linkedin.com/in/hanson-hschang/" 
+    aria-label="Link to my LinkedIn profile" 
+    target="_blank" 
+    rel="noopener noreferrer"
+  >
+    <i class="bi bi-linkedin" aria-hidden="true"></i>
+  </a>
+
+  <a href="https://www.instagram.com/hanson.hschang/" 
+    aria-label="Link to my Instagram profile" 
+    target="_blank" 
+    rel="noopener noreferrer"
+  >
+    <i class="bi bi-instagram" aria-hidden="true"></i>
+  </a>
+
+    </nav>
+    <div class="container">
+      <div class="footer__copyright"><p>© All Rights Reserved</p>
+</div>
+      <div class="footer__credits"><p>Powered by <a rel="noopener noreferrer external" target="_blank" href="https://www.getzola.org/">Zola</a>, <a rel="noopener noreferrer external" target="_blank" href="https://getbootstrap.com/">Bootstrap</a>, and <a rel="noopener noreferrer external" target="_blank" href="https://web3forms.com/">Web3Forms</a></p>
+</div>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- Preloader -->
+    
+
+    <!-- Java Scripts -->
+    
+  
+      
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const katexMacros = {"\\Real":"\\mathbb{R}^{#1}","\\SO":"\\textnormal{SO}({#1})","\\angleSpace":"\\mathcal{\\Theta}","\\deltat":"{\\vartriangle\\hspace{-3pt}t}","\\embedding":"C","\\exp":"\\textnormal{ exp}\\left(#1\\right)","\\key":"k","\\maptoliealgebra":"{\\left(#1\\right)_{\\wedge}}","\\observation":"Z","\\observationDim":"\\mathsf{m}","\\position":"p","\\query":"q","\\relativeBias":"b","\\relativeWeight":"w","\\rotatedAngle":"\\theta","\\score":"s","\\smalldeltat":"{\\vartriangle t}","\\state":"x","\\stateDim":"\\mathsf{d}","\\transpose":"\\intercal"};
+    renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\[', right: '\\]', display: true},
+        {left: '\\(', right: '\\)', display: false},
+      ],
+      macros: katexMacros
+    });
+  });
+</script>
+
+      
+    
+  <script src="https://hanson-hschang.github.io/vendor/aos/aos.js"></script>
+  <script src="https://hanson-hschang.github.io/assets/script/home.js"></script>
+  <script src="https://hanson-hschang.github.io/assets/script/share.js" defer></script>
+  <script src="https://hanson-hschang.github.io/assets/script/post.js" defer></script>
+
+     
+  </body>
+
+</html>

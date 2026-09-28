@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+
+    <!-- Meta Info -->
+    <title>
+  
+    
+    How regularization affects the critical points in linear neural networks &middot; Hanson.HSChang
+  
+</title>
+    
+  
+  <meta name="description" content="">
+  <link rel="canonical" href="https://hanson-hschang.github.io/blogs/science/critical-points-in-linear-neural-networks/">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="How regularization affects the critical points in linear neural networks">
+  <meta property="og:description" content="">
+  <meta property="og:url" content="https://hanson-hschang.github.io/blogs/science/critical-points-in-linear-neural-networks/">
+  <meta property="og:site_name" content="Hanson.HSChang">
+  
+    <meta name="twitter:card" content="summary">
+  
+  <meta name="citation_title" content="How regularization affects the critical points in linear neural networks">
+  
+  <meta name="author" content="Heng-Sheng Chang">
+  <meta name="citation_publication_date" content="2018/11/08">
+  
+  
+  
+
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="https://hanson-hschang.github.io/assets/img/favicon.ico" >
+    <link rel="apple-touch-icon" href="https://hanson-hschang.github.io/assets/img/apple-touch-icon.png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400&family=Poppins:wght@400;700&display=swap">
+
+    <!-- Vendor CSS Files -->
+    <link rel="stylesheet" href="https://hanson-hschang.github.io/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://hanson-hschang.github.io/vendor/bootstrap-icons/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://hanson-hschang.github.io/vendor/aos/aos.css">
+    <link rel="stylesheet" href="https://hanson-hschang.github.io/vendor/academicons/css/academicons.min.css"/>
+
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css">
+
+    
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="https://hanson-hschang.github.io/assets/stylesheet/main.css">
+    
+  <link rel="stylesheet" href="https://hanson-hschang.github.io/assets/stylesheet/page-post.css">
+  <link rel="stylesheet" href="https://hanson-hschang.github.io/assets/stylesheet/citations.css">
+
+    
+  </head>
+
+  <body>
+
+    <!-- Header -->
+    
+  <a class="post__skip" href="#post-main">Skip to post</a>
+   
+      <!-- Navigation Menu -->
+
+
+
+  
+  
+    
+  
+
+  
+  
+    
+  
+
+  
+  
+    
+  
+
+
+
+  
+  
+  
+  
+    
+    
+    
+  
+  <header id="header" class="header d-flex justify-content-center">
+    <nav id="navmenu" class="navmenu">
+      <ul>
+        <li><a href="https://hanson-hschang.github.io" aria-label="Link to Home"><i class="bi bi-house"></i><span>Home</span></a></li>
+        
+          
+          
+          
+          <li>
+            <a href="https://hanson-hschang.github.io/about/"  aria-label="Link to About"><i class="bi bi-file-earmark-person" aria-hidden="true"></i><span>About</span></a>
+            
+          </li>
+        
+          
+          
+          
+          <li>
+            <a href="https://hanson-hschang.github.io/resume/"  aria-label="Link to Resume"><i class="bi bi-person-vcard" aria-hidden="true"></i><span>Resume</span></a>
+            
+          </li>
+        
+          
+          
+            
+              
+              
+                
+              
+            
+              
+              
+                
+              
+            
+              
+              
+                
+              
+            
+          
+          
+          <li class="dropdown">
+            <a href="https://hanson-hschang.github.io/blogs/" class="active" aria-label="Link to Blogs"><i class="bi bi-pencil-square" aria-hidden="true"></i><span>Blogs</span><i class="bi bi-chevron-down navmenu__chevron" aria-hidden="true"></i></a>
+            
+              <button class="navmenu__dropdown-toggle" type="button" aria-label="Toggle Blogs sections" aria-expanded="false" aria-controls="nav-subsections-blogs" hidden><i class="bi bi-chevron-down" aria-hidden="true"></i></button>
+              <ul id="nav-subsections-blogs" aria-label="Blogs sections">
+                
+                  
+                  <li><a href="https://hanson-hschang.github.io/blogs/life/">Life</a></li>
+                
+                  
+                  <li><a href="https://hanson-hschang.github.io/blogs/miscellanea/">Miscellanea</a></li>
+                
+                  
+                  <li><a href="https://hanson-hschang.github.io/blogs/science/" class="active" aria-current="location">Science</a></li>
+                
+              </ul>
+            
+          </li>
+        
+        
+          
+            
+              <li><a href="https://hanson-hschang.github.io#contact" aria-label="Link to Contact"><i class="bi bi-chat-text"></i><span>Contact</span></a></li>
+            
+          
+            
+          
+            
+          
+            
+          
+        
+      </ul>
+    </nav>
+  </header>
+
+
+    
+
+
+    <!-- Navigation Menu Toggle -->
+    
+    <i class="nav-toggle d-lg-none bi bi-list"></i>
+    
+
+    <!-- Main -->
+    <main class="main">
+    
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    
+    
+      
+      
+        
+      
+    
+      
+      
+        
+      
+    
+      
+      
+        
+      
+    
+      
+      
+    
+  
+  
+  
+  
+  
+<header class="page-title d-flex align-items-center post-breadcrumbs">
+  <div class="container" data-aos="fade">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <ol>
+        
+        <li><a href="https://hanson-hschang.github.io">Home</a></li>
+        
+          
+          
+            
+            
+          
+            
+            
+            <li><a href="https://hanson-hschang.github.io/blogs/">Blogs</a></li>
+            
+          
+            
+            
+            <li><a href="https://hanson-hschang.github.io/blogs/science/">Science</a></li>
+            
+          
+          <li class="current" aria-current="page">How regularization affects the critical points in linear neural networks</li>
+        
+      </ol>
+    </nav>
+  </div>
+</header>
+
+  <article class="post container" id="post-main" aria-labelledby="post-title" tabindex="-1">
+    <header class="post__hero">
+      <div class="post__heading">
+        
+        <h1 id="post-title">How regularization affects the critical points in linear neural networks</h1>
+        
+        
+        
+
+<ul class="article-tags" aria-label="Tags">
+  
+  <li class="article-tags__item"><a href="https://hanson-hschang.github.io/tags/neural-networks/">Neural Networks</a></li>
+  
+  <li class="article-tags__item"><a href="https://hanson-hschang.github.io/tags/optimality/">Optimality</a></li>
+  
+</ul>
+
+
+        
+      </div>
+      
+      
+<div class="article-meta">
+  <ul class="article-meta__details" aria-label="Article information">
+    
+    <li><time class="date-text article-meta__date" datetime="2018-11-08">November 08, 2018</time></li>
+    
+    <li><i class="bi bi-hourglass-split" aria-hidden="true"></i><span class="article-meta__reading-time">5 min read</span></li>
+  </ul>
+  
+  
+  
+<aside class="share" data-share aria-label="Article sharing">
+  <button class="share__button" data-share-toggle type="button" aria-expanded="false" aria-controls="article-share-menu" hidden>
+    <i class="bi bi-box-arrow-up" aria-hidden="true"></i><span>Share</span>
+  </button>
+  <nav id="article-share-menu" class="share-menu" aria-label="Share this article">
+    
+    <a class="share-menu__item" href="https://hanson-hschang.github.io/blogs/science/critical-points-in-linear-neural-networks/">
+      <i class="bi bi-link-45deg" aria-hidden="true"></i><span>Permalink</span>
+    </a>
+    <a class="share-menu__item" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A//hanson-hschang.github.io/blogs/science/critical-points-in-linear-neural-networks/" target="_blank" rel="noopener noreferrer">
+      <i class="bi bi-linkedin" aria-hidden="true"></i>
+      <span>Share on LinkedIn</span>
+    </a>
+    <a class="share-menu__item" href="https://www.facebook.com/sharer/sharer.php?u=https%3A//hanson-hschang.github.io/blogs/science/critical-points-in-linear-neural-networks/" target="_blank" rel="noopener noreferrer">
+      <i class="bi bi-facebook" aria-hidden="true"></i>
+      <span>Share on Facebook</span>
+    </a>
+    <a class="share-menu__item" href="https://x.com/intent/tweet?url=https%3A//hanson-hschang.github.io/blogs/science/critical-points-in-linear-neural-networks/&text=How%20regularization%20affects%20the%20critical%20points%20in%20linear%20neural%20networks" target="_blank" rel="noopener noreferrer">
+      <i class="bi bi-twitter-x" aria-hidden="true"></i>
+      <span>Share on X</span>
+    </a>
+    <a class="share-menu__item" href="mailto:?subject=How%20regularization%20affects%20the%20critical%20points%20in%20linear%20neural%20networks&body=https%3A//hanson-hschang.github.io/blogs/science/critical-points-in-linear-neural-networks/">
+      <i class="bi bi-envelope-fill" aria-hidden="true"></i>
+      <span>Email</span>
+    </a>
+    <p class="share__status" role="status" aria-live="polite"></p>
+  </nav>
+</aside>
+
+</div>
+
+      
+    </header>
+
+    
+
+    <div class="post__layout">
+      
+      <div class="post__sidebar">
+        <div class="post__sidebar-inner">
+      
+        </div>
+      </div>
+      
+      <div class="post__body">
+        
+
+        <div class="post__prose"><p>Given an input initial random vector $X_0\in\Real{n}$ with $p_X$ distribution and covariance matrix $\Sigma_{X_0}=\expectation{X_0{X_0}^\transpose}$. Assume the input-output model is in the following linear form: $$Z=RX_0+\xi$$ where $\xi\in\Real{n}$ is the noise and $Z\in\Real{n}$ is the output. In addition, the noise $\xi$ is assumed to have $p_\xi$ distribution and be independent to the input $X_0$, i.e. $\expectation{\xi{X_0}^\transpose}=0$. The problem is using i.i.d. input-output samples ${({X_0}^{(k)},Z^{(k)})}_{k=1}^K$ to learn the weights of a linear feed-forward neural network $$\dfrac{\dif X_t}{\dif t}=A_tX_t$$ in order to match the input-output relation $R$. Note that $A_t$ are the network weights, $t$ denotes the input layer with at most depth $T$, and $K$ is the total number of training samples.</p>
+<p>Consider the following regularized form of the optimization problem:
+$$
+\begin{align*}
+\underset{A_t}{\textsf{minimize}}\quad&amp;\text{J}[A_t]=\expectation{\lambda\int_0^T\dfrac{1}{2}\text{tr}({A_t}^\transpose A_t)\ \dif t+\dfrac{1}{2}(X_T-Z)^2}\\
+\textsf{subject to}\quad&amp;\dfrac{\dif X_t}{\dif t}=A_tX_t,\ X_0\textsf{ given}
+\end{align*}
+$$
+where $(\cdot)^2$ denotes the dot product of itself, and $\lambda\geq0$ is a regularization parameter.</p>
+<p>To minimize $A_t$, we consider the Lagrange multiplier $Y_t$, a random process $[0,T]\rightarrow\Real{n}$, s.t.
+$$
+\mathcal{L}(X_t,A_t,Y_t)=\text{J}[A_t]+\expectation{\int_0^T{Y_t}^\transpose\left(\dfrac{\dif X_t}{\dif t}-A_tX_t\right)\ \dif t}
+$$
+then we have the necessary conditions: $\dfrac{\partial\mathcal{L}}{\partial Y_t}=0$ that is
+$$
+\begin{align}
+\expectation{\int_0^T{\delta Y_t}^\transpose\left(\dfrac{\dif X_t}{\dif t}-A_tX_t\right)\ \dif t}=0,\quad\forall\ \delta Y_t
+\end{align}
+$$
+$\dfrac{\partial\mathcal{L}}{\partial X_t}=0$ that is $\expectation{X_T-Z+Y_T}=0$ for $t=T$ and for $t\neq T$
+$$
+\begin{align}
+\expectation{-\displaystyle\int_0^T\left(\dfrac{\dif Y_t}{\dif t}+{A_t}^\transpose Y_t\right)^\transpose \delta X_t\ \dif t},\quad \forall\ \delta X_t
+\end{align}
+$$
+and $\dfrac{\partial\mathcal{L}}{\partial A_t}=0$ that is
+$$
+\begin{align}
+\expectation{\int_0^T(\lambda A_t-Y_t{X_t}^\transpose)\ \dif t}=0
+\end{align}
+$$
+Note that
+$$
+\int_0^T{Y_t}^\transpose\dfrac{\dif X_t}{\dif t}\ \dif t={Y_T}^\transpose X_T-{Y_0}^\transpose X_0-\int_0^T{\dfrac{\dif Y_t}{\dif t}}^\transpose X_t\ \dif t.
+$$
+Therefore, from (1), (2) and (3), we have
+$$
+\begin{align}
+\dfrac{\dif X_t}{\dif t}&amp;=\ \ \ A_tX_t,\quad\textsf{with }X_0\textsf{ given}\\
+\dfrac{\dif Y_t}{\dif t}&amp;=-{A_t}^\transpose Y_t,\quad\textsf{with }Y_T=Z-X_T\\
+A_t&amp;=\dfrac{1}{\lambda}\expectation{Y_t{X_t}^\transpose}\
+\end{align}
+$$</p>
+<p>Next, we would like to solve the 3 differential equation. We start with assuming the solution of equations (4) and (5) in the form of
+$$
+\begin{align}
+X_t&amp;=\phi_{t;0}X_0\\
+Y_t&amp;={\phi_{T;t}}^\transpose Y_T={\phi_{T;t}}^\transpose(Z-X_T)={\phi_{T;t}}^\transpose(RX_0+\xi-\phi_{T;0}X_0)
+\end{align}
+$$
+and also first, take the derivative of both sides of (6) with respect to $t$ and next, substitute the differentiate terms with equations (4) and (5), one obtain
+$$
+\begin{align}
+\dfrac{\dif A_t}{\dif t}=-{A_t}^\transpose A_t+A_t{A_t}^\transpose
+\end{align}
+$$</p>
+<p>Since the differentiation of $A_t$ is a symmetric matrix, we decomposing $A_t$ into the combination of symmetric matrix $S_t$ and skew-symmetric matrix $\bar S_t$:
+$$
+A_t=\dfrac{A_t+{A_t}^\transpose}{2}+\dfrac{A_t-{A_t}^\transpose}{2}=S_t+\bar S_t
+$$
+and guess that the differentiation result of the skew-symmetric matrix $\bar S_t$ should be 0. The derivatives of $S_t$ and $\bar S_t$ are
+$$
+\dfrac{\dif S_t}{\dif t}=\dfrac{\dif}{\dif t}\dfrac{A_t+{A_t}^\transpose}{2}=-{A_t}^\transpose A_t+A_t{A_t}^\transpose
+$$
+$$
+\dfrac{\dif \bar S_t}{\dif t}=\dfrac{\dif}{\dif t}\dfrac{A_t-{A_t}^\transpose}{2}=0\qquad\qquad\qquad\quad
+$$
+which matches our assumption. We can further rewrite $\dfrac{\dif S_t}{\dif t}$ in terms of $S_t$ and $\bar S_t$:
+$$
+\dfrac{\dif S_t}{\dif t}=2(\bar S_tS_t-S_t\bar S_t)=MS_t-S_tM
+$$
+where $M=2\bar S_t=2\bar S_0$ is a constant matrix (i.e. not a matrix function of time $t$). From here, we can have the general solution of $S_t$ as
+$$
+S_t=e^{tM}S_0e^{-tM}
+$$
+and therefore,
+$$
+\begin{align}
+A_t=e^{t(A_0-{A_0}^\transpose)}A_0e^{-t(A_0-{A_0}^\transpose)}
+\end{align}
+$$
+with the derivation as follows
+$$
+\begin{align*}
+A_t&amp;=S_t+\bar S_t\\
+&amp;=e^{2t\bar S_0}S_0e^{-2t\bar S_0}+\bar S_0\\
+&amp;=e^{2t\bar S_0}(S_0+\bar S_0)e^{-2t\bar S_0}\\
+&amp;=e^{t(A_0-{A_0}^\transpose)}A_0e^{-t(A_0-{A_0}^\transpose)}
+\end{align*}
+$$
+Note that the third equality holds since any two functions of the same matrix are commutable. In addition, if we substitute (6) with (7) and (8), and set $t=0$, we will have a constrain on $A_0$:
+$$
+\begin{align}
+\lambda A_0={\phi_{T;0}}^\transpose(R-\phi_{T;0})\Sigma_{X_0}
+\end{align}
+$$</p>
+<p>Finally, to solve $\phi_{t;0}$, first let $\bar X_t=e^{-t(A_0-{A_0}^\transpose)}X_t$, and substitute (4) with $\bar X_t$, $\bar X_0$ and (10), we have
+$$
+\dfrac{d\bar X_t}{dt}={A_0}^\transpose \bar X_t
+$$
+which can be easily solved. Thus, the solution to (4) is
+$$
+\begin{align}
+X_t=e^{t(A_0-{A_0}^\transpose)}\bar X_t=e^{t(A_0-{A_0}^\transpose)}e^{t{A_0}^\transpose}X_0
+\end{align}
+$$
+Similarly, the solution to (5) is
+$$
+\begin{align*}
+Y_t&amp;=e^{t(A_0-{A_0}^\transpose)}e^{-tA_0}Y_0\\
+&amp;=e^{t(A_0-{A_0}^\transpose)}e^{(T-t)A_0}e^{-T(A_0-{A_0}^\transpose)}Y_T\\
+&amp;=e^{t(A_0-{A_0}^\transpose)}e^{(T-t)A_0}e^{-T(A_0-{A_0}^\transpose)}(Z-X_T)
+\end{align*}
+$$
+Note that $\phi_{t;0}$ is also solved by comparing (7) and (12)
+$$
+\phi_{t;0}=e^{t(A_0-{A_0}^\transpose)}e^{t{A_0}^\transpose}
+$$
+Furthermore, the constrain on $A_0$ can be rewritten as
+$$
+\begin{align*}
+\lambda A_0&amp;=\left(e^{TA_0}e^{-T(A_0-{A_0}^\transpose)}\right)\left(R-e^{T(A_0-{A_0}^\transpose)}e^{T{A_0}^\transpose}\right)\Sigma_{X_0}\\
+&amp;=\left(e^{TA_0}e^{-T(A_0-{A_0}^\transpose)}R-e^{TA_0}e^{T{A_0}^\transpose}\right)\Sigma_{X_0}
+\end{align*}
+$$</p>
+<p>Reference: <a rel="noopener noreferrer external" target="_blank" href="https://papers.nips.cc/paper/6844-how-regularization-affects-the-critical-points-in-linear-networks">How regularization affects the critical points in linear networks</a></p>
+</div>
+
+        
+
+        
+
+        
+
+        
+
+        
+
+      </div>
+      
+      <aside class="post__related sidebar" aria-labelledby="post-related-title">
+        <section class="widget">
+          <h2 class="widget__title" id="post-related-title">Related Posts</h2>
+          <ul class="post__related-list">
+            
+            <li><a href="https://hanson-hschang.github.io/blogs/science/transformers-and-state-space-models/">Transformers and State Space Models: A Connection in Sequential Data Modeling</a><time class="date-text" datetime="2026-02-28">February 28, 2026</time></li>
+            
+            <li><a href="https://hanson-hschang.github.io/blogs/science/belief-net/">Belief Net: Bridging Probabilistic Modeling and Deep Learning for Sequential Data</a><time class="date-text" datetime="2026-02-21">February 21, 2026</time></li>
+            
+            <li><a href="https://hanson-hschang.github.io/blogs/science/positional-encoding-in-transformer-language-models/">Positional Encoding in Transformer Language Models</a><time class="date-text" datetime="2026-02-13">February 13, 2026</time></li>
+            
+          </ul>
+        </section>
+      </aside>
+      
+    </div>
+  </article>
+
+    </main>
+
+    <!-- Footer -->
+    <footer id="footer" class="footer position-relative">
+  <div class="container">
+    <p class="footer__sitename">Hanson.HSChang</p>
+    <p class="footer__quote">Everything is theoretically impossible, until it is done. --- Robert A. Heinlein</p>
+    <nav class="footer__social-links d-flex justify-content-center" aria-label="Social links">
+      
+  <a href="https://github.com/hanson-hschang" 
+    aria-label="Link to my GitHub profile" 
+    target="_blank" 
+    rel="noopener noreferrer"
+  >
+    <i class="bi bi-github" aria-hidden="true"></i>
+  </a>
+
+  <a href="https://scholar.google.com/citations?user=S7AWv3oAAAAJ" 
+    aria-label="Link to my Google Scholar profile" 
+    target="_blank" 
+    rel="noopener noreferrer"
+  >
+    <i class="ai ai-google-scholar" aria-hidden="true"></i>
+  </a>
+
+  <a href="https://www.linkedin.com/in/hanson-hschang/" 
+    aria-label="Link to my LinkedIn profile" 
+    target="_blank" 
+    rel="noopener noreferrer"
+  >
+    <i class="bi bi-linkedin" aria-hidden="true"></i>
+  </a>
+
+  <a href="https://www.instagram.com/hanson.hschang/" 
+    aria-label="Link to my Instagram profile" 
+    target="_blank" 
+    rel="noopener noreferrer"
+  >
+    <i class="bi bi-instagram" aria-hidden="true"></i>
+  </a>
+
+    </nav>
+    <div class="container">
+      <div class="footer__copyright"><p>© All Rights Reserved</p>
+</div>
+      <div class="footer__credits"><p>Powered by <a rel="noopener noreferrer external" target="_blank" href="https://www.getzola.org/">Zola</a>, <a rel="noopener noreferrer external" target="_blank" href="https://getbootstrap.com/">Bootstrap</a>, and <a rel="noopener noreferrer external" target="_blank" href="https://web3forms.com/">Web3Forms</a></p>
+</div>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- Preloader -->
+    
+
+    <!-- Java Scripts -->
+    
+  
+      
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const katexMacros = {"\\Real":"\\mathbb{R}^{#1}","\\dif":"\\mathrm{d}","\\expectation":"\\mathsf{E}\\left[#1\\right]","\\transpose":"\\intercal"};
+    renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\[', right: '\\]', display: true},
+        {left: '\\(', right: '\\)', display: false},
+      ],
+      macros: katexMacros
+    });
+  });
+</script>
+
+      
+    
+  <script src="https://hanson-hschang.github.io/vendor/aos/aos.js"></script>
+  <script src="https://hanson-hschang.github.io/assets/script/home.js"></script>
+  <script src="https://hanson-hschang.github.io/assets/script/share.js" defer></script>
+  <script src="https://hanson-hschang.github.io/assets/script/post.js" defer></script>
+
+     
+  </body>
+
+</html>

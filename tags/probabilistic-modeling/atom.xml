@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title>Hanson.HSChang - Probabilistic Modeling</title>
+    <subtitle>This is Hanson&#39;s personal website.</subtitle>
+    <link rel="self" type="application/atom+xml" href="https://hanson-hschang.github.io/tags/probabilistic-modeling/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://hanson-hschang.github.io/"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2026-02-21T00:00:00+00:00</updated>
+    <id>https://hanson-hschang.github.io/tags/probabilistic-modeling/atom.xml</id>
+    <entry xml:lang="en">
+        <title>Belief Net: Bridging Probabilistic Modeling and Deep Learning for Sequential Data</title>
+        <published>2026-02-21T00:00:00+00:00</published>
+        <updated>2026-02-21T00:00:00+00:00</updated>
+        
+        <author>
+          <name>Heng-Sheng Chang</name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://hanson-hschang.github.io/blogs/science/belief-net/"/>
+        <id>https://hanson-hschang.github.io/blogs/science/belief-net/</id>
+        
+        <content type="html" xml:base="https://hanson-hschang.github.io/blogs/science/belief-net/">&lt;p&gt;This &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://arxiv.org/abs/2511.10571&quot;&gt;research&lt;/a&gt;, co-authored with Prof. Prashant G. Mehta and my mentee Reginald Zhiyan Chen at the University of Illinois Urbana-Champaign, addresses a long-standing challenge in sequential data modeling: how do we combine the rock-solid interpretability of Hidden Markov Models (HMMs) with the powerful optimization of modern deep learning?&lt;/p&gt;
+&lt;h2 id=&quot;the-problem-interpretability-vs-optimization&quot;&gt;The Problem: Interpretability vs. Optimization&lt;/h2&gt;
+&lt;p&gt;For decades, researchers have faced a &quot;pick your poison&quot; scenario when modeling sequences:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;The Baum-Welch Method (an Expectation-Maximization algorithm): The classic approach for learning HMMs.
+It’s interpretable, but slow, computationally intensive, and notorious for getting stuck in local optima.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Spectral Algorithms: Extremely fast and provably correct, but they often produce &quot;probabilities&quot; that aren&#39;t actually valid (e.g., negative values) and fail when the hidden state space is larger than the observation space (the &quot;overcomplete&quot; setting).&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Transformers: The current gold standard for prediction. They are incredibly powerful but remain &quot;black boxes&quot;—you can’t easily look under the hood to see the underlying transition or emission logic.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;We asked ourselves: Can we train an HMM like a Transformer?&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;our-solution-belief-net&quot;&gt;Our Solution: Belief Net&lt;/h3&gt;
+&lt;p&gt;The Belief Net is a framework that formulates the HMM&#39;s recursive &quot;forward filter&quot; as a structured neural network.
+Instead of abstract weights, the learnable parameters in Belief Net are explicitly the logits of the initial distribution, transition matrix, and emission matrix.
+This means that every parameter has a clear probabilistic interpretation, and the entire model is fully differentiable and trainable end-to-end using standard deep learning techniques.&lt;/p&gt;
+  &lt;img alt=&quot;Belief Net Architecture&quot; src=&quot;https://hanson-hschang.github.io/processed_images/belief-net.752ce914d672f441.png&quot; /&gt;
+&lt;h2 id=&quot;performance-highlights&quot;&gt;Performance Highlights&lt;/h2&gt;
+&lt;p&gt;We put Belief Net to the test against classical baselines (Baum-Welch and Spectral algorithms) and modern Transformer architectures (nanoGPT) on two tasks:&lt;/p&gt;
+&lt;h3 id=&quot;task-1-synthetic-hmm-data&quot;&gt;Task 1. Synthetic HMM Data&lt;/h3&gt;
+&lt;p&gt;Belief Net consistently outperformed the Baum-Welch algorithm in both convergence speed and accuracy.
+Notably, it succeeded in overcomplete settings where spectral methods completely failed due to rank deficiencies.&lt;/p&gt;
+  &lt;img alt=&quot;Belief Net Training Results on Synthetic HMM Data&quot; src=&quot;https://hanson-hschang.github.io/processed_images/hmm-training.218f50c13a6c127c.png&quot; /&gt;
+&lt;h3 id=&quot;task-2-real-world-text-data&quot;&gt;Task 2. Real-World Text Data&lt;/h3&gt;
+&lt;p&gt;When tested on the Federalist Papers dataset, Belief Net achieved lower perplexity than classical HMM methods.
+While Transformers (unsurprisingly) still lead in raw predictive power, Belief Net provides something they can&#39;t: &lt;strong&gt;Interpretable Logic&lt;/strong&gt;.&lt;/p&gt;
+  &lt;img alt=&quot;Belief Net Training Results on Real-World Text Data&quot; src=&quot;https://hanson-hschang.github.io/processed_images/text-training.5c854c423a9ff451.png&quot; /&gt;
+&lt;p&gt;As shown above, we can actually see what the model learned—identifying specific states responsible for emitting uppercase letters or digits, providing a level of transparency that &quot;black-box&quot; models lack.&lt;/p&gt;
+&lt;h2 id=&quot;looking-ahead&quot;&gt;Looking Ahead&lt;/h2&gt;
+&lt;p&gt;Belief Net is more than just a faster HMM; it’s a bridge between system identification and representation learning.
+We are excited about future extensions into Partially Observable Markov Decision Processes (POMDPs) and integrating these interpretable filters into reinforcement learning and control pipelines.&lt;/p&gt;
+&lt;hr /&gt;
+&lt;p&gt;This work, &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://arxiv.org/abs/2511.10571&quot;&gt;Belief Net: A Filter-Based Framework for Learning Hidden Markov Models from Observations&lt;/a&gt;, has been accepted to the &lt;strong&gt;Learning for Dynamics and Control conference&lt;/strong&gt; (&lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://sites.google.com/usc.edu/l4dc2026/&quot;&gt;L4DC 2026&lt;/a&gt;).&lt;/p&gt;
+</content>
+        
+    </entry>
+</feed>
