@@ -10,7 +10,7 @@ in_search_index = true
 draft = false
 
 [taxonomies]
-tags = ["Large Language Models", "AI Safety", "Deception Detection", "Uncertainty Quantification"]
+tags = ["Language Models", "AI Safety", "Deception Detection", "Uncertainty Quantification"]
 categories = ["Research", "White Paper"]
 
 [extra]
@@ -18,6 +18,7 @@ breadcrumb_title = "Machine Deception Detection"
 
 [extra.post]
 subtitle = "Accuracy and uncertainty in machine deception detection"
+social_image = "img/machine-deception-detection.png"
 thumbnail = "img/polygraph-examination.png"
 thumbnail_alt = "A polygraph analogy connects training on known answers, calibration on honest answers, and detection on unknown answers."
 links = [

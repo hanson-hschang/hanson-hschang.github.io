@@ -7,9 +7,11 @@ A HMM-based learning framework that understand sequential data while ensuring fu
 date = 2026-02-21
 in_search_index = true
 draft = false
+
 [taxonomies]
-tags = ['Transformer', 'Probabilistic Modeling', 'Neural Networks']
-categories = ["Probabilistic modeling"]
+tags = ['Probabilistic Modeling', 'Hidden Markov Models', 'Sequential Data', 'Transformer']
+categories = ["Research", "Paper"]
+
 [extra]
 [extra.post]
 bibtex = '''
@@ -22,6 +24,18 @@ bibtex = '''
  organization={PMLR}
 }
 '''
+
+[extra.post.teaser]
+src = "img/belief-net.png"
+alt = "Belief Net architecture and pseudocode show observations passing through emission, correction, transition, and estimation steps to update beliefs and predict the next observation."
+width = 3262
+height = 1322
+full_size = true
+caption = """
+**Belief Net architecture.**
+A differentiable hidden Markov model filter updates its belief state from observations and predicts what comes next.
+Figure 1 from [Differentiable Filtering for Learning Hidden Markov Models](https://arxiv.org/abs/2511.10571).
+"""
 +++
 
 This [research](https://arxiv.org/abs/2511.10571), co-authored with Prof. Prashant G. Mehta and my mentee Reginald Zhiyan Chen at the University of Illinois Urbana-Champaign, addresses a long-standing challenge in sequential data modeling: how do we combine the rock-solid interpretability of Hidden Markov Models (HMMs) with the powerful optimization of modern deep learning?

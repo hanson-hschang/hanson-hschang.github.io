@@ -9,8 +9,21 @@ in_search_index = true
 draft = false
 [taxonomies]
 tags = ['Transformer', 'State Space Models', 'Sequential Data']
-categories = ["Sequence modeling"]
+categories = ["Research", "Review"]
 [extra]
+
+[extra.post.teaser]
+src = "img/state-space-model.png"
+alt = "A state space model maps an input sequence to its outputs through a lower triangular semiseparable matrix, with low-rank blocks highlighted in blue."
+width = 2980
+height = 1540
+full_size = true
+caption = """
+**State space models as structured matrix multiplication.**
+A semiseparable matrix represents the transformation from an input sequence to its outputs.
+Figure 2 from [Transformers are SSMs](https://arxiv.org/abs/2405.21060).
+"""
+
 [extra.tex.macros]
 '\defined' = '\coloneqq'
 '\transpose' = '\intercal'
