@@ -18,7 +18,11 @@ breadcrumb_title = "Machine Deception Detection"
 
 [extra.post]
 subtitle = "Accuracy and uncertainty in machine deception detection"
-social_image = "img/machine-deception-detection.png"
+social_image = "img/machine-deception-detection.png?v=f182b9d7"
+social_image_width = 586
+social_image_height = 441
+social_image_type = "image/png"
+social_image_alt = "An examiner asks whether a man knew about a merger beforehand while a polygraph displays a high detection score."
 thumbnail = "img/polygraph-examination.png"
 thumbnail_alt = "A polygraph analogy connects training on known answers, calibration on honest answers, and detection on unknown answers."
 links = [
