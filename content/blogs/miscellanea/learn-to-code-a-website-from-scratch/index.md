@@ -1,21 +1,21 @@
 +++
 template = "post.html"
 title = 'Learn to code a website from scratch'
-date = 2022-08-04
-updated = 2023-03-15
-in_search_index = true
-draft = false
-[taxonomies]
-tags = ['website', 'coding']
-categories = ['blogs', 'miscellanea']
-[extra]
-excerpt = """
+description = """
 Before you really start getting into this post, let me phrase it this way. 
 Don't do it. 
 There are actually a lot of alternatives to building a website including Google site, Wix, Weebly, etc., and none of those requires any knowledge of coding. 
 Most importantly, they all have nice and pretty templates for any kind of use you want. 
 So, before you proceed to the following reading, make sure you have checked those web-design platforms and see if you could find the template you like.
 """
+date = 2022-08-04
+updated = 2023-03-15
+in_search_index = true
+draft = false
+[taxonomies]
+tags = ["coding"]
+categories = ["Web development"]
+[extra]
 +++
 
 > Before you really start getting into this post, let me phrase it this way. 

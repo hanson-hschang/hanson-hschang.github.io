@@ -1,16 +1,16 @@
 +++
 template = "post.html"
 title = 'Positional Encoding in Transformer Language Models'
+description = """
+An exploration of the role of positional encodings in transformer language models, including their construction and impact on model performance.
+"""
 date = 2026-02-13
 in_search_index = true
 draft = false
 [taxonomies]
 tags = ['Positional Encoding', 'Transformer', 'Language Models']
-categories = ['blogs', 'science']
+categories = ["Language models"]
 [extra]
-excerpt = """
-An exploration of the role of positional encodings in transformer language models, including their construction and impact on model performance.
-"""
 [extra.tex.macros]
 '\transpose' = '\intercal'
 '\Real' = '\mathbb{R}^{#1}'

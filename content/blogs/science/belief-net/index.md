@@ -1,16 +1,16 @@
 +++
 template = "post.html"
 title = 'Belief Net: Bridging Probabilistic Modeling and Deep Learning for Sequential Data'
+description = """
+A HMM-based learning framework that understand sequential data while ensuring full interpretability and fast convergence.
+"""
 date = 2026-02-21
 in_search_index = true
 draft = false
 [taxonomies]
 tags = ['Transformer', 'Probabilistic Modeling', 'Neural Networks']
-categories = ['blogs', 'science']
+categories = ["Probabilistic modeling"]
 [extra]
-excerpt = """
-A HMM-based learning framework that understand sequential data while ensuring full interpretability and fast convergence.
-"""
 [extra.post]
 bibtex = '''
 @inproceedings{chen2026differentiable,

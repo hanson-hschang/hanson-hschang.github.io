@@ -1,16 +1,16 @@
 +++
 template = "post.html"
 title = "What's cooking Philly?"
+description = """
+If you haven't eaten a cheese steak, you can't say you've been to Philadelphia --- Every friend who knows I'm going to Philadelphia
+"""
 date = 2022-05-31
 is_search_index = true
 draft = false
 [taxonomies]
-tags = ['Philadelphia', 'travel', 'restaurant']
-categories = ['blogs', 'life']
+tags = ['Philadelphia', 'Travel', 'Restaurant']
+categories = ["Food", "Travel"]
 [extra]
-excerpt = """
-If you haven't eaten a cheese steak, you can't say you've been to Philadelphia --- Every friend who knows I'm going to Philadelphia
-"""
 +++
 
 藉著去ICRA2022開會順便在費城到處填飽肚子（滿足味蕾），累積了一些朋友的介紹跟到處探索的結果，整趟旅程下來其實只記得吃喝玩樂的地方，其他講者到底說了什麼我...還是記得一點拉XD

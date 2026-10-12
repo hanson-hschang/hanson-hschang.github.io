@@ -1,17 +1,17 @@
 +++
 template = "post.html"
 title = 'How regularization affects the critical points in linear neural networks'
+description = """
+The existence and optimality properties of the critical points of the linear neural networks with mean-squared loss function in the face of regularization.
+"""
 date = 2018-11-08
 updated = 2019-02-20
 in_search_index = true
 draft = false
 [taxonomies]
 tags = ['Neural Networks', 'Optimality']
-categories = ['blogs', 'science']
+categories = ["Neural network optimization"]
 [extra]
-excerpt = """
-The existence and optimality properties of the critical points of the linear neural networks with mean-squared loss function in the face of regularization.
-"""
 [extra.tex.macros]
 '\transpose' = '\intercal'
 '\Real' = '\mathbb{R}^{#1}'

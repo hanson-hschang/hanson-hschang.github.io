@@ -1,16 +1,16 @@
 +++
 template = "post.html"
 title = 'Transformers and State Space Models: A Connection in Sequential Data Modeling'
+description = """
+A dual perspective on how decoder-only Transformers and State Space Models can be viewed as two sides of the same coin in modeling sequential data, with an implication for efficient algorithm design.
+"""
 date = 2026-02-28
 in_search_index = true
 draft = false
 [taxonomies]
 tags = ['Transformer', 'State Space Models', 'Sequential Data']
-categories = ['blogs', 'science']
+categories = ["Sequence modeling"]
 [extra]
-excerpt = """
-A dual perspective on how decoder-only Transformers and State Space Models can be viewed as two sides of the same coin in modeling sequential data, with an implication for efficient algorithm design.
-"""
 [extra.tex.macros]
 '\defined' = '\coloneqq'
 '\transpose' = '\intercal'
