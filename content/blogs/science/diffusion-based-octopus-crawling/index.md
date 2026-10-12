@@ -37,8 +37,7 @@ bibtex = '''
 [extra.post.teaser]
 src = "img/cyberoctopus-overview.png"
 alt = "CyberOctopus crawls along waypoint directions on a frictional plane; an inactive arm illustrates the motivation for adapting its controls."
-width = 1338
-height = 552
+size = [1338, 552]
 caption = "**CyberOctopus.** The study uses an eight-arm soft-body simulation to learn crawling coordination and investigate adaptation. Figure 1 from [Kim et al. (2026)](https://arxiv.org/abs/2609.21138v1)."
 
 

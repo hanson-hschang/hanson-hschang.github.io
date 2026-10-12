@@ -16,7 +16,6 @@ categories = ["Research", "Paper"]
 subtitle = "Letting the arm's mechanics carry it toward a useful shape"
 thumbnail = "img/grasping.png"
 thumbnail_alt = "A simulated muscular octopus arm twists and wraps around cylinders of different sizes and orientations."
-social_image = "img/energy-landscape.png"
 links = [
   { name = "Read the paper", url = "https://royalsocietypublishing.org/rspa/article/479/2270/20220593/56735/Energy-shaping-control-of-a-muscular-octopus-arm", icon_class = "bi bi-file-earmark-text" },
   { name = "arXiv preprint", url = "https://arxiv.org/abs/2209.04089", icon_class = "bi bi-file-earmark-pdf" },
@@ -37,11 +36,13 @@ bibtex = '''
 }
 '''
 
+[extra.post.social]
+image = "img/energy-landscape.png"
+
 [extra.post.teaser]
 src = "img/energy-landscape.png"
 alt = "Muscle activation changes the potential energy landscape, shifting the arm's equilibrium from a straight configuration to a curved one."
-width = 1600
-height = 641
+size = [1600, 641]
 caption = "**Control through an energy landscape.** Activating the muscles changes which arm shape is an equilibrium. Figure 3 from [Chang et al., arXiv:2209.04089v1](https://arxiv.org/abs/2209.04089v1)."
 
 [extra.tex]

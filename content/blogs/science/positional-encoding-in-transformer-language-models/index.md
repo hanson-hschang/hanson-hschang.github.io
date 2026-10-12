@@ -15,8 +15,7 @@ categories = ["Research", "Review"]
 [extra.post.teaser]
 src = "img/rotary-positional-embeddings.png"
 alt = "A token embedding is split into pairs of dimensions, with each pair rotated by a position-dependent angle at a different frequency."
-width = 1517
-height = 747
+size = [1517, 747]
 full_size = true
 caption = """
 **Encoding position through rotations.** Rotary positional embeddings split query and key vectors into two-dimensional pairs and rotate each pair at its own frequency. Figure 3 from [*Positional Embeddings in Transformer Models: Evolution from Text to Vision Domains*, ICLR Blogposts 2025](https://iclr-blogposts.github.io/2025/blog/positional-embedding/).

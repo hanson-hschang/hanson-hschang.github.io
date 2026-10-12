@@ -15,8 +15,7 @@ categories = ["Research", "Review"]
 [extra.post.teaser]
 src = "img/state-space-model.png"
 alt = "A state space model maps an input sequence to its outputs through a lower triangular semiseparable matrix, with low-rank blocks highlighted in blue."
-width = 2980
-height = 1540
+size = [2980, 1540]
 full_size = true
 caption = """
 **State space models as structured matrix multiplication.**

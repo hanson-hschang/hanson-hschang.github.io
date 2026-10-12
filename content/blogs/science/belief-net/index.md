@@ -28,8 +28,7 @@ bibtex = '''
 [extra.post.teaser]
 src = "img/belief-net.png"
 alt = "Belief Net architecture and pseudocode show observations passing through emission, correction, transition, and estimation steps to update beliefs and predict the next observation."
-width = 3262
-height = 1322
+size = [3262, 1322]
 full_size = true
 caption = """
 **Belief Net architecture.**

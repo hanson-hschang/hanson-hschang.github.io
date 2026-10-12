@@ -37,8 +37,7 @@ bibtex = '''
 [extra.post.teaser]
 src = "img/bending-and-twisting.png"
 alt = "Three rows show bending, twisting, and mixed actuation of a soft arm. Reconstructed frames overlay the camera images, and plots show bending and twisting strains along the arm."
-width = 1600
-height = 839
+size = [1600, 839]
 caption = "**Similar center lines can hide different deformations.** During twisting, the arm remains nearly straight while its cross-sections rotate. Figure 4 from [Kim et al., arXiv:2109.08372v1](https://arxiv.org/abs/2109.08372v1). [Open full-size figure](img/bending-and-twisting.png)."
 
 [extra.tex]

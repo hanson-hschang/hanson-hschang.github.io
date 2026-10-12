@@ -35,8 +35,7 @@ bibtex = '''
 [extra.post.teaser]
 src = "img/attention-and-control.png"
 alt = "A trained nanoGPT attention heatmap and a dual-filter control heatmap both concentrate on informative observations; the right panel compares their weights for query index 54."
-width = 1504
-height = 462
+size = [1504, 462]
 caption = "**Two routes to prediction.** Learned attention weights (left) and optimal control weights (middle) emphasize similar observations in a two-cycle hidden Markov model. Their values differ; the control weights can be negative. Figure 3 from [Kudre, Chang, and Mehta (2026)](https://arxiv.org/abs/2605.15608v1). [Open full-size figure](img/attention-and-control.png)."
 
 [extra.tex]

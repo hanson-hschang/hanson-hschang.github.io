@@ -16,7 +16,6 @@ categories = ["Research", "Paper"]
 subtitle = "Learning the map from sparse measurements to continuous deformation"
 thumbnail = "img/br2-reconstruction.png"
 thumbnail_alt = "A pneumatic soft arm bends and twists, alongside its reconstructed shape and estimated strain profiles."
-social_image = "img/reconstruction-framework.png"
 links = [
   { name = "Read the paper", url = "https://ieeexplore.ieee.org/abstract/document/11128142/", icon_class = "bi bi-file-earmark-text" },
   { name = "arXiv preprint", url = "https://arxiv.org/abs/2409.12443", icon_class = "bi bi-file-earmark-pdf" },
@@ -38,11 +37,13 @@ bibtex = '''
 }
 '''
 
+[extra.post.social]
+image = "img/reconstruction-framework.png"
+
 [extra.post.teaser]
 src = "img/reconstruction-framework.png"
 alt = "Simulated strain trajectories supply a compact basis and synthetic marker measurements. A neural network learns from a mechanics-based loss, then reconstructs a simulated octopus arm and a physical pneumatic arm."
-width = 2040
-height = 822
+size = [2040, 822]
 caption = "**From simulated deformations to fast reconstruction.** A compact strain representation connects the simulator, training data, physics-informed learning, and deployment. Figure 2 from [Wang et al., arXiv:2409.12443v1](https://arxiv.org/abs/2409.12443v1). [Open full-size figure](img/reconstruction-framework.png)."
 
 [extra.tex]

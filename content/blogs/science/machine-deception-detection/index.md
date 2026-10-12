@@ -18,11 +18,6 @@ breadcrumb_title = "Machine Deception Detection"
 
 [extra.post]
 subtitle = "Accuracy and uncertainty in machine deception detection"
-social_image = "img/machine-deception-detection.png?v=f182b9d7"
-social_image_width = 586
-social_image_height = 441
-social_image_type = "image/png"
-social_image_alt = "An examiner asks whether a man knew about a merger beforehand while a polygraph displays a high detection score."
 thumbnail = "img/polygraph-examination.png"
 thumbnail_alt = "A polygraph analogy connects training on known answers, calibration on honest answers, and detection on unknown answers."
 links = [
@@ -40,11 +35,16 @@ bibtex = '''
 }
 '''
 
+[extra.post.social]
+image = "img/machine-deception-detection.png?v=f182b9d7"
+image_size = [586, 441]
+image_type = "image/png"
+image_alt = "An examiner asks whether a man knew about a merger beforehand while a polygraph displays a high detection score."
+
 [extra.post.teaser]
 src = "img/polygraph-examination.png"
 alt = "Three stages compare a human polygraph with a machine detector: learn from labeled honest and deceptive answers, set a threshold using honest answers, and score an unknown answer."
-width = 1800
-height = 446
+size = [1800, 446]
 full_size = true
 caption = """
 **Learn, calibrate, detect.** 

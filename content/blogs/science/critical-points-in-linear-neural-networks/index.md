@@ -17,8 +17,7 @@ categories = ["Review"]
 [extra.post.teaser]
 src = "img/regularization-critical-points.png"
 alt = "Two plots show critical-point branches and their costs as regularization increases. Solid lines denote minima, dashed lines denote saddle points, and the principal branch has the lowest cost among the plotted solutions."
-width = 1655
-height = 621
+size = [1655, 621]
 full_size = true
 caption = "**Regularization changes the critical points.** In a two-dimensional rotation example, solution branches contain local minima and saddle points (left), with different costs (right). Figure 1 from [Taghvaei, Kim, and Mehta (2017)](https://proceedings.neurips.cc/paper_files/paper/2017/file/1abb1e1ea5f481b589da52303b091cbb-Paper.pdf)."
 
