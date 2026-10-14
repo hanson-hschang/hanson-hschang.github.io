@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+
+    <!-- Meta Info -->
+    <title>
+  
+    
+    Reconstructing Soft Arms in Real Time with Neural Networks &middot; Hanson.HSChang
+  
+</title>
+    
+  
+  <meta name="description" content="How a neural network extends mechanics-based soft-arm reconstruction, turning sparse marker poses into smooth posture and strain estimates fast enough for real-time use.">
+  <link rel="canonical" href="https://hanson-hschang.github.io/blogs/science/neural-network-soft-arm-reconstruction/">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Reconstructing Soft Arms in Real Time with Neural Networks">
+  <meta property="og:description" content="How a neural network extends mechanics-based soft-arm reconstruction, turning sparse marker poses into smooth posture and strain estimates fast enough for real-time use.">
+  <meta property="og:url" content="https://hanson-hschang.github.io/blogs/science/neural-network-soft-arm-reconstruction/">
+  <meta property="og:site_name" content="Hanson.HSChang">
+  
+  
+  
+  
+  
+  
+  
+    <meta property="og:image" content="https://hanson-hschang.github.io/blogs/science/neural-network-soft-arm-reconstruction/img/reconstruction-framework.png">
+    
+      
+      
+      
+      
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://hanson-hschang.github.io/blogs/science/neural-network-soft-arm-reconstruction/img/reconstruction-framework.png">
+    
+  
+  <meta name="citation_title" content="Reconstructing Soft Arms in Real Time with Neural Networks">
+  
+  <meta name="author" content="Heng-Sheng Chang">
+  <meta name="citation_publication_date" content="2025/06/01">
+  
+  
+
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="https://hanson-hschang.github.io/assets/img/favicon.ico" >
+    <link rel="apple-touch-icon" href="https://hanson-hschang.github.io/assets/img/apple-touch-icon.png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400&family=Poppins:wght@400;700&display=swap">
+
+    <!-- Vendor CSS Files -->
+    <link rel="stylesheet" href="https://hanson-hschang.github.io/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://hanson-hschang.github.io/vendor/bootstrap-icons/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://hanson-hschang.github.io/vendor/aos/aos.css">
+    <link rel="stylesheet" href="https://hanson-hschang.github.io/vendor/academicons/css/academicons.min.css"/>
+
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css">
+
+    
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="https://hanson-hschang.github.io/assets/stylesheet/main.css">
+    
+  <link rel="stylesheet" href="https://hanson-hschang.github.io/assets/stylesheet/page-post.css">
+  <link rel="stylesheet" href="https://hanson-hschang.github.io/assets/stylesheet/citations.css">
+
+    
+  </head>
+
+  <body>
+
+    <!-- Header -->
+    
+  <a class="post__skip" href="#post-main">Skip to post</a>
+   
+      <!-- Navigation Menu -->
+
+
+
+  
+  
+    
+  
+
+  
+  
+    
+  
+
+  
+  
+    
+  
+
+
+
+  
+  
+  
+  
+    
+    
+    
+  
+  <header id="header" class="header d-flex justify-content-center">
+    <nav id="navmenu" class="navmenu">
+      <ul>
+        <li><a href="https://hanson-hschang.github.io" aria-label="Link to Home"><i class="bi bi-house"></i><span>Home</span></a></li>
+        
+          
+          
+          
+          <li>
+            <a href="https://hanson-hschang.github.io/about/"  aria-label="Link to About"><i class="bi bi-file-earmark-person" aria-hidden="true"></i><span>About</span></a>
+            
+          </li>
+        
+          
+          
+          
+          <li>
+            <a href="https://hanson-hschang.github.io/resume/"  aria-label="Link to Resume"><i class="bi bi-person-vcard" aria-hidden="true"></i><span>Resume</span></a>
+            
+          </li>
+        
+          
+          
+            
+              
+              
+                
+              
+            
+              
+              
+                
+              
+            
+              
+              
+                
+              
+            
+          
+          
+          <li class="dropdown">
+            <a href="https://hanson-hschang.github.io/blogs/" class="active" aria-label="Link to Blogs"><i class="bi bi-pencil-square" aria-hidden="true"></i><span>Blogs</span></a>
+            
+              <button class="navmenu__dropdown-toggle" type="button" aria-label="Toggle Blogs sections" aria-expanded="false" aria-controls="nav-subsections-blogs" hidden></button>
+              <ul id="nav-subsections-blogs" aria-label="Blogs sections">
+                
+                  
+                  <li><a href="https://hanson-hschang.github.io/blogs/life/">Life</a></li>
+                
+                  
+                  <li><a href="https://hanson-hschang.github.io/blogs/miscellanea/">Miscellanea</a></li>
+                
+                  
+                  <li><a href="https://hanson-hschang.github.io/blogs/science/" class="active" aria-current="location">Science</a></li>
+                
+              </ul>
+            
+          </li>
+        
+        
+          
+            
+              <li><a href="https://hanson-hschang.github.io#contact" aria-label="Link to Contact"><i class="bi bi-chat-text"></i><span>Contact</span></a></li>
+            
+          
+            
+          
+            
+          
+            
+          
+        
+      </ul>
+    </nav>
+  </header>
+
+
+    
+
+
+    <!-- Navigation Menu Toggle -->
+    
+    <i class="nav-toggle d-lg-none bi bi-list"></i>
+    
+
+    <!-- Main -->
+    <main class="main">
+    
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+<header class="page-title d-flex align-items-center post-breadcrumbs">
+  <div class="container" data-aos="fade">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <ol>
+        
+        <li><a href="https://hanson-hschang.github.io">Home</a></li>
+        
+          
+          
+            
+            
+          
+            
+            
+            <li><a href="https://hanson-hschang.github.io/blogs/">Blogs</a></li>
+            
+          
+            
+            
+            <li><a href="https://hanson-hschang.github.io/blogs/science/">Science</a></li>
+            
+          
+          <li class="current" aria-current="page">Reconstructing Soft Arms in Real Time with Neural Networks</li>
+        
+      </ol>
+    </nav>
+  </div>
+</header>
+
+  <article class="post container" id="post-main" aria-labelledby="post-title" tabindex="-1">
+    <header class="post__hero">
+      <div class="post__heading">
+        
+        
+        <div class="post__eyebrow">
+          
+  
+  
+  <ul class="taxonomy-labels taxonomy-labels--categories" aria-label="Categories" role="list">
+    
+    <li class="taxonomy-labels__item"><a class="taxonomy-labels__link" href="https://hanson-hschang.github.io/categories/research/">Research</a></li>
+    
+    <li class="taxonomy-labels__item"><a class="taxonomy-labels__link" href="https://hanson-hschang.github.io/categories/paper/">Paper</a></li>
+    
+  </ul>
+  
+
+          
+        </div>
+        
+        <h1 id="post-title">Reconstructing Soft Arms in Real Time with Neural Networks</h1>
+        
+        <p class="post__subtitle">Learning the map from sparse measurements to continuous deformation</p>
+        
+  
+  
+  <ul class="taxonomy-labels taxonomy-labels--tags" aria-label="Tags" role="list">
+    
+    <li class="taxonomy-labels__item"><a class="taxonomy-labels__link" href="https://hanson-hschang.github.io/tags/soft-robotics/">Soft Robotics</a></li>
+    
+    <li class="taxonomy-labels__item"><a class="taxonomy-labels__link" href="https://hanson-hschang.github.io/tags/neural-networks/">Neural Networks</a></li>
+    
+    <li class="taxonomy-labels__item"><a class="taxonomy-labels__link" href="https://hanson-hschang.github.io/tags/cosserat-rods/">Cosserat Rods</a></li>
+    
+    <li class="taxonomy-labels__item"><a class="taxonomy-labels__link" href="https://hanson-hschang.github.io/tags/shape-estimation/">Shape Estimation</a></li>
+    
+  </ul>
+  
+
+        
+      </div>
+      
+      
+<div class="article-meta">
+  <ul class="article-meta__details" aria-label="Article information">
+    
+    <li><time class="date-text article-meta__date" datetime="2025-06-01">June 01, 2025</time></li>
+    
+    <li><i class="bi bi-hourglass-split" aria-hidden="true"></i><span class="article-meta__reading-time">9 min read</span></li>
+  </ul>
+  
+<aside class="share" data-share aria-label="Article sharing">
+  <button class="share__button" data-share-toggle type="button" aria-expanded="false" aria-controls="article-share-menu" hidden>
+    <i class="bi bi-box-arrow-up" aria-hidden="true"></i><span>Share</span>
+  </button>
+  <nav id="article-share-menu" class="share-menu" aria-label="Share this article">
+    <a class="share-menu__item" href="https://hanson-hschang.github.io/blogs/science/neural-network-soft-arm-reconstruction/">
+      <i class="bi bi-link-45deg" aria-hidden="true"></i><span>Permalink</span>
+    </a>
+    <a class="share-menu__item" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A//hanson-hschang.github.io/blogs/science/neural-network-soft-arm-reconstruction/" target="_blank" rel="noopener noreferrer">
+      <i class="bi bi-linkedin" aria-hidden="true"></i>
+      <span>Share on LinkedIn</span>
+    </a>
+    <a class="share-menu__item" href="https://www.facebook.com/sharer/sharer.php?u=https%3A//hanson-hschang.github.io/blogs/science/neural-network-soft-arm-reconstruction/" target="_blank" rel="noopener noreferrer">
+      <i class="bi bi-facebook" aria-hidden="true"></i>
+      <span>Share on Facebook</span>
+    </a>
+    <a class="share-menu__item" href="https://x.com/intent/tweet?url=https%3A//hanson-hschang.github.io/blogs/science/neural-network-soft-arm-reconstruction/&text=Reconstructing%20Soft%20Arms%20in%20Real%20Time%20with%20Neural%20Networks" target="_blank" rel="noopener noreferrer">
+      <i class="bi bi-twitter-x" aria-hidden="true"></i>
+      <span>Share on X</span>
+    </a>
+    <a class="share-menu__item" href="mailto:?subject=Reconstructing%20Soft%20Arms%20in%20Real%20Time%20with%20Neural%20Networks&body=https%3A//hanson-hschang.github.io/blogs/science/neural-network-soft-arm-reconstruction/">
+      <i class="bi bi-envelope-fill" aria-hidden="true"></i>
+      <span>Email</span>
+    </a>
+  </nav>
+</aside>
+
+</div>
+
+      
+  
+  
+  
+    
+    
+      
+    
+  
+    
+    
+      
+    
+  
+    
+    
+      
+    
+  
+    
+    
+      
+    
+  
+  
+  <nav class="post__resources" aria-label="Post resources">
+    
+      
+      
+      
+      <a class="post__button post__button--primary" href="https://ieeexplore.ieee.org/abstract/document/11128142/"><i class="bi bi-file-earmark-text" aria-hidden="true"></i>Read the paper</a>
+      
+    
+      
+      
+      
+      <a class="post__button" href="https://arxiv.org/abs/2409.12443"><i class="bi bi-file-earmark-pdf" aria-hidden="true"></i>arXiv preprint</a>
+      
+    
+      
+      
+      
+      <a class="post__button" href="https://github.com/tixianw/FastRodReconstruction"><i class="bi bi-github" aria-hidden="true"></i>Code</a>
+      
+    
+      
+      
+      
+      <a class="post__button" href="#reconstruction-in-action"><i class="bi bi-play-circle" aria-hidden="true"></i>Watch video</a>
+      
+    
+    
+  </nav>
+  
+
+    </header>
+
+    
+    <div class="post__teaser"><figure class="post__figure"><img src="https://hanson-hschang.github.io/blogs/science/neural-network-soft-arm-reconstruction/img/reconstruction-framework.png" alt="Simulated strain trajectories supply a compact basis and synthetic marker measurements. A neural network learns from a mechanics-based loss, then reconstructs a simulated octopus arm and a physical pneumatic arm." width="2040" height="822" loading="eager" decoding="async"><figcaption><p><strong>From simulated deformations to fast reconstruction.</strong> A compact strain representation connects the simulator, training data, physics-informed learning, and deployment. Figure 2 from <a rel="noopener noreferrer external" target="_blank" href="https://arxiv.org/abs/2409.12443v1">Wang et al., arXiv:2409.12443v1</a>. <a href="https://hanson-hschang.github.io/blogs/science/neural-network-soft-arm-reconstruction/img/reconstruction-framework.png">Open full-size figure</a>.</p>
+</figcaption></figure></div>
+    
+
+    <div class="post__layout">
+      
+      <div class="post__sidebar">
+        <div class="post__sidebar-inner">
+      
+      <aside class="post__contents">
+        <details class="post__outline" data-post-outline>
+          <summary class="post__outline-toggle">
+            <span id="post-outline-title">Outline</span>
+            <i class="bi bi-chevron-down" aria-hidden="true"></i>
+          </summary>
+          <nav aria-labelledby="post-outline-title">
+            <ul>
+              
+              <li data-prose-heading><a href="https://hanson-hschang.github.io/blogs/science/neural-network-soft-arm-reconstruction/#reconstruction-in-action">Reconstruction in action</a></li><li data-prose-heading><a href="https://hanson-hschang.github.io/blogs/science/neural-network-soft-arm-reconstruction/#from-an-optimization-problem-to-a-learned-map">From an optimization problem to a learned map</a></li><li data-prose-heading><a href="https://hanson-hschang.github.io/blogs/science/neural-network-soft-arm-reconstruction/#a-small-set-of-patterns-describes-continuous-strain">A small set of patterns describes continuous strain</a></li><li data-prose-heading><a href="https://hanson-hschang.github.io/blogs/science/neural-network-soft-arm-reconstruction/#training-with-mechanics-and-marker-measurements">Training with mechanics and marker measurements</a></li><li data-prose-heading><a href="https://hanson-hschang.github.io/blogs/science/neural-network-soft-arm-reconstruction/#how-much-faster-is-reconstruction">How much faster is reconstruction?</a></li><li data-prose-heading><a href="https://hanson-hschang.github.io/blogs/science/neural-network-soft-arm-reconstruction/#recovering-six-strain-fields-in-a-simulated-octopus-arm">Recovering six strain fields in a simulated octopus arm</a></li><li data-prose-heading><a href="https://hanson-hschang.github.io/blogs/science/neural-network-soft-arm-reconstruction/#from-simulation-to-a-physical-pneumatic-arm">From simulation to a physical pneumatic arm</a></li><li data-prose-heading><a href="https://hanson-hschang.github.io/blogs/science/neural-network-soft-arm-reconstruction/#what-fast-and-smooth-makes-possible">What “fast and smooth” makes possible</a></li><li data-prose-heading><a href="https://hanson-hschang.github.io/blogs/science/neural-network-soft-arm-reconstruction/#paper-and-attribution">Paper and attribution</a></li>
+              <li data-prose-toc-end hidden></li>
+              
+              
+              
+              <li><a href="#post-citation">Citation</a></li>
+              
+            </ul>
+          </nav>
+        </details>
+      </aside>
+      
+        </div>
+      </div>
+      
+      <div class="post__body">
+        
+
+        <div class="post__prose"><p>A soft robot needs to know its shape while it moves. A few tracked markers can tell us where selected cross-sections are and how they are oriented, but the arm bends, twists, and stretches continuously between those observations. Recovering that continuous deformation is already difficult. Doing it quickly enough to keep up with motion adds another challenge.</p>
+<p>In <a href="https://hanson-hschang.github.io/blogs/science/vision-based-soft-arm-reconstruction/"><strong>Seeing How Soft Arms Deform: From Camera Images to Six Strain Fields</strong></a>, I described our earlier method for combining camera measurements with Cosserat rod mechanics. It reconstructs the arm's posture and strain fields by repeatedly solving an optimization problem. The results reveal deformations that an outline alone cannot show, but the calculation can require thousands of iterations for a single frame.</p>
+<p>Our follow-up paper, <a rel="noopener noreferrer external" target="_blank" href="https://ieeexplore.ieee.org/abstract/document/11128142/"><em>A Neural Network-Based Framework for Fast and Smooth Posture Reconstruction of a Soft Continuum Arm</em></a>, addresses that bottleneck. Tixian Wang and I, together with our collaborators, develop a neural network that learns the mapping from sparse marker poses to a continuous strain representation. Rod mechanics then turns those strains into the reconstructed arm.</p>
+<p>The reported reconstruction benchmark is <strong>more than five orders of magnitude faster</strong> than the earlier forward-backward algorithm, with comparable normalized objective loss. The central idea is to move the repeated computational effort into training, so a new measurement can be processed with a network evaluation and a spatial integration.</p>
+<h2 id="reconstruction-in-action">Reconstruction in action</h2>
+<figure class="post__figure">
+<div class="post__embed">
+  <iframe src="https://www.youtube-nocookie.com/embed/PYUYL4IFpiA" title="Fast and smooth posture reconstruction of a soft continuum arm" loading="lazy" allow="fullscreen; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</div>
+<figcaption><strong>Watch the reconstruction in action.</strong> <a href="https://www.youtube.com/watch?v=PYUYL4IFpiA">Open the video on YouTube</a>.</figcaption>
+</figure>
+<h2 id="from-an-optimization-problem-to-a-learned-map">From an optimization problem to a learned map</h2>
+<p>The earlier approach asks: which smooth deformation best balances mechanical energy, agreement with observations, and the chosen regularization? It integrates the arm's pose from base to tip, propagates a costate backward, and updates the strain description until the optimization converges.</p>
+<p>Each measurement set therefore defines a reconstruction problem. Across many frames, these problems have a common structure: the input is a collection of marker poses, and the output is a set of strain fields. We train a network to approximate that input-output relationship.</p>
+<p>The input is already a <strong>three-dimensional pose estimate</strong>. Each marker contributes its position and two perpendicular unit vectors, or directors, describing its orientation. These supply nine numbers per marker; the remaining director follows from orthonormality. The camera or motion-capture system provides these measurements before the network runs.</p>
+<p>The output is more subtle. A neural network produces a finite vector, while bending, twist, shear, and stretch vary along the entire arm. We need a way to represent those continuous fields with a small number of numbers.</p>
+<h2 id="a-small-set-of-patterns-describes-continuous-strain">A small set of patterns describes continuous strain</h2>
+<p>We begin with simulated motions of the arm and collect the strain profiles that occur along its length. <strong>Principal component analysis (PCA)</strong> identifies a compact set of spatial patterns that captures the main variations in each strain component.</p>
+<p>For strain component $i$, the approximation takes the form</p>
+<div>
+$$
+\hat\varepsilon^i(s)=\bar\varepsilon^i_0(s)
++\sum_{j=1}^{N_b}\alpha^i_j\bar\varepsilon^i_j(s).
+$$
+</div>
+<p>Here, $s$ measures location along the reference length, $\bar\varepsilon^i_0$ is the mean strain profile, and the remaining $\bar\varepsilon^i_j$ are basis functions obtained from the simulated data. The coefficients $\alpha^i_j$ tell us how much of each pattern to use. The network predicts those coefficients.</p>
+<p>For the simulated octopus arm, four components for each of six strain modes give <strong>24 network outputs</strong>. Those 24 values specify strain profiles along the whole arm. This compact representation also limits which deformations the estimator can express: its vocabulary comes from the simulated motions used to construct the basis.</p>
+<p>Once the strains are known, we reconstruct position $\mathbf x(s)$ and orientation $Q(s)$ using the Cosserat rod kinematics:</p>
+<div>
+$$
+\frac{d\mathbf x}{ds}=Q\boldsymbol\nu,
+\qquad
+\frac{dQ}{ds}=Q[\boldsymbol\kappa]_\times.
+$$
+</div>
+<p>The vector $\boldsymbol\kappa$ contains two bending strains and twist; $\boldsymbol\nu$ contains two shear strains and stretch. The matrix $[\boldsymbol\kappa]_\times$ represents taking a cross product with $\boldsymbol\kappa$. With the base pose specified, integrating these equations connects the predicted local deformations into a complete posture.</p>
+<h2 id="training-with-mechanics-and-marker-measurements">Training with mechanics and marker measurements</h2>
+<p>Collecting dense, accurate strain measurements from a physical soft arm would be expensive. Generating thousands of target reconstructions with the previous optimization algorithm would also carry a substantial computational cost.</p>
+<p>Instead, we expand the simulated dataset by sampling strain coefficients from distributions fitted to the PCA results. We integrate the sampled strains into arm postures, extract virtual marker poses at the chosen locations, and add Gaussian noise to represent measurement uncertainty.</p>
+<p>During training, the network receives these noisy poses and predicts strain coefficients. Its reconstruction is scored using</p>
+<div>
+$$
+J(\hat q;\mathcal M)
+=U(\hat q)+\frac{\eta}{2}\Phi(\hat q;\mathcal M).
+$$
+</div>
+<p>Here, $\hat q$ is the reconstructed posture, $\mathcal M$ is the marker measurement set, $U$ is the arm's potential energy, and $\Phi$ penalizes disagreement with measured positions and orientations. The weight $\eta$ controls the balance between the two terms. The rod equations constrain how strain becomes posture, while the energy term supplies a mechanical preference among possible reconstructions.</p>
+<p>This is what the paper calls <strong>unsupervised learning</strong>: the training loss does not require target strain labels. The method still uses a simulator to build its basis and synthetic training inputs, and it depends on a mechanical model. Learning takes place through the energy and observation costs evaluated on each predicted arm.</p>
+<h2 id="how-much-faster-is-reconstruction">How much faster is reconstruction?</h2>
+<p>The networks are small multilayer perceptrons with two hidden layers. The octopus model uses layers of 128 and 64 neurons; the physical-arm model uses 32 and 16. Training and inference were performed on a laptop with an Intel Core i7-12700H processor and 16 GB of memory, without a dedicated GPU.</p>
+<figure class="post__figure"><a href="https://hanson-hschang.github.io/blogs/science/neural-network-soft-arm-reconstruction/img/speed-and-training.png" data-post-lightbox-trigger aria-label="View full-size image: A logarithmic timing plot compares neural reconstruction with the forward-backward algorithm. Adjacent plots show normalized objective loss and training and validation losses for both testbeds."><img src="https://hanson-hschang.github.io/processed_images/speed-and-training.42ec1d1b5c8b7e54.png" alt="A logarithmic timing plot compares neural reconstruction with the forward-backward algorithm. Adjacent plots show normalized objective loss and training and validation losses for both testbeds." width="2040" height="514" loading="lazy" decoding="async"></a><figcaption><p><strong>The repeated solve is the computational bottleneck.</strong> The neural method reduces reconstruction time by over five orders of magnitude in the reported benchmark, with normalized objective loss on a comparable scale. Training curves summarize fifty independent runs. Figure 3 from the <a rel="noopener noreferrer external" target="_blank" href="https://arxiv.org/abs/2409.12443v1">preprint</a>. <a href="https://hanson-hschang.github.io/blogs/science/neural-network-soft-arm-reconstruction/img/speed-and-training.png">Open full-size figure</a>.</p>
+</figcaption></figure>
+<p>Figure 3 compares the learned reconstruction with the previous forward-backward algorithm. Five orders of magnitude corresponds to a factor of 100,000. This comparison measures the reconstruction calculation once marker poses are available; camera acquisition, tracking, communication, and any later control calculation have their own timing costs.</p>
+<p>The accuracy comparison uses the reconstruction objective, normalized by the measurement weight and number of markers. It supports the claim that the speed improvement preserves a comparable level of fit under that objective. The separate demonstrations below show what the resulting shapes and strains look like.</p>
+<h2 id="recovering-six-strain-fields-in-a-simulated-octopus-arm">Recovering six strain fields in a simulated octopus arm</h2>
+<p>The first testbed is a 20 cm tapered muscular arm simulated with COOMM and Elastica. Energy-shaping control drives reaching motions toward 27 targets distributed through a three-dimensional workspace. Eight virtual markers provide the observations.</p>
+<p>The network receives 72 input values and predicts the 24 coefficients representing all six strain modes. In simulation, the underlying strain fields are available, so we can compare the reconstructed profiles with the simulator's ground truth.</p>
+<figure class="post__figure"><a href="https://hanson-hschang.github.io/blogs/science/neural-network-soft-arm-reconstruction/img/octopus-reconstruction.png" data-post-lightbox-trigger aria-label="View full-size image: Twenty-seven reaching targets are colored by average reconstruction error. Three snapshots compare simulated and reconstructed octopus-arm shapes, with plots of all six true and estimated strains."><img src="https://hanson-hschang.github.io/processed_images/octopus-reconstruction.094ee78052ad9a9a.png" alt="Twenty-seven reaching targets are colored by average reconstruction error. Three snapshots compare simulated and reconstructed octopus-arm shapes, with plots of all six true and estimated strains." width="2040" height="879" loading="lazy" decoding="async"></a><figcaption><p><strong>Sparse poses recover a distributed deformation.</strong> The snapshots show the reaching trajectory with the largest time-averaged error among the tested targets. Solid strain curves are estimates; dashed curves come from the simulator. Figure 4 from the <a rel="noopener noreferrer external" target="_blank" href="https://arxiv.org/abs/2409.12443v1">preprint</a>. <a href="https://hanson-hschang.github.io/blogs/science/neural-network-soft-arm-reconstruction/img/octopus-reconstruction.png">Open full-size figure</a>.</p>
+</figcaption></figure>
+<p>For all 27 reaching trajectories, the time-averaged reconstruction error is below the reported <strong>0.2% level</strong>. This percentage has a specific definition: it is the mean marker-pose mismatch, combining squared position differences normalized by arm length squared and squared orientation-matrix differences normalized by eight.</p>
+<p>It therefore measures how well the reconstructed poses agree with the observations. It does not translate directly into a position error in millimeters or a percentage error in every strain field. The strain comparisons provide additional, separate evidence about the deformation recovered between markers.</p>
+<h2 id="from-simulation-to-a-physical-pneumatic-arm">From simulation to a physical pneumatic arm</h2>
+<p>The second testbed is a 30 cm BR² pneumatic manipulator. Its three pressure inputs produce bending and twisting in either direction. Three ring markers carry reflective tags, and a Vicon motion-capture system supplies their poses at <strong>100 Hz</strong>. A complementary filter stabilizes the pose readings before reconstruction.</p>
+<p>The training basis comes from COBRA, a simulator for the BR² arm. For this experiment, the model assumes the arm is inextensible and unshearable, so the learned variables are the three angular strains: two bends and twist. Three PCA components per angular strain give nine network outputs from 27 inputs.</p>
+<figure class="post__figure"><a href="https://hanson-hschang.github.io/blogs/science/neural-network-soft-arm-reconstruction/img/br2-reconstruction.png" data-post-lightbox-trigger aria-label="View full-size image: Camera views, Vicon poses, reconstructed shapes, and angular strain profiles show a BR2 arm bending, combining bending with twist, and twisting. Tip trajectories and pose-mismatch curves compare three repeated motion cycles."><img src="https://hanson-hschang.github.io/processed_images/br2-reconstruction.33f2aa42274a0356.png" alt="Camera views, Vicon poses, reconstructed shapes, and angular strain profiles show a BR2 arm bending, combining bending with twist, and twisting. Tip trajectories and pose-mismatch curves compare three repeated motion cycles." width="2040" height="879" loading="lazy" decoding="async"></a><figcaption><p><strong>A simulation-trained estimator follows a real arm.</strong> The arm bends, adds twist, releases bending, and releases twist over three repeated cycles. The measured tip trajectory and marker frames are compared with the reconstruction. Figure 5 from the <a rel="noopener noreferrer external" target="_blank" href="https://arxiv.org/abs/2409.12443v1">preprint</a>. <a href="https://hanson-hschang.github.io/blogs/science/neural-network-soft-arm-reconstruction/img/br2-reconstruction.png">Open full-size figure</a>.</p>
+</figcaption></figure>
+<p>The experiment reconstructs the arm in real time as it moves through bending, combined bending and twisting, and nearly straight twisting. The repeated trajectories and error curves show consistent behavior across three cycles.</p>
+<p>This demonstrates transfer from simulation-generated training data to a physical manipulator. The hardware evaluation compares against measured marker poses and visually checks the reconstructed shape; it does not provide independent measurements of strain everywhere along the physical arm. The six-mode reconstruction is demonstrated in the octopus simulation, while the BR² experiment uses the more restricted model described above.</p>
+<h2 id="what-fast-and-smooth-makes-possible">What “fast and smooth” makes possible</h2>
+<p>The extension preserves the central aim of the earlier vision-based work: infer continuous deformation from sparse observations while using mechanics to connect the gaps. The learned representation makes that inference fast enough to accompany a live stream of marker measurements.</p>
+<p>“Smooth” refers to variation <strong>along the arm</strong>. The network reconstructs each time frame independently. Its present formulation does not learn temporal dynamics, and the paper leaves dynamic state estimation, more complex motions such as bend propagation, and sensory feedback control as future directions.</p>
+<p>The basis, mechanical parameters, marker arrangement, and simulated workspace still shape what can be reconstructed reliably. New deformation patterns or a different robot can require a new basis and training data. Within the evaluated settings, the result is a practical step toward giving soft robots a continuously updated account of their own posture and deformation.</p>
+<h2 id="paper-and-attribution">Paper and attribution</h2>
+<p>This post is based on <strong>A Neural Network-Based Framework for Fast and Smooth Posture Reconstruction of a Soft Continuum Arm</strong>, by Tixian Wang, Heng-Sheng Chang, Seung Hyun Kim, Jiamiao Guo, Ugur Akcal, Benjamin Walt, Darren Biskup, Udit Halder, Girish Krishnan, Girish Chowdhary, Mattia Gazzola, and Prashant G. Mehta, published in <a rel="noopener noreferrer external" target="_blank" href="https://doi.org/10.1109/ICRA55743.2025.11128142">ICRA 2025, pp. 14015–14022</a>. Tixian Wang and Heng-Sheng Chang contributed equally.</p>
+<p>The method and results described here follow the published paper. Figures 2–5 are reproduced from the <a rel="noopener noreferrer external" target="_blank" href="https://arxiv.org/abs/2409.12443v1">September 19, 2024 arXiv preprint</a>, with explanatory captions supplied here. The figure assets retain the source's <a rel="noopener noreferrer external" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0 license</a>.</p>
+<p>The <a rel="noopener noreferrer external" target="_blank" href="https://github.com/tixianw/FastRodReconstruction">implementation is available on GitHub</a>. For the optimization method that this work extends, see the earlier post, <a href="https://hanson-hschang.github.io/blogs/science/vision-based-soft-arm-reconstruction/"><strong>Seeing How Soft Arms Deform: From Camera Images to Six Strain Fields</strong></a>. The BibTeX below cites the published conference paper.</p>
+</div>
+
+        
+
+        
+
+        
+
+        
+        <section class="post__section post__citation" id="post-citation" aria-labelledby="post-citation-title">
+          <div class="post__section-heading">
+            <h2 id="post-citation-title">Citation</h2>
+            <button class="post__button" type="button" data-copy-citation data-copy-feedback="BibTex Copied!" aria-controls="post-bibtex" hidden><i class="bi bi-copy" aria-hidden="true"></i><span data-copy-label>Copy BibTeX</span></button>
+          </div>
+          <pre tabindex="0" aria-label="BibTeX citation"><code id="post-bibtex">@inproceedings{wang2025reconstruction,
+  title = {A Neural Network-Based Framework for Fast and Smooth Posture Reconstruction of a Soft Continuum Arm},
+  author = {Wang, Tixian and Chang, Heng-Sheng and Kim, Seung Hyun and Guo, Jiamiao and Akcal, Ugur and Walt, Benjamin and Biskup, Darren and Halder, Udit and Krishnan, Girish and Chowdhary, Girish and Gazzola, Mattia and Mehta, Prashant G.},
+  booktitle = {2025 IEEE International Conference on Robotics and Automation (ICRA)},
+  pages = {14015--14022},
+  year = {2025},
+  doi = {10.1109/ICRA55743.2025.11128142},
+  url = {https://doi.org/10.1109/ICRA55743.2025.11128142}
+}</code></pre>
+          <p class="post__copy-status visually-hidden" data-copy-status role="status" aria-live="polite"></p>
+        </section>
+        
+
+        
+
+      </div>
+      
+      <aside class="post__related sidebar" aria-labelledby="post-related-title">
+        <section class="widget">
+          <h2 class="widget__title" id="post-related-title">Related Posts</h2>
+          <ul class="post__related-list">
+            
+            <li><a href="https://hanson-hschang.github.io/blogs/science/vision-based-soft-arm-reconstruction/">Seeing How Soft Arms Deform: From Camera Images to Six Strain Fields</a></li>
+            
+          </ul>
+        </section>
+      </aside>
+      
+    </div>
+    
+<dialog class="post__lightbox" id="post-lightbox" data-post-lightbox aria-labelledby="post-lightbox-title">
+  <header class="post__lightbox-header">
+    <div class="post__lightbox-heading">
+      <span class="post__lightbox-count" data-lightbox-count>Figure</span>
+      <p id="post-lightbox-title" data-lightbox-title>Figure viewer</p>
+    </div>
+    <div class="post__lightbox-actions">
+      <button class="post__button post__lightbox-close" type="button" data-lightbox-close aria-label="Close image viewer" title="Close" autofocus><i class="bi bi-x-lg" aria-hidden="true"></i></button>
+    </div>
+  </header>
+  <div class="post__lightbox-viewport" data-lightbox-viewport role="region" aria-label="Figure image">
+    <img data-lightbox-image alt="">
+    <p class="post__lightbox-status" data-lightbox-status role="status"></p>
+  </div>
+  <footer class="post__lightbox-footer">
+    <p class="post__lightbox-caption" data-lightbox-caption tabindex="0" role="region" aria-label="Figure caption"></p>
+  </footer>
+</dialog>
+
+  </article>
+
+    </main>
+
+    <!-- Footer -->
+    <footer id="footer" class="footer position-relative">
+  <div class="container">
+    <p class="footer__sitename">Hanson.HSChang</p>
+    <p class="footer__quote">Everything is theoretically impossible, until it is done. --- Robert A. Heinlein</p>
+    <nav class="footer__social-links d-flex justify-content-center" aria-label="Social links">
+      
+  <a href="https://github.com/hanson-hschang" 
+    aria-label="Link to my GitHub profile" 
+    target="_blank" 
+    rel="noopener noreferrer"
+  >
+    <i class="bi bi-github" aria-hidden="true"></i>
+  </a>
+
+  <a href="https://scholar.google.com/citations?user=S7AWv3oAAAAJ" 
+    aria-label="Link to my Google Scholar profile" 
+    target="_blank" 
+    rel="noopener noreferrer"
+  >
+    <i class="ai ai-google-scholar" aria-hidden="true"></i>
+  </a>
+
+  <a href="https://www.linkedin.com/in/hanson-hschang/" 
+    aria-label="Link to my LinkedIn profile" 
+    target="_blank" 
+    rel="noopener noreferrer"
+  >
+    <i class="bi bi-linkedin" aria-hidden="true"></i>
+  </a>
+
+  <a href="https://www.instagram.com/hanson.hschang/" 
+    aria-label="Link to my Instagram profile" 
+    target="_blank" 
+    rel="noopener noreferrer"
+  >
+    <i class="bi bi-instagram" aria-hidden="true"></i>
+  </a>
+
+    </nav>
+    <div class="container">
+      <div class="footer__copyright"><p>© All Rights Reserved</p>
+</div>
+      <div class="footer__credits"><p>Powered by <a rel="noopener noreferrer external" target="_blank" href="https://www.getzola.org/">Zola</a>, <a rel="noopener noreferrer external" target="_blank" href="https://getbootstrap.com/">Bootstrap</a>, and <a rel="noopener noreferrer external" target="_blank" href="https://web3forms.com/">Web3Forms</a></p>
+</div>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- Preloader -->
+    
+
+    <!-- Java Scripts -->
+    
+  
+      
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const katexMacros = {};
+    renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\[', right: '\\]', display: true},
+        {left: '\\(', right: '\\)', display: false},
+      ],
+      macros: katexMacros
+    });
+  });
+</script>
+
+      
+    
+  <script src="https://hanson-hschang.github.io/vendor/aos/aos.js"></script>
+  <script src="https://hanson-hschang.github.io/assets/script/home.js"></script>
+  <script src="https://hanson-hschang.github.io/assets/script/share.js" defer></script>
+  <script src="https://hanson-hschang.github.io/assets/script/post.js" defer></script>
+
+     
+  </body>
+
+</html>

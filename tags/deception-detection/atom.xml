@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title>Hanson.HSChang - Deception Detection</title>
+    <subtitle>This is Hanson&#39;s personal website.</subtitle>
+    <link rel="self" type="application/atom+xml" href="https://hanson-hschang.github.io/tags/deception-detection/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://hanson-hschang.github.io/"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2026-10-11T00:00:00+00:00</updated>
+    <id>https://hanson-hschang.github.io/tags/deception-detection/atom.xml</id>
+    <entry xml:lang="en">
+        <title>A Polygraph for Language Models</title>
+        <published>2026-10-11T00:00:00+00:00</published>
+        <updated>2026-10-11T00:00:00+00:00</updated>
+        
+        <author>
+          <name>Heng-Sheng Chang</name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://hanson-hschang.github.io/blogs/science/machine-deception-detection/"/>
+        <id>https://hanson-hschang.github.io/blogs/science/machine-deception-detection/</id>
+        
+        <content type="html" xml:base="https://hanson-hschang.github.io/blogs/science/machine-deception-detection/">&lt;p&gt;Imagine a language model acting as a trading assistant. It uses confidential information to make a trade, then tells its manager that the decision came from ordinary market analysis. The report sounds plausible. Its wording alone may give little reason to suspect that something was concealed.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Could the model&#39;s internal activity provide another clue? And if a detector raises an alarm, how much should we trust that detector&#39;s decision?&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;In this white paper, I propose a &lt;strong&gt;Machine Deception Detector&lt;/strong&gt; that tackles both questions.
+The goal is to catch deceptive responses while keeping false alarms rare, and to reveal when the detector&#39;s own judgment is unstable.&lt;/p&gt;
+&lt;p&gt;This is work in progress.
+The early experiments show why these questions matter; the full detector and its broader evaluation are still ahead.&lt;/p&gt;
+&lt;h2 id=&quot;looking-beyond-the-words&quot;&gt;Looking beyond the words&lt;/h2&gt;
+&lt;p&gt;As a language model processes text, it passes information through many layers.
+The numerical patterns inside those layers offer another source of evidence alongside the words in the answer.
+A small detector (compared to the size of the language model) can learn to read those patterns while the language model itself stays unchanged.&lt;/p&gt;
+&lt;p&gt;The polygraph analogy gives us a useful workflow.
+First, learn from examples labeled honest or deceptive.
+Next, use a separate set of honest answers to decide how strong a signal should be before it triggers an alarm.
+Finally, examine new answers.&lt;/p&gt;
+&lt;p&gt;The analogy has limits.
+An internal signal is a clue to investigate, not proof of a lie.
+Here, deception means concealing information or misreporting what a model is taken to know.
+An ordinary factual mistake does not, by itself, establish deception.&lt;/p&gt;
+&lt;h2 id=&quot;finding-the-useful-features&quot;&gt;Finding the useful features&lt;/h2&gt;
+&lt;p&gt;A detector has to decide where to look.
+Should it read one layer or several?
+Should it consider the whole answer equally, look for a pattern that persists across the answer, or focus on the most suspicious passage?&lt;/p&gt;
+&lt;p&gt;The proposal combines information across layers and lets the detector learn from labels attached to whole responses.
+That matters because an otherwise ordinary answer might contain just one misleading claim.&lt;/p&gt;
+&lt;p&gt;The first experiments also suggest that a detector can rely on a smaller set of signals.
+The figure below compares two ways of training it: &lt;strong&gt;ridge regression&lt;/strong&gt;, which tends to spread weight across many signals, and &lt;strong&gt;lasso regression&lt;/strong&gt;, which encourages a more selective readout.&lt;/p&gt;
+&lt;figure class=&quot;post__figure&quot;&gt;&lt;a href=&quot;https://hanson-hschang.github.io/blogs/science/machine-deception-detection/img/probe-weights.png&quot; data-post-lightbox-trigger aria-label=&quot;View full-size image: Figure 2a, titled Trained Detectors&amp;#39; Weights. Two heatmaps compare detectors that spread weight across many internal signals with detectors that focus on fewer signals. The more selective version has a much sparser pattern.&quot;&gt;&lt;img src=&quot;https://hanson-hschang.github.io/processed_images/probe-weights.6bf5a75ed7b6eaf3.png&quot; alt=&quot;Figure 2a, titled Trained Detectors&amp;#39; Weights. Two heatmaps compare detectors that spread weight across many internal signals with detectors that focus on fewer signals. The more selective version has a much sparser pattern.&quot; width=&quot;512&quot; height=&quot;351&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot;&gt;&lt;/a&gt;&lt;figcaption&gt;&lt;p&gt;&lt;strong&gt;Concentrated Deception Embedding Feature.&lt;/strong&gt; On Qwen3-8B, the lasso detectors concentrate their weights much more than the ridge detectors. Darker marks indicate stronger weights; the middle plot compares their concentration. This supports exploring selective readouts, but does not identify a unique deception circuit.&lt;/p&gt;
+&lt;/figcaption&gt;&lt;/figure&gt;
+&lt;h2 id=&quot;better-scores-need-steadier-judgments&quot;&gt;Better scores need steadier judgments&lt;/h2&gt;
+&lt;p&gt;The early tests involve two situations:
+&lt;strong&gt;Insider Trading&lt;/strong&gt;, where a model conceals its use of an insider tip, and &lt;strong&gt;Convincing Game&lt;/strong&gt;, where it claims a trait it lacks.
+These experiments read one layer at a time and report the best-performing layer for each setup.
+They provide a starting point for the proposed detector that combines layers.&lt;/p&gt;
+&lt;p&gt;The two panels below tell a connected story.
+&lt;strong&gt;How we build a detector affects its performance, and training it again can change the result.&lt;/strong&gt;&lt;/p&gt;
+&lt;figure class=&quot;post__figure&quot;&gt;&lt;a href=&quot;https://hanson-hschang.github.io/blogs/science/machine-deception-detection/img/detector-performance.png&quot; data-post-lightbox-trigger aria-label=&quot;View full-size image: Two related performance plots. The left compares ways to combine information and train a detector. The right shows that repeating training can produce widely different scores, including a Qwen3-4B run near chance.&quot;&gt;&lt;img src=&quot;https://hanson-hschang.github.io/processed_images/detector-performance.591d6a0653097376.png&quot; alt=&quot;Two related performance plots. The left compares ways to combine information and train a detector. The right shows that repeating training can produce widely different scores, including a Qwen3-4B run near chance.&quot; width=&quot;512&quot; height=&quot;336&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot;&gt;&lt;/a&gt;&lt;figcaption&gt;&lt;p&gt;&lt;strong&gt;Design choices and repeatability belong together.&lt;/strong&gt; Left: different regularization and averaging choices change performance on Qwen3-8B. Right: six independent training runs per model size reveal how much results vary. Both panels use AUROC, a measure of how well the detector separates honest and deceptive examples: 0.5 is chance and 1 is perfect separation.&lt;/p&gt;
+&lt;/figcaption&gt;&lt;/figure&gt;
+&lt;p&gt;On the left, most choices work well on Convincing Game, but Insider Trading is harder.
+Focusing on fewer signals helps with some ways of combining evidence and hurts with another.
+A good detector needs these choices to work together.&lt;/p&gt;
+&lt;p&gt;On the right, the same training recipe is repeated with different random starting points.
+For the smallest model shown, one Insider Trading run scores &lt;strong&gt;0.59&lt;/strong&gt;, while another reaches about &lt;strong&gt;0.93&lt;/strong&gt;.
+One promising run can therefore give an incomplete picture of how reliable the method is.&lt;/p&gt;
+&lt;p&gt;These scores measure how well the detector ranks examples. A score of 0.93 does not mean it catches 93% of lies.
+To know how it would behave in use, we also need to decide when to sound the alarm.&lt;/p&gt;
+&lt;h2 id=&quot;an-alarm-should-earn-trust&quot;&gt;An alarm should earn trust&lt;/h2&gt;
+&lt;p&gt;If a detector flags too many honest answers, reviewers will soon be overwhelmed.
+The proposal aims for roughly &lt;strong&gt;one false alarm per 1,000 honest answers&lt;/strong&gt; on traffic like the examples used to set its threshold.
+This is a target for the next experiments, rather than a result established by the pilot plots.&lt;/p&gt;
+&lt;p&gt;That qualification matters.
+A detector calibrated on everyday questions may react differently to an honest discussion of misconduct.
+Testing it on new situations is essential.&lt;/p&gt;
+&lt;p&gt;There is a second check: train several detectors independently and compare their judgments.
+This group is called an &lt;strong&gt;ensemble&lt;/strong&gt;.
+When its members give a response consistently high scores, the alarm is more stable.
+When they disagree, the system treats that disagreement as a reason for caution.&lt;/p&gt;
+&lt;p&gt;Agreement still does not establish truth.
+Several detectors can learn the same shortcut and make the same mistake.
+The research question is whether their disagreement helps identify unreliable alarms on unfamiliar tasks.&lt;/p&gt;
+&lt;h2 id=&quot;what-comes-next&quot;&gt;What comes next?&lt;/h2&gt;
+&lt;p&gt;The planned study will test six Qwen3 model sizes across five kinds of deception.
+It will measure both the deceptive responses caught and the honest responses mistakenly flagged.&lt;/p&gt;
+&lt;p&gt;A central challenge is moving beyond examples that explicitly tell a model to deceive.
+A detector might learn to recognize that instruction instead of deception more generally.
+It needs to work when a model has a reason to hide information without being directly told to lie.&lt;/p&gt;
+&lt;p&gt;Another challenge comes from using stored responses written by other models.
+The Qwen3 model reading a response may not know what its original author knew.
+Generating new examples with each model would help make that comparison clearer.&lt;/p&gt;
+&lt;p&gt;The next step is to establish whether these detectors produce useful, repeatable alarms across those different situations.
+That would give us a stronger basis for deciding when an apparently convincing answer deserves a closer look.&lt;/p&gt;
+</content>
+        
+    </entry>
+</feed>

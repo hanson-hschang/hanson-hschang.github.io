@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+
+    <!-- Meta Info -->
+    <title>
+  
+    
+    From Optimal Control to Transformer-like Inference &middot; Hanson.HSChang
+  
+</title>
+    
+  
+  <meta name="description" content="How filtering-control duality produces transformer-like layers, and what a simple prediction experiment reveals about attention and memory.">
+  <link rel="canonical" href="https://hanson-hschang.github.io/blogs/science/transformer-inference-from-optimal-control/">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="From Optimal Control to Transformer-like Inference">
+  <meta property="og:description" content="How filtering-control duality produces transformer-like layers, and what a simple prediction experiment reveals about attention and memory.">
+  <meta property="og:url" content="https://hanson-hschang.github.io/blogs/science/transformer-inference-from-optimal-control/">
+  <meta property="og:site_name" content="Hanson.HSChang">
+  
+  
+    
+  
+  
+  
+  
+    
+  
+  
+  
+    <meta property="og:image" content="https://hanson-hschang.github.io/blogs/science/transformer-inference-from-optimal-control/img/attention-and-control.png">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://hanson-hschang.github.io/blogs/science/transformer-inference-from-optimal-control/img/attention-and-control.png">
+    
+  
+  <meta name="citation_title" content="From Optimal Control to Transformer-like Inference">
+  
+  <meta name="author" content="Heng-Sheng Chang">
+  <meta name="citation_publication_date" content="2026/05/15">
+  
+  
+
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="https://hanson-hschang.github.io/assets/img/favicon.ico" >
+    <link rel="apple-touch-icon" href="https://hanson-hschang.github.io/assets/img/apple-touch-icon.png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400&family=Poppins:wght@400;700&display=swap">
+
+    <!-- Vendor CSS Files -->
+    <link rel="stylesheet" href="https://hanson-hschang.github.io/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://hanson-hschang.github.io/vendor/bootstrap-icons/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://hanson-hschang.github.io/vendor/aos/aos.css">
+    <link rel="stylesheet" href="https://hanson-hschang.github.io/vendor/academicons/css/academicons.min.css"/>
+
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css">
+
+    
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="https://hanson-hschang.github.io/assets/stylesheet/main.css">
+    
+  <link rel="stylesheet" href="https://hanson-hschang.github.io/assets/stylesheet/page-post.css">
+  <link rel="stylesheet" href="https://hanson-hschang.github.io/assets/stylesheet/citations.css">
+
+    
+  </head>
+
+  <body>
+
+    <!-- Header -->
+    
+  <a class="post__skip" href="#post-main">Skip to post</a>
+   
+      <!-- Navigation Menu -->
+
+
+
+  
+  
+    
+  
+
+  
+  
+    
+  
+
+  
+  
+    
+  
+
+
+
+  
+  
+  
+  
+    
+    
+    
+  
+  <header id="header" class="header d-flex justify-content-center">
+    <nav id="navmenu" class="navmenu">
+      <ul>
+        <li><a href="https://hanson-hschang.github.io" aria-label="Link to Home"><i class="bi bi-house"></i><span>Home</span></a></li>
+        
+          
+          
+          
+          <li>
+            <a href="https://hanson-hschang.github.io/about/"  aria-label="Link to About"><i class="bi bi-file-earmark-person" aria-hidden="true"></i><span>About</span></a>
+            
+          </li>
+        
+          
+          
+          
+          <li>
+            <a href="https://hanson-hschang.github.io/resume/"  aria-label="Link to Resume"><i class="bi bi-person-vcard" aria-hidden="true"></i><span>Resume</span></a>
+            
+          </li>
+        
+          
+          
+            
+              
+              
+                
+              
+            
+              
+              
+                
+              
+            
+              
+              
+                
+              
+            
+          
+          
+          <li class="dropdown">
+            <a href="https://hanson-hschang.github.io/blogs/" class="active" aria-label="Link to Blogs"><i class="bi bi-pencil-square" aria-hidden="true"></i><span>Blogs</span></a>
+            
+              <button class="navmenu__dropdown-toggle" type="button" aria-label="Toggle Blogs sections" aria-expanded="false" aria-controls="nav-subsections-blogs" hidden></button>
+              <ul id="nav-subsections-blogs" aria-label="Blogs sections">
+                
+                  
+                  <li><a href="https://hanson-hschang.github.io/blogs/life/">Life</a></li>
+                
+                  
+                  <li><a href="https://hanson-hschang.github.io/blogs/miscellanea/">Miscellanea</a></li>
+                
+                  
+                  <li><a href="https://hanson-hschang.github.io/blogs/science/" class="active" aria-current="location">Science</a></li>
+                
+              </ul>
+            
+          </li>
+        
+        
+          
+            
+              <li><a href="https://hanson-hschang.github.io#contact" aria-label="Link to Contact"><i class="bi bi-chat-text"></i><span>Contact</span></a></li>
+            
+          
+            
+          
+            
+          
+            
+          
+        
+      </ul>
+    </nav>
+  </header>
+
+
+    
+
+
+    <!-- Navigation Menu Toggle -->
+    
+    <i class="nav-toggle d-lg-none bi bi-list"></i>
+    
+
+    <!-- Main -->
+    <main class="main">
+    
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    
+    
+      
+      
+        
+      
+    
+      
+      
+        
+      
+    
+      
+      
+    
+      
+      
+        
+      
+    
+      
+      
+        
+      
+    
+      
+      
+        
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+  
+  
+  
+  
+  
+
+
+<header class="page-title d-flex align-items-center post-breadcrumbs">
+  <div class="container" data-aos="fade">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <ol>
+        
+        <li><a href="https://hanson-hschang.github.io">Home</a></li>
+        
+          
+          
+            
+            
+          
+            
+            
+            <li><a href="https://hanson-hschang.github.io/blogs/">Blogs</a></li>
+            
+          
+            
+            
+            <li><a href="https://hanson-hschang.github.io/blogs/science/">Science</a></li>
+            
+          
+          <li class="current" aria-current="page">From Optimal Control to Transformer-like Inference</li>
+        
+      </ol>
+    </nav>
+  </div>
+</header>
+
+  <article class="post container" id="post-main" aria-labelledby="post-title" tabindex="-1">
+    <header class="post__hero">
+      <div class="post__heading">
+        
+        
+        <div class="post__eyebrow">
+          
+  
+  
+  <ul class="taxonomy-labels taxonomy-labels--categories" aria-label="Categories" role="list">
+    
+    <li class="taxonomy-labels__item"><a class="taxonomy-labels__link" href="https://hanson-hschang.github.io/categories/research/">Research</a></li>
+    
+    <li class="taxonomy-labels__item"><a class="taxonomy-labels__link" href="https://hanson-hschang.github.io/categories/paper/">Paper</a></li>
+    
+  </ul>
+  
+
+          
+        </div>
+        
+        <h1 id="post-title">From Optimal Control to Transformer-like Inference</h1>
+        
+        <p class="post__subtitle">Deriving layers from the prediction problem</p>
+        
+  
+  
+  <ul class="taxonomy-labels taxonomy-labels--tags" aria-label="Tags" role="list">
+    
+    <li class="taxonomy-labels__item"><a class="taxonomy-labels__link" href="https://hanson-hschang.github.io/tags/transformer/">Transformer</a></li>
+    
+    <li class="taxonomy-labels__item"><a class="taxonomy-labels__link" href="https://hanson-hschang.github.io/tags/optimal-control/">Optimal Control</a></li>
+    
+    <li class="taxonomy-labels__item"><a class="taxonomy-labels__link" href="https://hanson-hschang.github.io/tags/nonlinear-filtering/">Nonlinear Filtering</a></li>
+    
+    <li class="taxonomy-labels__item"><a class="taxonomy-labels__link" href="https://hanson-hschang.github.io/tags/hidden-markov-models/">Hidden Markov Models</a></li>
+    
+  </ul>
+  
+
+        
+      </div>
+      
+      
+<div class="article-meta">
+  <ul class="article-meta__details" aria-label="Article information">
+    
+    <li><time class="date-text article-meta__date" datetime="2026-05-15">May 15, 2026</time></li>
+    
+    <li><i class="bi bi-hourglass-split" aria-hidden="true"></i><span class="article-meta__reading-time">8 min read</span></li>
+  </ul>
+  
+<aside class="share" data-share aria-label="Article sharing">
+  <button class="share__button" data-share-toggle type="button" aria-expanded="false" aria-controls="article-share-menu" hidden>
+    <i class="bi bi-box-arrow-up" aria-hidden="true"></i><span>Share</span>
+  </button>
+  <nav id="article-share-menu" class="share-menu" aria-label="Share this article">
+    <a class="share-menu__item" href="https://hanson-hschang.github.io/blogs/science/transformer-inference-from-optimal-control/">
+      <i class="bi bi-link-45deg" aria-hidden="true"></i><span>Permalink</span>
+    </a>
+    <a class="share-menu__item" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A//hanson-hschang.github.io/blogs/science/transformer-inference-from-optimal-control/" target="_blank" rel="noopener noreferrer">
+      <i class="bi bi-linkedin" aria-hidden="true"></i>
+      <span>Share on LinkedIn</span>
+    </a>
+    <a class="share-menu__item" href="https://www.facebook.com/sharer/sharer.php?u=https%3A//hanson-hschang.github.io/blogs/science/transformer-inference-from-optimal-control/" target="_blank" rel="noopener noreferrer">
+      <i class="bi bi-facebook" aria-hidden="true"></i>
+      <span>Share on Facebook</span>
+    </a>
+    <a class="share-menu__item" href="https://x.com/intent/tweet?url=https%3A//hanson-hschang.github.io/blogs/science/transformer-inference-from-optimal-control/&text=From%20Optimal%20Control%20to%20Transformer-like%20Inference" target="_blank" rel="noopener noreferrer">
+      <i class="bi bi-twitter-x" aria-hidden="true"></i>
+      <span>Share on X</span>
+    </a>
+    <a class="share-menu__item" href="mailto:?subject=From%20Optimal%20Control%20to%20Transformer-like%20Inference&body=https%3A//hanson-hschang.github.io/blogs/science/transformer-inference-from-optimal-control/">
+      <i class="bi bi-envelope-fill" aria-hidden="true"></i>
+      <span>Email</span>
+    </a>
+  </nav>
+</aside>
+
+</div>
+
+      
+  
+  
+  
+    
+    
+      
+    
+  
+    
+    
+      
+        
+        
+      
+    
+  
+  
+  <nav class="post__resources" aria-label="Post resources">
+    
+      
+      
+      
+      <a class="post__button post__button--primary" href="https://arxiv.org/abs/2605.15608"><i class="bi bi-file-earmark-text" aria-hidden="true"></i>Read the paper</a>
+      
+    
+      
+      
+      
+      <span class="post__resource" data-copy-resource>
+        <a class="post__button" href="#post-citation" data-copy-citation-fallback><i class="bi bi-quote" aria-hidden="true"></i>Cite</a>
+        <button class="post__button" type="button" data-copy-citation data-copy-feedback="BibTex Copied!" aria-controls="post-bibtex" hidden><i class="bi bi-quote" aria-hidden="true"></i><span data-copy-label>Cite</span></button>
+      </span>
+      
+    
+    <p class="visually-hidden" data-copy-status role="status" aria-live="polite"></p>
+  </nav>
+  
+
+    </header>
+
+    
+    <div class="post__teaser"><figure class="post__figure"><img src="https://hanson-hschang.github.io/blogs/science/transformer-inference-from-optimal-control/img/attention-and-control.png" alt="A trained nanoGPT attention heatmap and a dual-filter control heatmap both concentrate on informative observations; the right panel compares their weights for query index 54." width="1504" height="462" loading="eager" decoding="async"><figcaption><p><strong>Two routes to prediction.</strong> Learned attention weights (left) and optimal control weights (middle) emphasize similar observations in a two-cycle hidden Markov model. Their values differ; the control weights can be negative. Figure 3 from <a rel="noopener noreferrer external" target="_blank" href="https://arxiv.org/abs/2605.15608v1">Kudre, Chang, and Mehta (2026)</a>. <a href="https://hanson-hschang.github.io/blogs/science/transformer-inference-from-optimal-control/img/attention-and-control.png">Open full-size figure</a>.</p>
+</figcaption></figure></div>
+    
+
+    <div class="post__layout">
+      
+      <div class="post__sidebar">
+        <div class="post__sidebar-inner">
+      
+      <aside class="post__contents">
+        <details class="post__outline" data-post-outline>
+          <summary class="post__outline-toggle">
+            <span id="post-outline-title">Outline</span>
+            <i class="bi bi-chevron-down" aria-hidden="true"></i>
+          </summary>
+          <nav aria-labelledby="post-outline-title">
+            <ul>
+              
+              <li data-prose-heading><a href="https://hanson-hschang.github.io/blogs/science/transformer-inference-from-optimal-control/#prediction-as-hidden-state-inference">Prediction as hidden-state inference</a></li><li data-prose-heading><a href="https://hanson-hschang.github.io/blogs/science/transformer-inference-from-optimal-control/#the-weights-become-the-controls">The weights become the controls</a></li><li data-prose-heading><a href="https://hanson-hschang.github.io/blogs/science/transformer-inference-from-optimal-control/#how-a-layer-emerges">How a layer emerges</a></li><li data-prose-heading><a href="https://hanson-hschang.github.io/blogs/science/transformer-inference-from-optimal-control/#a-small-experiment-with-an-exact-benchmark">A small experiment with an exact benchmark</a></li><li data-prose-heading><a href="https://hanson-hschang.github.io/blogs/science/transformer-inference-from-optimal-control/#what-happens-when-the-representation-is-too-small">What happens when the representation is too small?</a></li><li data-prose-heading><a href="https://hanson-hschang.github.io/blogs/science/transformer-inference-from-optimal-control/#weight-patterns-are-only-part-of-the-story">Weight patterns are only part of the story</a></li><li data-prose-heading><a href="https://hanson-hschang.github.io/blogs/science/transformer-inference-from-optimal-control/#where-this-leads">Where this leads</a></li><li data-prose-heading><a href="https://hanson-hschang.github.io/blogs/science/transformer-inference-from-optimal-control/#paper-and-attribution">Paper and attribution</a></li>
+              <li data-prose-toc-end hidden></li>
+              
+              
+              
+              <li><a href="#post-citation">Citation</a></li>
+              
+            </ul>
+          </nav>
+        </details>
+      </aside>
+      
+        </div>
+      </div>
+      
+      <div class="post__body">
+        
+
+        <div class="post__prose"><p>A decoder-only transformer predicts the next token by repeatedly updating a sequence of vectors. At each layer, a position can use information from itself and earlier positions. This gives the model a way to revisit earlier observations as it builds a prediction.</p>
+<p>Can this familiar layer structure emerge from the mathematics of prediction itself?</p>
+<p>In our preprint, <a rel="noopener noreferrer external" target="_blank" href="https://arxiv.org/abs/2605.15608"><em>Transformer-like Inference from Optimal Control</em></a>, Aditya Kudre, Prashant G. Mehta, and I approach that question through <strong>filtering-control duality</strong>. We begin with a probabilistic model of how observations are generated. Minimizing prediction error then becomes an optimal control problem, whose solution defines an inference algorithm called the <strong>dual filter</strong>.</p>
+<p>The resulting algorithm updates a whole sequence of vectors, much like a transformer layer. A controlled experiment also exposes an important difference: when the representation is too small for the assumed hidden-state model, a trained transformer can still make nearly optimal predictions by using the observation history.</p>
+<h2 id="prediction-as-hidden-state-inference">Prediction as hidden-state inference</h2>
+<p>Imagine observing a sequence of symbols produced by a system whose internal state is hidden. To predict the next symbol, we first estimate what that internal state could be.</p>
+<p>For a discrete state space with $d$ possible states, the estimate is a probability vector:</p>
+<div>
+$$
+\pi_T(x)=\mathbb{P}(X_T=x\mid Z_{1:T}).
+$$
+</div>
+<p>Here, $X_T$ is the hidden state and $Z_{1:T}$ is the observed sequence. If $C(x,z)$ is the probability that state $x$ emits token $z$, the next-token distribution follows from</p>
+<div>
+$$
+\mathbb{P}(Z_{T+1}=z\mid Z_{1:T})
+=\sum_{x=1}^{d}\pi_T(x)C(x,z).
+$$
+</div>
+<p>This is a probabilistic analogue of decoding an internal representation into token probabilities. Each coordinate of $\pi_T$ has a concrete meaning: the probability assigned to one hidden state.</p>
+<p>The paper studies two settings. A <strong>linear Gaussian model</strong> provides a tractable case in which the target is a conditional mean. A <strong>discrete-state model</strong> brings us closer to token prediction, where the target is a conditional probability distribution. Both lead to a control formulation.</p>
+<h2 id="the-weights-become-the-controls">The weights become the controls</h2>
+<p>The key step is to represent a prediction as a weighted combination of observations. In the nonlinear setting, for a function $f$ of the hidden state, the paper establishes a representation of the form</p>
+<div>
+$$
+\pi_T(f)=c_f-\sum_{t=1}^{T}U_{t-1}^{\mathsf T}e(Z_t).
+$$
+</div>
+<p>The left-hand side is the conditional expectation of $f(X_T)$. Choosing $f$ to indicate a particular state gives that state's posterior probability. On the right, $c_f$ is a deterministic constant, $e$ encodes tokens, and the weights $U_{t-1}$ can depend on the observations preceding $Z_t$. For binary observations, the encoding is simply $e(1)=1$ and $e(0)=-1$.</p>
+<p>Although the expression looks like a linear sum, <strong>its weights depend on the data</strong>, allowing it to represent a nonlinear predictor. Their dependence on past observations also imposes a causal information constraint.</p>
+<p>The next step is to choose those weights. For a hidden Markov model (HMM), the duality principle constructs an auxiliary control system and a cost that equals the estimator's mean squared error:</p>
+<div>
+$$
+J_T(U;f)=\mathbb{E}\!\left[\bigl(f(X_T)-S_T\bigr)^2\right].
+$$
+</div>
+<p>Here, $S_T$ is the estimator associated with the chosen controls. Solving the control problem therefore produces the minimum mean squared error estimate, $\pi_T(f)$. The controls determine how observations contribute to inference; they do not physically steer the system generating the tokens.</p>
+<p>There is a useful distinction between the two results. The nonlinear weighted representation applies beyond HMMs, but the paper's explicit nonlinear control formula is derived for the <strong>Markovian hidden-state case</strong>. The linear Gaussian analysis also handles hidden dynamics with longer memory.</p>
+<h2 id="how-a-layer-emerges">How a layer emerges</h2>
+<p>For the HMM, the optimal control law depends on the hidden-state probabilities we are trying to compute. Combining that law with the predictor produces a <strong>fixed-point equation</strong>: the correct probability sequence reproduces itself under the update.</p>
+<p>This suggests a layer operation. Start with approximate probability vectors at all $T$ positions, use them to compute controls through the dual equations, and produce a new sequence:</p>
+<div>
+$$
+[\rho_1,\ldots,\rho_T]
+\longmapsto
+[\rho_1^+,\ldots,\rho_T^+].
+$$
+</div>
+<p>Both input and output have shape $d\times T$. Repeating the operation gives a layered inference architecture. The linear Gaussian case has a similar construction using a sequence of auxiliary vectors called momenta, with updates supplied by the optimality equations.</p>
+<p>This is the sense in which the architecture is <strong>transformer-like</strong>: causal sequence-to-sequence updates arise from the inference objective. The derivation does not identify the controls with standard softmax attention, recover every component of a transformer block, or establish a general guarantee that a chosen finite number of iterations reaches the fixed point.</p>
+<p>For hidden dynamics with long memory, the linear formulation also offers a computational motivation. It works with a $d\times T$ sequence, whereas a Kalman formulation that explicitly augments the state with the full history must maintain growing covariance matrices. The paper's complexity comparison concerns that history-dependent setting; the number of iterations needed to solve the dual equations remains relevant to practical runtime.</p>
+<h2 id="a-small-experiment-with-an-exact-benchmark">A small experiment with an exact benchmark</h2>
+<p>To compare control and attention, we use a process that concatenates independently chosen binary patterns. With the paper's main settings, the long pattern has two ones followed by fourteen zeros; the short pattern has one one followed by four zeros. Each new cycle is chosen with equal probability.</p>
+<figure class="post__figure"><a href="https://hanson-hschang.github.io/blogs/science/transformer-inference-from-optimal-control/img/two-cycle-model.png" data-post-lightbox-trigger aria-label="View full-size image: A sixteen-state hidden Markov model branches between long and short cycles; a sample binary sequence shows ones separated by runs of zeros."><img src="https://hanson-hschang.github.io/processed_images/two-cycle-model.b45ae44333083be7.png" alt="A sixteen-state hidden Markov model branches between long and short cycles; a sample binary sequence shows ones separated by runs of zeros." width="1504" height="287" loading="lazy" decoding="async"></a><figcaption><p><strong>Two cycles, one prediction task.</strong> The hidden state tracks progress around the cycles. The locations of the ones help identify that progress. Figure 2 from the paper, with long-cycle length $d=16$ and short-cycle length $q+1=5$. <a href="https://hanson-hschang.github.io/blogs/science/transformer-inference-from-optimal-control/img/two-cycle-model.png">Open full-size figure</a>.</p>
+</figcaption></figure>
+<p>Because the generating HMM is known, its exact filter provides an optimal next-token prediction benchmark. We train a nanoGPT with <strong>one layer and one attention head</strong>, using sequences of length $T=64$ and initially an embedding dimension of $16$.</p>
+<p>The figure at the top of this post compares its attention weights with dual-filter controls computed from the <strong>true HMM parameters</strong>. Both emphasize sparse, informative time indices associated with observed ones. The transformer learns this pattern from data, without receiving the HMM parameters.</p>
+<p>The resemblance is qualitative. Attention weights are nonnegative and normalized, while the control weights may have either sign. Similar places to look do not imply identical numerical weights or identical computations.</p>
+<h2 id="what-happens-when-the-representation-is-too-small">What happens when the representation is too small?</h2>
+<p>The next experiment holds the true hidden-state dimension at $d=16$ and varies the candidate dimension $\hat d$. For every candidate dimension, the HMM parameters are estimated from data using Baum-Welch; nanoGPT is trained on the same dataset. This differs from the preceding comparison, which used known HMM parameters.</p>
+<figure class="post__figure"><a href="https://hanson-hschang.github.io/blogs/science/transformer-inference-from-optimal-control/img/dimension-and-prediction.png" data-post-lightbox-trigger aria-label="View full-size image: Next-token cross-entropy approaches the exact-filter benchmark for nanoGPT at embedding dimension eight, while the fitted HMM dual filter degrades below sixteen states. Heatmaps compare dimensions eight, sixteen, and thirty-two."><img src="https://hanson-hschang.github.io/processed_images/dimension-and-prediction.4afc28d2052f63e9.png" alt="Next-token cross-entropy approaches the exact-filter benchmark for nanoGPT at embedding dimension eight, while the fitted HMM dual filter degrades below sixteen states. Heatmaps compare dimensions eight, sixteen, and thirty-two." width="1512" height="1216" loading="lazy" decoding="async"></a><figcaption><p><strong>Prediction under a dimension constraint.</strong> Lower cross-entropy is better. At $\hat d=8$, nanoGPT stays close to the optimal HMM-filter benchmark while the smaller fitted HMM loses accuracy. The lower panels compare control and attention patterns. Figure 4 from the paper. <a href="https://hanson-hschang.github.io/blogs/science/transformer-inference-from-optimal-control/img/dimension-and-prediction.png">Open full-size figure</a>.</p>
+</figcaption></figure>
+<p>When $\hat d\geq16$, both methods achieve near-optimal performance. At $\hat d=8$, the fitted Markovian model loses predictive accuracy, while nanoGPT remains near the benchmark.</p>
+<p>We call this a <strong>non-Markovian advantage</strong>. The smaller HMM must summarize history within an insufficient hidden-state model. Attention can revisit observations across the context, giving the transformer another way to use temporal information.</p>
+<p>The underlying data generator is still an HMM. The advantage concerns the restricted representation used for prediction: a smaller embedding dimension does not force a transformer to behave like an HMM with that many states. Nor does matching these dimensions make the two models equal in parameter count or total memory. The experiment identifies a useful gap between these architectures under the tested conditions.</p>
+<h2 id="weight-patterns-are-only-part-of-the-story">Weight patterns are only part of the story</h2>
+<p>The appendix tests how the comparison changes when the transition or emission probabilities are perturbed. Each perturbation setting uses a separately trained transformer.</p>
+<p>Perturbing transitions changes the optimal controls from a mainly vertical, event-focused pattern to a sparse diagonal pattern that aggregates evidence across past cycles. The transformer's attention remains largely vertical, yet its prediction loss stays near optimal. Perturbing emissions has a smaller effect on the pattern, with weights becoming more diffuse as the perturbation grows.</p>
+<p>This makes the interpretation more precise: <strong>similar predictive performance can coexist with different weight structures</strong>. The experiments do not establish that attention sparsity causes the advantage seen at smaller dimensions.</p>
+<h2 id="where-this-leads">Where this leads</h2>
+<p>Filtering-control duality gives a principled route from a prediction objective to a layered inference algorithm. It also gives us interpretable quantities to compare with learned attention: observation weights tied to an explicit probabilistic model and an error criterion.</p>
+<p>The present evidence comes from synthetic sequence tasks. Extending the nonlinear control synthesis to hidden dynamics with longer memory, developing a learning framework for the model or the controls, and understanding convergence and computational cost remain important next steps. The undercomplete experiment gives the first of these a concrete target: capture the history dependence that the transformer can exploit.</p>
+<p>This connects with the site's earlier posts on <a href="https://hanson-hschang.github.io/blogs/science/belief-net/">Belief Net</a> and <a href="https://hanson-hschang.github.io/blogs/science/transformers-and-state-space-models/">transformers and state space models</a>. Here, the organizing connection is between <strong>optimal estimation and optimal control</strong>: a way to derive an inference architecture from the problem it is meant to solve.</p>
+<h2 id="paper-and-attribution">Paper and attribution</h2>
+<p>This post is based on <strong>Transformer-like Inference from Optimal Control</strong>, by Aditya Kudre, Heng-Sheng Chang, and Prashant G. Mehta, University of Illinois Urbana-Champaign. The source reviewed here is <a rel="noopener noreferrer external" target="_blank" href="https://arxiv.org/abs/2605.15608v1">arXiv:2605.15608v1</a>, submitted May 15, 2026.</p>
+<p>Figures 2, 3, and 4 are reproduced as crops from that version. The perturbation study is in Appendix C.2 and Figure 6. The BibTeX citation below refers to the source paper.</p>
+</div>
+
+        
+
+        
+
+        
+
+        
+        <section class="post__section post__citation" id="post-citation" aria-labelledby="post-citation-title">
+          <div class="post__section-heading">
+            <h2 id="post-citation-title">Citation</h2>
+            <button class="post__button" type="button" data-copy-citation data-copy-feedback="BibTex Copied!" aria-controls="post-bibtex" hidden><i class="bi bi-copy" aria-hidden="true"></i><span data-copy-label>Copy BibTeX</span></button>
+          </div>
+          <pre tabindex="0" aria-label="BibTeX citation"><code id="post-bibtex">@article{kudre2026transformerlike,
+  title = {Transformer-like Inference from Optimal Control},
+  author = {Kudre, Aditya and Chang, Heng-Sheng and Mehta, Prashant G.},
+  year = {2026},
+  eprint = {2605.15608},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.LG},
+  url = {https://arxiv.org/abs/2605.15608}
+}</code></pre>
+          <p class="post__copy-status visually-hidden" data-copy-status role="status" aria-live="polite"></p>
+        </section>
+        
+
+        
+
+      </div>
+      
+      <aside class="post__related sidebar" aria-labelledby="post-related-title">
+        <section class="widget">
+          <h2 class="widget__title" id="post-related-title">Related Posts</h2>
+          <ul class="post__related-list">
+            
+            <li><a href="https://hanson-hschang.github.io/blogs/science/machine-deception-detection/">A Polygraph for Language Models</a><time class="date-text" datetime="2026-10-11">October 11, 2026</time></li>
+            
+            <li><a href="https://hanson-hschang.github.io/blogs/science/diffusion-based-octopus-crawling/">Learning Many Ways to Crawl: Diffusion Models for an Adaptable CyberOctopus</a><time class="date-text" datetime="2026-10-02">October 02, 2026</time></li>
+            
+            <li><a href="https://hanson-hschang.github.io/blogs/science/transformers-and-state-space-models/">Transformers and State Space Models: A Connection in Sequential Data Modeling</a><time class="date-text" datetime="2026-02-28">February 28, 2026</time></li>
+            
+            <li><a href="https://hanson-hschang.github.io/blogs/science/belief-net/">Belief Net: Bridging Probabilistic Modeling and Deep Learning for Sequential Data</a><time class="date-text" datetime="2026-02-21">February 21, 2026</time></li>
+            
+            <li><a href="https://hanson-hschang.github.io/blogs/science/positional-encoding-in-transformer-language-models/">Positional Encoding in Transformer Language Models</a><time class="date-text" datetime="2026-02-13">February 13, 2026</time></li>
+            
+          </ul>
+        </section>
+      </aside>
+      
+    </div>
+    
+<dialog class="post__lightbox" id="post-lightbox" data-post-lightbox aria-labelledby="post-lightbox-title">
+  <header class="post__lightbox-header">
+    <div class="post__lightbox-heading">
+      <span class="post__lightbox-count" data-lightbox-count>Figure</span>
+      <p id="post-lightbox-title" data-lightbox-title>Figure viewer</p>
+    </div>
+    <div class="post__lightbox-actions">
+      <button class="post__button post__lightbox-close" type="button" data-lightbox-close aria-label="Close image viewer" title="Close" autofocus><i class="bi bi-x-lg" aria-hidden="true"></i></button>
+    </div>
+  </header>
+  <div class="post__lightbox-viewport" data-lightbox-viewport role="region" aria-label="Figure image">
+    <img data-lightbox-image alt="">
+    <p class="post__lightbox-status" data-lightbox-status role="status"></p>
+  </div>
+  <footer class="post__lightbox-footer">
+    <p class="post__lightbox-caption" data-lightbox-caption tabindex="0" role="region" aria-label="Figure caption"></p>
+  </footer>
+</dialog>
+
+  </article>
+
+    </main>
+
+    <!-- Footer -->
+    <footer id="footer" class="footer position-relative">
+  <div class="container">
+    <p class="footer__sitename">Hanson.HSChang</p>
+    <p class="footer__quote">Everything is theoretically impossible, until it is done. --- Robert A. Heinlein</p>
+    <nav class="footer__social-links d-flex justify-content-center" aria-label="Social links">
+      
+  <a href="https://github.com/hanson-hschang" 
+    aria-label="Link to my GitHub profile" 
+    target="_blank" 
+    rel="noopener noreferrer"
+  >
+    <i class="bi bi-github" aria-hidden="true"></i>
+  </a>
+
+  <a href="https://scholar.google.com/citations?user=S7AWv3oAAAAJ" 
+    aria-label="Link to my Google Scholar profile" 
+    target="_blank" 
+    rel="noopener noreferrer"
+  >
+    <i class="ai ai-google-scholar" aria-hidden="true"></i>
+  </a>
+
+  <a href="https://www.linkedin.com/in/hanson-hschang/" 
+    aria-label="Link to my LinkedIn profile" 
+    target="_blank" 
+    rel="noopener noreferrer"
+  >
+    <i class="bi bi-linkedin" aria-hidden="true"></i>
+  </a>
+
+  <a href="https://www.instagram.com/hanson.hschang/" 
+    aria-label="Link to my Instagram profile" 
+    target="_blank" 
+    rel="noopener noreferrer"
+  >
+    <i class="bi bi-instagram" aria-hidden="true"></i>
+  </a>
+
+    </nav>
+    <div class="container">
+      <div class="footer__copyright"><p>© All Rights Reserved</p>
+</div>
+      <div class="footer__credits"><p>Powered by <a rel="noopener noreferrer external" target="_blank" href="https://www.getzola.org/">Zola</a>, <a rel="noopener noreferrer external" target="_blank" href="https://getbootstrap.com/">Bootstrap</a>, and <a rel="noopener noreferrer external" target="_blank" href="https://web3forms.com/">Web3Forms</a></p>
+</div>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- Preloader -->
+    
+
+    <!-- Java Scripts -->
+    
+  
+      
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const katexMacros = {};
+    renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\[', right: '\\]', display: true},
+        {left: '\\(', right: '\\)', display: false},
+      ],
+      macros: katexMacros
+    });
+  });
+</script>
+
+      
+    
+  <script src="https://hanson-hschang.github.io/vendor/aos/aos.js"></script>
+  <script src="https://hanson-hschang.github.io/assets/script/home.js"></script>
+  <script src="https://hanson-hschang.github.io/assets/script/share.js" defer></script>
+  <script src="https://hanson-hschang.github.io/assets/script/post.js" defer></script>
+
+     
+  </body>
+
+</html>

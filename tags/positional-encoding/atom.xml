@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title>Hanson.HSChang - Positional Encoding</title>
+    <subtitle>This is Hanson&#39;s personal website.</subtitle>
+    <link rel="self" type="application/atom+xml" href="https://hanson-hschang.github.io/tags/positional-encoding/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://hanson-hschang.github.io/"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2026-02-13T00:00:00+00:00</updated>
+    <id>https://hanson-hschang.github.io/tags/positional-encoding/atom.xml</id>
+    <entry xml:lang="en">
+        <title>Positional Encoding in Transformer Language Models</title>
+        <published>2026-02-13T00:00:00+00:00</published>
+        <updated>2026-02-13T00:00:00+00:00</updated>
+        
+        <author>
+          <name>Heng-Sheng Chang</name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://hanson-hschang.github.io/blogs/science/positional-encoding-in-transformer-language-models/"/>
+        <id>https://hanson-hschang.github.io/blogs/science/positional-encoding-in-transformer-language-models/</id>
+        
+        <content type="html" xml:base="https://hanson-hschang.github.io/blogs/science/positional-encoding-in-transformer-language-models/">&lt;p&gt;Transformer-based language models have fundamentally reshaped natural language processing. These models achieve remarkable performance across a wide range of language tasks, and a key reason for this success is the &lt;em&gt;self-attention mechanism&lt;/em&gt;, which allows models to capture long-range dependencies without relying on recurrence or convolution. However, this architecture introduces a subtle but critical challenge:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Self-attention is inherently permutation invariant: it treats the input as a set of tokens rather than an ordered sequence.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Without additional structure, the model cannot distinguish between sentences that contain the same tokens but in different orders. For example: &lt;span class=&quot;math display&quot;&gt;\[
+\textit{the dog chased the cat} \quad \text{vs.} \quad \textit{the cat chased the dog}
+\]&lt;/span&gt; Although both sentences contain identical words, their meanings differ dramatically because of word order. A pure attention mechanism, by itself, has no way to recognize this difference.&lt;/p&gt;
+&lt;p&gt;To address this issue, Transformer models incorporate &lt;strong&gt;positional encoding&lt;/strong&gt;—additional vectors that encode the position of each token in the sequence. These encodings provide the model with information about token order, allowing attention mechanisms to reason about sequence structure.&lt;/p&gt;
+&lt;p&gt;Over time, positional encoding methods have evolved alongside the rapid growth of language models and their need to process longer contexts. In this post, we examine three broad categories of positional encoding approaches that have shaped modern language models. We also briefly discuss techniques for extending context length beyond the limits seen during training, before concluding with some final thoughts on the importance and performance of positional encoding in transformer architectures.&lt;/p&gt;
+&lt;h2 id=&quot;variants-of-positional-encoding&quot;&gt;Variants of Positional Encoding&lt;/h2&gt;
+&lt;p&gt;Since the introduction of the original Transformer, several positional encoding strategies have been proposed to improve model expressiveness, generalization, and scalability.&lt;/p&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;&lt;strong&gt;Absolute Positional Embeddings&lt;/strong&gt; – the original approach where each token position receives a dedicated positional vector.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Attention with Relative Positional Representations&lt;/strong&gt; – a method that models relative distances between tokens directly within the attention mechanism.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Rotary Positional Transformations&lt;/strong&gt; – a geometric approach that encodes positions through rotations applied to query and key vectors.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;While these methods differ in their implementation, they all share the same fundamental goal: to provide the model with information about token order so that it can capture the sequential structure of language.&lt;/p&gt;
+&lt;h3 id=&quot;absolute-positional-embeddings&quot;&gt;1. Absolute Positional Embeddings&lt;/h3&gt;
+&lt;p&gt;The original Transformer architecture introduces positional information by &lt;strong&gt;adding a position-dependent vector&lt;/strong&gt; to each token embedding in &lt;span class=&quot;math inline&quot;&gt;\(\Real{\stateDim}\)&lt;/span&gt;, where &lt;span class=&quot;math inline&quot;&gt;\(\stateDim\)&lt;/span&gt; is the model embedding dimension. Formally,&lt;/p&gt;
+&lt;p&gt;&lt;span class=&quot;math display&quot;&gt;\[
+\state_t = \embedding(:, \observation_t) + \position_t
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;where &lt;span class=&quot;math inline&quot;&gt;\(\embedding\in\Real{\stateDim\times \observationDim}\)&lt;/span&gt; is the token embedding matrix, &lt;span class=&quot;math inline&quot;&gt;\(\observation_t\in\\{1,2,\ldots,\observationDim\\}\)&lt;/span&gt; denotes the token index at position &lt;span class=&quot;math inline&quot;&gt;\(t\)&lt;/span&gt; with &lt;span class=&quot;math inline&quot;&gt;\(\observationDim\)&lt;/span&gt; denoting the total number of tokens in the tokenizer, &lt;span class=&quot;math inline&quot;&gt;\(\embedding(:,\observation_t)\in\Real{\stateDim}\)&lt;/span&gt; is the corresponding token embedding, and &lt;span class=&quot;math inline&quot;&gt;\(\position_t\in\Real{\stateDim}\)&lt;/span&gt; is the positional embedding for position &lt;span class=&quot;math inline&quot;&gt;\(t\)&lt;/span&gt;. The resulting representation &lt;span class=&quot;math inline&quot;&gt;\(\state_t\in\Real{\stateDim}\)&lt;/span&gt; is then passed to the attention mechanism for the key, query, and value computations.&lt;/p&gt;
+&lt;p&gt;The positional vectors &lt;span class=&quot;math inline&quot;&gt;\(\position_t\)&lt;/span&gt; may either be &lt;strong&gt;learned parameters&lt;/strong&gt; or defined using &lt;strong&gt;fixed sinusoidal functions&lt;/strong&gt;. In either case, the positional encoding is added directly to the token representation before attention is applied.&lt;/p&gt;
+&lt;p&gt;While this method is simple and effective, it has an important limitation. Because the model learns positional vectors only for positions observed during training, it may struggle to generalize to longer sequences than those seen in the training data. This limitation motivated the development of more flexible approaches.&lt;/p&gt;
+&lt;h3 id=&quot;attention-with-relative-positional-representations&quot;&gt;2. Attention with Relative Positional Representations&lt;/h3&gt;
+&lt;p&gt;Relative positional encoding addresses the limitations of absolute embeddings by focusing on &lt;strong&gt;relative distances between tokens&lt;/strong&gt;, rather than their absolute positions in the sequence. Instead of modifying the input embeddings, this approach incorporates positional information directly into the attention computation. The attention score &lt;span class=&quot;math inline&quot;&gt;\(\score_{t,\tau}\in\Real{}\)&lt;/span&gt; between positions &lt;span class=&quot;math inline&quot;&gt;\(t\)&lt;/span&gt; and &lt;span class=&quot;math inline&quot;&gt;\(\tau\)&lt;/span&gt; (with &lt;span class=&quot;math inline&quot;&gt;\(\tau\leq t\)&lt;/span&gt;) is defined as&lt;/p&gt;
+&lt;p&gt;&lt;span class=&quot;math display&quot;&gt;\[
+\score_{t,\tau} =
+\query_t\cdot(\key_\tau+\relativeWeight_{t-\tau})
++
+\relativeBias_{t-\tau}
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;where &lt;span class=&quot;math inline&quot;&gt;\(\cdot\)&lt;/span&gt; denotes the dot product, &lt;span class=&quot;math inline&quot;&gt;\(\query_t,\key_\tau\in\Real{\stateDim}\)&lt;/span&gt; are the query and key vectors, &lt;span class=&quot;math inline&quot;&gt;\(\relativeWeight_{\smalldeltat}\in\Real{\stateDim}\)&lt;/span&gt; is a relative positional weight vector, and &lt;span class=&quot;math inline&quot;&gt;\(\relativeBias_{\smalldeltat}\in\Real{}\)&lt;/span&gt; is a scalar bias that also depends on the relative distance &lt;span class=&quot;math inline&quot;&gt;\(\deltat\)&lt;/span&gt;. Both positional terms depend only on the distance &lt;span class=&quot;math inline&quot;&gt;\(\deltat = t-\tau\)&lt;/span&gt;, rather than the individual positions &lt;span class=&quot;math inline&quot;&gt;\(t\)&lt;/span&gt; and &lt;span class=&quot;math inline&quot;&gt;\(\tau\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;This formulation allows the model to learn how interactions between tokens vary with their relative separation. Because relative distances remain meaningful even for longer sequences, this method tends to generalize better to varying input lengths.&lt;/p&gt;
+&lt;!-- Relative positional encodings are widely used in transformer variants such as **Transformer-XL, T5, and DeBERTa**. --&gt;
+&lt;h3 id=&quot;rotary-positional-transformations&quot;&gt;3. Rotary Positional Transformations&lt;/h3&gt;
+&lt;p&gt;Rotary Positional Transformations introduce a different perspective: rather than adding positional information to embeddings or attention scores, they encode position through &lt;strong&gt;geometric transformations applied to query and key vectors&lt;/strong&gt;. Specifically, the query and key vectors are rotated according to their positions:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&quot;math display&quot;&gt;\[
+\query_t&amp;#39; = \exp{\maptoliealgebra{\rotatedAngle_t}}\query_t,
+\quad
+\key_\tau&amp;#39; = \exp{\maptoliealgebra{\rotatedAngle_\tau}}\key_\tau
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;where &lt;span class=&quot;math inline&quot;&gt;\(\rotatedAngle_t\in\angleSpace=[-\pi,\pi)^{\stateDim/2}\)&lt;/span&gt; is a position-dependent vector of rotation angles, and &lt;span class=&quot;math inline&quot;&gt;\(\exp{\maptoliealgebra{\cdot}}:\angleSpace\to(\SO{2})^{\stateDim/2}\subset\Real{\stateDim\times\stateDim}\)&lt;/span&gt; converts these angles into a block-diagonal rotation matrix.&lt;/p&gt;
+&lt;p&gt;The attention score is then computed using the rotated vectors:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&quot;math display&quot;&gt;\[
+\score_{t,\tau} = \query_t&amp;#39; \cdot \key_\tau&amp;#39; = \query_t \cdot \exp{\maptoliealgebra{\rotatedAngle_t-\rotatedAngle_\tau}} \key_\tau
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Through these rotations, positional information is encoded in the relative phase differences &lt;span class=&quot;math inline&quot;&gt;\(\rotatedAngle_t-\rotatedAngle_\tau\)&lt;/span&gt; between token representations. The rotation angles are typically determined by a fixed frequency schedule, allowing the encoding to extend naturally to arbitrary sequence lengths.&lt;/p&gt;
+&lt;!-- This property makes RoPE particularly attractive for large language models, and it is used in architectures such as **LLaMA, Mistral, and Qwen**. --&gt;
+&lt;h2 id=&quot;extending-context-length&quot;&gt;Extending Context Length&lt;/h2&gt;
+&lt;p&gt;As language models scale, the ability to handle longer contexts becomes increasingly important. Training directly on extremely long sequences, however, is computationally costly. To address this challenge, researchers have developed techniques that extend a model’s effective context length beyond the range seen during training. These approaches are especially compatible with relative positional encoding methods, which represent positional information through relative distances between tokens rather than absolute positions.&lt;/p&gt;
+&lt;p&gt;One practical technique is &lt;strong&gt;position extrapolation via interpolation&lt;/strong&gt;. Suppose a model is trained with context length &lt;span class=&quot;math inline&quot;&gt;\(T\)&lt;/span&gt; but needs to process sequences of length &lt;span class=&quot;math inline&quot;&gt;\(T&amp;#39; &amp;gt; T\)&lt;/span&gt;. For relative positional representations, we can simply interpolate the positional vectors to fit the new context length. &lt;span class=&quot;math display&quot;&gt;\[
+\relativeWeight_{t-\tau}&amp;#39; =
+\relativeWeight_{(t-\tau)\frac{T}{T&amp;#39;}},
+\quad
+\relativeBias_{t-\tau}&amp;#39; =
+\relativeBias_{(t-\tau)\frac{T}{T&amp;#39;}}
+\]&lt;/span&gt; and the attention score becomes &lt;span class=&quot;math display&quot;&gt;\[
+\score_{t,\tau} =
+\query_t\cdot(\key_\tau+\relativeWeight_{t-\tau}&amp;#39;)
++
+\relativeBias_{t-\tau}&amp;#39;
+\]&lt;/span&gt; The rotation angles in rotary positional transformations can be similarly interpolated to extend the effective context length without retraining the model: &lt;span class=&quot;math display&quot;&gt;\[
+\score_{t,\tau} = \query_t \cdot \exp{\maptoliealgebra{\rotatedAngle_t&amp;#39;-\rotatedAngle_\tau&amp;#39;}} \key_\tau
+\]&lt;/span&gt; where &lt;span class=&quot;math inline&quot;&gt;\(\rotatedAngle_{t}&amp;#39;= \rotatedAngle_{t\frac{T}{T&amp;#39;}}\)&lt;/span&gt; for any position &lt;span class=&quot;math inline&quot;&gt;\(t\)&lt;/span&gt; in the extended context. This compresses positions into the range observed during training while preserving the learned positional structure, enabling models to operate effectively on longer sequences.&lt;/p&gt;
+&lt;p&gt;However, interpolation-based extrapolation introduces an important trade-off. By compressing positions into the range observed during training, the method effectively &lt;strong&gt;reduces the resolution of positional information&lt;/strong&gt;. Tokens that are far apart in a long sequence may appear artificially closer after interpolation, which can blur the positional distinctions that the model learned during training. As a result, while interpolation often works well for moderate extensions of the context window, model performance may gradually degrade as the context length grows much larger than the training limit. In practice, these techniques typically remain effective within a limited multiple of the original training context, after which long-range reasoning and attention patterns may become less reliable.&lt;/p&gt;
+&lt;h2 id=&quot;final-thoughts&quot;&gt;Final Thoughts&lt;/h2&gt;
+&lt;p&gt;Positional encoding is a fundamental component of transformer-based language models. Without it, the self-attention mechanism cannot capture the sequential structure of language.&lt;/p&gt;
+&lt;p&gt;Over time, positional encoding techniques have evolved from simple additive embeddings to more sophisticated methods that modify the attention mechanism itself. Absolute embeddings provided the initial solution, relative representations improved generalization across sequence lengths, and rotary embeddings introduced a geometric formulation that is particularly effective for large language models.&lt;/p&gt;
+&lt;p&gt;As models increasingly need to process longer documents and conversations, techniques for extending context length have become an important complement to positional encoding design. Methods such as interpolation allow models to operate beyond their original training context, although they introduce trade-offs in positional resolution that may affect performance at very long ranges.&lt;/p&gt;
+&lt;p&gt;As language models continue to scale and are expected to reason over increasingly long documents, innovations in positional encoding and context extension techniques will remain central to enabling models to understand and generate coherent text over extended contexts.&lt;/p&gt;
+&lt;hr /&gt;
+&lt;p&gt;This post is mainly based on an ICLR blog post in 2025: &lt;a href=&quot;https://iclr-blogposts.github.io/2025/blog/positional-embedding/&quot;&gt;Positional Embeddings in Transformer Models: Evolution from Text to Vision Domains&lt;/a&gt; and a survey paper from Computational Linguistics in 2022: &lt;a href=&quot;https://direct.mit.edu/coli/article/48/3/733/111478/Position-Information-in-Transformers-An-Overview&quot;&gt;Position information in transformers: An overview&lt;/a&gt;.&lt;/p&gt;
+</content>
+        
+    </entry>
+</feed>

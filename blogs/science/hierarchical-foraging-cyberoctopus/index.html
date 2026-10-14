@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+
+    <!-- Meta Info -->
+    <title>
+  
+    
+    Learning to Forage: Hierarchical Control of a CyberOctopus &middot; Hanson.HSChang
+  
+</title>
+    
+  
+  <meta name="description" content="How reinforcement learning, fast energy shaping, and local contact reflexes work together to coordinate a simulated octopus searching for food.">
+  <link rel="canonical" href="https://hanson-hschang.github.io/blogs/science/hierarchical-foraging-cyberoctopus/">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Learning to Forage: Hierarchical Control of a CyberOctopus">
+  <meta property="og:description" content="How reinforcement learning, fast energy shaping, and local contact reflexes work together to coordinate a simulated octopus searching for food.">
+  <meta property="og:url" content="https://hanson-hschang.github.io/blogs/science/hierarchical-foraging-cyberoctopus/">
+  <meta property="og:site_name" content="Hanson.HSChang">
+  
+  
+    
+  
+  
+  
+  
+    
+  
+  
+  
+    <meta property="og:image" content="https://hanson-hschang.github.io/blogs/science/hierarchical-foraging-cyberoctopus/img/control-hierarchy.png">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://hanson-hschang.github.io/blogs/science/hierarchical-foraging-cyberoctopus/img/control-hierarchy.png">
+    
+  
+  <meta name="citation_title" content="Learning to Forage: Hierarchical Control of a CyberOctopus">
+  
+  <meta name="author" content="Heng-Sheng Chang">
+  <meta name="citation_publication_date" content="2023/06/22">
+  
+  
+
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="https://hanson-hschang.github.io/assets/img/favicon.ico" >
+    <link rel="apple-touch-icon" href="https://hanson-hschang.github.io/assets/img/apple-touch-icon.png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400&family=Poppins:wght@400;700&display=swap">
+
+    <!-- Vendor CSS Files -->
+    <link rel="stylesheet" href="https://hanson-hschang.github.io/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://hanson-hschang.github.io/vendor/bootstrap-icons/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://hanson-hschang.github.io/vendor/aos/aos.css">
+    <link rel="stylesheet" href="https://hanson-hschang.github.io/vendor/academicons/css/academicons.min.css"/>
+
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css">
+
+    
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="https://hanson-hschang.github.io/assets/stylesheet/main.css">
+    
+  <link rel="stylesheet" href="https://hanson-hschang.github.io/assets/stylesheet/page-post.css">
+  <link rel="stylesheet" href="https://hanson-hschang.github.io/assets/stylesheet/citations.css">
+
+    
+  </head>
+
+  <body>
+
+    <!-- Header -->
+    
+  <a class="post__skip" href="#post-main">Skip to post</a>
+   
+      <!-- Navigation Menu -->
+
+
+
+  
+  
+    
+  
+
+  
+  
+    
+  
+
+  
+  
+    
+  
+
+
+
+  
+  
+  
+  
+    
+    
+    
+  
+  <header id="header" class="header d-flex justify-content-center">
+    <nav id="navmenu" class="navmenu">
+      <ul>
+        <li><a href="https://hanson-hschang.github.io" aria-label="Link to Home"><i class="bi bi-house"></i><span>Home</span></a></li>
+        
+          
+          
+          
+          <li>
+            <a href="https://hanson-hschang.github.io/about/"  aria-label="Link to About"><i class="bi bi-file-earmark-person" aria-hidden="true"></i><span>About</span></a>
+            
+          </li>
+        
+          
+          
+          
+          <li>
+            <a href="https://hanson-hschang.github.io/resume/"  aria-label="Link to Resume"><i class="bi bi-person-vcard" aria-hidden="true"></i><span>Resume</span></a>
+            
+          </li>
+        
+          
+          
+            
+              
+              
+                
+              
+            
+              
+              
+                
+              
+            
+              
+              
+                
+              
+            
+          
+          
+          <li class="dropdown">
+            <a href="https://hanson-hschang.github.io/blogs/" class="active" aria-label="Link to Blogs"><i class="bi bi-pencil-square" aria-hidden="true"></i><span>Blogs</span></a>
+            
+              <button class="navmenu__dropdown-toggle" type="button" aria-label="Toggle Blogs sections" aria-expanded="false" aria-controls="nav-subsections-blogs" hidden></button>
+              <ul id="nav-subsections-blogs" aria-label="Blogs sections">
+                
+                  
+                  <li><a href="https://hanson-hschang.github.io/blogs/life/">Life</a></li>
+                
+                  
+                  <li><a href="https://hanson-hschang.github.io/blogs/miscellanea/">Miscellanea</a></li>
+                
+                  
+                  <li><a href="https://hanson-hschang.github.io/blogs/science/" class="active" aria-current="location">Science</a></li>
+                
+              </ul>
+            
+          </li>
+        
+        
+          
+            
+              <li><a href="https://hanson-hschang.github.io#contact" aria-label="Link to Contact"><i class="bi bi-chat-text"></i><span>Contact</span></a></li>
+            
+          
+            
+          
+            
+          
+            
+          
+        
+      </ul>
+    </nav>
+  </header>
+
+
+    
+
+
+    <!-- Navigation Menu Toggle -->
+    
+    <i class="nav-toggle d-lg-none bi bi-list"></i>
+    
+
+    <!-- Main -->
+    <main class="main">
+    
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    
+    
+      
+      
+        
+      
+    
+      
+      
+        
+      
+    
+      
+      
+        
+      
+    
+      
+      
+        
+      
+    
+      
+      
+        
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+  
+  
+  
+  
+  
+
+
+<header class="page-title d-flex align-items-center post-breadcrumbs">
+  <div class="container" data-aos="fade">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <ol>
+        
+        <li><a href="https://hanson-hschang.github.io">Home</a></li>
+        
+          
+          
+            
+            
+          
+            
+            
+            <li><a href="https://hanson-hschang.github.io/blogs/">Blogs</a></li>
+            
+          
+            
+            
+            <li><a href="https://hanson-hschang.github.io/blogs/science/">Science</a></li>
+            
+          
+          <li class="current" aria-current="page">Learning to Forage: Hierarchical Control of a CyberOctopus</li>
+        
+      </ol>
+    </nav>
+  </div>
+</header>
+
+  <article class="post container" id="post-main" aria-labelledby="post-title" tabindex="-1">
+    <header class="post__hero">
+      <div class="post__heading">
+        
+        
+        <div class="post__eyebrow">
+          
+  
+  
+  <ul class="taxonomy-labels taxonomy-labels--categories" aria-label="Categories" role="list">
+    
+    <li class="taxonomy-labels__item"><a class="taxonomy-labels__link" href="https://hanson-hschang.github.io/categories/research/">Research</a></li>
+    
+    <li class="taxonomy-labels__item"><a class="taxonomy-labels__link" href="https://hanson-hschang.github.io/categories/paper/">Paper</a></li>
+    
+  </ul>
+  
+
+          
+        </div>
+        
+        <h1 id="post-title">Learning to Forage: Hierarchical Control of a CyberOctopus</h1>
+        
+        <p class="post__subtitle">Sharing the work between a central policy, arm controllers, and a compliant body</p>
+        
+  
+  
+  <ul class="taxonomy-labels taxonomy-labels--tags" aria-label="Tags" role="list">
+    
+    <li class="taxonomy-labels__item"><a class="taxonomy-labels__link" href="https://hanson-hschang.github.io/tags/soft-robotics/">Soft Robotics</a></li>
+    
+    <li class="taxonomy-labels__item"><a class="taxonomy-labels__link" href="https://hanson-hschang.github.io/tags/hierarchical-control/">Hierarchical Control</a></li>
+    
+    <li class="taxonomy-labels__item"><a class="taxonomy-labels__link" href="https://hanson-hschang.github.io/tags/reinforcement-learning/">Reinforcement Learning</a></li>
+    
+    <li class="taxonomy-labels__item"><a class="taxonomy-labels__link" href="https://hanson-hschang.github.io/tags/energy-shaping/">Energy Shaping</a></li>
+    
+  </ul>
+  
+
+        
+      </div>
+      
+      
+<div class="article-meta">
+  <ul class="article-meta__details" aria-label="Article information">
+    
+    <li><time class="date-text article-meta__date" datetime="2023-06-22">June 22, 2023</time></li>
+    
+    <li><i class="bi bi-hourglass-split" aria-hidden="true"></i><span class="article-meta__reading-time">9 min read</span></li>
+  </ul>
+  
+<aside class="share" data-share aria-label="Article sharing">
+  <button class="share__button" data-share-toggle type="button" aria-expanded="false" aria-controls="article-share-menu" hidden>
+    <i class="bi bi-box-arrow-up" aria-hidden="true"></i><span>Share</span>
+  </button>
+  <nav id="article-share-menu" class="share-menu" aria-label="Share this article">
+    <a class="share-menu__item" href="https://hanson-hschang.github.io/blogs/science/hierarchical-foraging-cyberoctopus/">
+      <i class="bi bi-link-45deg" aria-hidden="true"></i><span>Permalink</span>
+    </a>
+    <a class="share-menu__item" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A//hanson-hschang.github.io/blogs/science/hierarchical-foraging-cyberoctopus/" target="_blank" rel="noopener noreferrer">
+      <i class="bi bi-linkedin" aria-hidden="true"></i>
+      <span>Share on LinkedIn</span>
+    </a>
+    <a class="share-menu__item" href="https://www.facebook.com/sharer/sharer.php?u=https%3A//hanson-hschang.github.io/blogs/science/hierarchical-foraging-cyberoctopus/" target="_blank" rel="noopener noreferrer">
+      <i class="bi bi-facebook" aria-hidden="true"></i>
+      <span>Share on Facebook</span>
+    </a>
+    <a class="share-menu__item" href="https://x.com/intent/tweet?url=https%3A//hanson-hschang.github.io/blogs/science/hierarchical-foraging-cyberoctopus/&text=Learning%20to%20Forage%3A%20Hierarchical%20Control%20of%20a%20CyberOctopus" target="_blank" rel="noopener noreferrer">
+      <i class="bi bi-twitter-x" aria-hidden="true"></i>
+      <span>Share on X</span>
+    </a>
+    <a class="share-menu__item" href="mailto:?subject=Learning%20to%20Forage%3A%20Hierarchical%20Control%20of%20a%20CyberOctopus&body=https%3A//hanson-hschang.github.io/blogs/science/hierarchical-foraging-cyberoctopus/">
+      <i class="bi bi-envelope-fill" aria-hidden="true"></i>
+      <span>Email</span>
+    </a>
+  </nav>
+</aside>
+
+</div>
+
+      
+  
+  
+  
+    
+    
+      
+    
+  
+    
+    
+      
+    
+  
+    
+    
+      
+    
+  
+    
+    
+      
+    
+  
+  
+  <nav class="post__resources" aria-label="Post resources">
+    
+      
+      
+      
+      <a class="post__button post__button--primary" href="https://advanced.onlinelibrary.wiley.com/doi/full/10.1002/aisy.202300088"><i class="bi bi-file-earmark-text" aria-hidden="true"></i>Read the paper</a>
+      
+    
+      
+      
+      
+      <a class="post__button" href="https://github.com/chshih2/Multi-arm-coordination-for-foraging"><i class="bi bi-github" aria-hidden="true"></i>Foraging code</a>
+      
+    
+      
+      
+      
+      <a class="post__button" href="https://github.com/chshih2/Real-time-control-of-an-octopus-arm-NNES"><i class="bi bi-code-slash" aria-hidden="true"></i>Arm control code</a>
+      
+    
+      
+      
+      
+      <a class="post__button" href="#foraging-in-action"><i class="bi bi-play-circle" aria-hidden="true"></i>Watch video</a>
+      
+    
+    
+  </nav>
+  
+
+    </header>
+
+    
+    <div class="post__teaser"><figure class="post__figure"><img src="https://hanson-hschang.github.io/blogs/science/hierarchical-foraging-cyberoctopus/img/control-hierarchy.png" alt="The central level selects behaviors, the arm level supplies muscle activations, and local compliance helps a simulated CyberOctopus reach food around obstacles." width="1616" height="452" loading="eager" decoding="async"><figcaption><p><strong>Three levels of coordination.</strong> Decisions about what to do are translated into muscle commands, then adjusted through local interaction with the environment. Figure 1 from <a rel="noopener noreferrer external" target="_blank" href="https://doi.org/10.1002/aisy.202300088">Shih et al. (2023)</a>. Octopus photograph: Anneli Salo, <a rel="noopener noreferrer external" target="_blank" href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>. <a href="https://hanson-hschang.github.io/blogs/science/hierarchical-foraging-cyberoctopus/img/control-hierarchy.png">Open full-size figure</a>.</p>
+</figcaption></figure></div>
+    
+
+    <div class="post__layout">
+      
+      <div class="post__sidebar">
+        <div class="post__sidebar-inner">
+      
+      <aside class="post__contents">
+        <details class="post__outline" data-post-outline>
+          <summary class="post__outline-toggle">
+            <span id="post-outline-title">Outline</span>
+            <i class="bi bi-chevron-down" aria-hidden="true"></i>
+          </summary>
+          <nav aria-labelledby="post-outline-title">
+            <ul>
+              
+              <li data-prose-heading><a href="https://hanson-hschang.github.io/blogs/science/hierarchical-foraging-cyberoctopus/#foraging-in-action">Foraging in action</a></li><li data-prose-heading><a href="https://hanson-hschang.github.io/blogs/science/hierarchical-foraging-cyberoctopus/#give-each-level-a-manageable-job">Give each level a manageable job</a></li><li data-prose-heading><a href="https://hanson-hschang.github.io/blogs/science/hierarchical-foraging-cyberoctopus/#make-reaching-fast-enough-to-reuse">Make reaching fast enough to reuse</a></li><li data-prose-heading><a href="https://hanson-hschang.github.io/blogs/science/hierarchical-foraging-cyberoctopus/#build-foraging-from-two-behaviors">Build foraging from two behaviors</a></li><li data-prose-heading><a href="https://hanson-hschang.github.io/blogs/science/hierarchical-foraging-cyberoctopus/#what-does-the-hierarchy-change">What does the hierarchy change?</a></li><li data-prose-heading><a href="https://hanson-hschang.github.io/blogs/science/hierarchical-foraging-cyberoctopus/#let-contact-trigger-a-local-response">Let contact trigger a local response</a></li><li data-prose-heading><a href="https://hanson-hschang.github.io/blogs/science/hierarchical-foraging-cyberoctopus/#what-this-teaches-us-about-soft-control">What this teaches us about soft control</a></li><li data-prose-heading><a href="https://hanson-hschang.github.io/blogs/science/hierarchical-foraging-cyberoctopus/#paper-and-attribution">Paper and attribution</a></li>
+              <li data-prose-toc-end hidden></li>
+              
+              
+              
+              <li><a href="#post-citation">Citation</a></li>
+              
+            </ul>
+          </nav>
+        </details>
+      </aside>
+      
+        </div>
+      </div>
+      
+      <div class="post__body">
+        
+
+        <div class="post__prose"><p>An octopus searching for food faces several problems at once. It must decide where to go, coordinate arms that can bend almost anywhere along their length, and keep moving when an arm encounters an obstacle. Trying to solve every muscle command and every foraging decision together creates an enormous control problem.</p>
+<p>The octopus's distributed nervous system suggests a useful way to divide that work. Central decisions can select a behavior, arm-level programs can organize the muscles, and local feedback can respond to contact.</p>
+<p>In our paper, <a rel="noopener noreferrer external" target="_blank" href="https://advanced.onlinelibrary.wiley.com/doi/full/10.1002/aisy.202300088"><em>Hierarchical Control and Learning of a Foraging CyberOctopus</em></a>, Chia-Hsien Shih, Noel Naughton, Udit Halder, Seung Hyun Kim, Rhanor Gillette, Prashant G. Mehta, Mattia Gazzola, and I turn this idea into a computational framework. We combine <strong>reinforcement learning for decisions, energy shaping for arm control, and a local reflex for obstacle contact</strong>. A simulated CyberOctopus then learns to collect food using progressively more active arms.</p>
+<h2 id="foraging-in-action">Foraging in action</h2>
+<figure class="post__figure">
+<div class="post__embed">
+  <iframe src="https://www.youtube-nocookie.com/embed/XrcgQFTuSks" title="Hierarchical control and learning of a foraging CyberOctopus" loading="lazy" allow="fullscreen; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</div>
+<figcaption><strong>CyberOctopus in motion.</strong> Watch the foraging and obstacle-interaction simulations, or <a href="https://www.youtube.com/watch?v=XrcgQFTuSks">open the video on YouTube</a>.</figcaption>
+</figure>
+<h2 id="give-each-level-a-manageable-job">Give each level a manageable job</h2>
+<p>The hierarchy assigns different kinds of decisions to different controllers:</p>
+<table><thead><tr><th style="text-align: left">Level</th><th style="text-align: left">Main question</th><th style="text-align: left">Method</th></tr></thead><tbody>
+<tr><td style="text-align: left">Central</td><td style="text-align: left">Should each active arm collect food or help move the body?</td><td style="text-align: left">A policy learned with proximal policy optimization (PPO)</td></tr>
+<tr><td style="text-align: left">Arm</td><td style="text-align: left">Which muscle activations will bring the tip to a target?</td><td style="text-align: left">Neural network energy shaping (NN-ES)</td></tr>
+<tr><td style="text-align: left">Local</td><td style="text-align: left">How should the arm respond when it touches an obstacle?</td><td style="text-align: left">A contact-triggered muscle reflex acting through the compliant body</td></tr>
+</tbody></table>
+<p>This structure lets the central policy reason in terms of useful actions while an arm controller handles the many muscle activations needed to carry them out. Each level has access to a different part of the problem.</p>
+<p>Our simulated body has eight arms, with one, two, and finally four actively controlled in the experiments. Each arm is a tapered <strong>Cosserat rod</strong>, a continuum model that tracks deformation along a slender body. Here, we restrict each arm's motion to a plane and include two longitudinal muscle groups and one transverse group. Longitudinal activation can shorten or bend the arm; transverse contraction extends it through the model's volume-conservation assumption.</p>
+<p>Several arm planes, combined with crawling across a horizontal substrate, allow food collection in a three-dimensional scene. Individual arms still have planar dynamics; twisting and fully three-dimensional arm motions are outside this study.</p>
+<h2 id="make-reaching-fast-enough-to-reuse">Make reaching fast enough to reuse</h2>
+<p>In <a href="https://hanson-hschang.github.io/blogs/science/energy-shaping-octopus-arm/"><em>Shaping Energy to Control a Muscular Octopus Arm</em></a>, I described how muscle activation changes an arm's equilibrium. Energy shaping uses that connection to find activations that bring the arm toward a useful configuration.</p>
+<p>The difficulty for foraging is computational cost. The controller must repeatedly evaluate possible targets and issue new reaching commands. Solving a fresh iterative optimization problem for every candidate would make the hierarchy expensive to run.</p>
+<p>We therefore train a neural network to map the <strong>current muscle activation and target position</strong> to a new activation profile. Let $\alpha_0(s)$ denote the current activation, $\alpha(s)$ the proposed activation, and $q$ the target. The arm-level objective is</p>
+<div>
+$$
+J(\alpha;\alpha_0,q)
+=\int_0^{L_0}\|\alpha(s)-\alpha_0(s)\|^2\,ds
++\mu_{\mathrm{tip}}\|q-x_\alpha(L_0)\|.
+$$
+</div>
+<p>Here, $L_0$ is the arm's resting length and $x_\alpha(L_0)$ is the tip position at the equilibrium induced by $\alpha$. The first term penalizes changes in muscle activation; the second penalizes missing the target. Muscle activations remain between zero and one. The activation term is a model of control effort, not a direct measurement of biological energy consumption.</p>
+<p>To represent continuous activation profiles with a finite network output, we expand them in a set of spatial basis functions. The network predicts the coefficients. Equilibrium mechanics and rod kinematics then determine the resulting tip position and loss.</p>
+<p>Training uses this mechanical objective directly: it does not require a collection of optimal activation labels produced by the older solver. Once trained, the network supplies the activations in a forward pass, and the simulated arm's dynamics carry out the movement.</p>
+<figure class="post__figure"><a href="https://hanson-hschang.github.io/blogs/science/hierarchical-foraging-cyberoctopus/img/neural-network-energy-shaping.png" data-post-lightbox-trigger aria-label="View full-size image: NN-ES learns muscle activations from target position and current activation. Workspace maps show configuration-dependent costs, and comparisons with iterative energy shaping show similar reaching accuracy with shorter computation times."><img src="https://hanson-hschang.github.io/processed_images/neural-network-energy-shaping.bcc017802a01589e.png" alt="NN-ES learns muscle activations from target position and current activation. Workspace maps show configuration-dependent costs, and comparisons with iterative energy shaping show similar reaching accuracy with shorter computation times." width="1816" height="1084" loading="lazy" decoding="async"></a><figcaption><p><strong>A fast arm controller.</strong> The learned map is trained through the mechanical objective. The lower panels compare arm shapes, computation times, reaching errors, and activation costs with iterative energy shaping. Figure 3 from the paper. <a href="https://hanson-hschang.github.io/blogs/science/hierarchical-foraging-cyberoctopus/img/neural-network-energy-shaping.png">Open full-size figure</a>.</p>
+</figcaption></figure>
+<p>Across 100 random reaching cases, NN-ES and iterative energy shaping both achieve <strong>median tip errors below 1% of resting arm length</strong>. NN-ES computes solutions about <strong>200 times faster</strong>, with slightly higher muscle activation costs. This speedup concerns the computation of arm controls; it is not a claim that the entire foraging simulation or learning process runs 200 times faster.</p>
+<h2 id="build-foraging-from-two-behaviors">Build foraging from two behaviors</h2>
+<p>The central policy chooses between two behavioral primitives for each active arm:</p>
+<ul>
+<li><strong>Reach all:</strong> attempt to collect every food target within the arm's workspace. The arm controller estimates the activation change needed for each target, selects the least costly, and repeats from the resulting configuration.</li>
+<li><strong>Crawl:</strong> execute a predefined extension-and-contraction sequence. The arm extends, anchors its tip, and pulls the body forward by a fixed step before releasing the anchor.</li>
+</ul>
+<p>Reaching uses repeated NN-ES evaluations, while crawling uses a prescribed activation pattern. The sucker effect is represented through boundary conditions rather than an explicit model of individual suckers. Food is counted as collected when the arm reaches its location.</p>
+<p>An immediate food target is not always the best reason to stop. Crawling a little farther can bring several targets into an easier part of the workspace, allowing the arm to collect them with less effort. Learning when to make that tradeoff is the central policy's job.</p>
+<figure class="post__figure"><a href="https://hanson-hschang.github.io/blogs/science/hierarchical-foraging-cyberoctopus/img/foraging-controller.png" data-post-lightbox-trigger aria-label="View full-size image: Food targets lie on a grid around the CyberOctopus inside a bounded attention region. Diagrams compare a central-policy and NN-ES hierarchy with a single end-to-end network."><img src="https://hanson-hschang.github.io/processed_images/foraging-controller.936c18567587d3ab.png" alt="Food targets lie on a grid around the CyberOctopus inside a bounded attention region. Diagrams compare a central-policy and NN-ES hierarchy with a single end-to-end network." width="1508" height="680" loading="lazy" decoding="async"></a><figcaption><p><strong>Choose a behavior, then execute it.</strong> A limited attention region keeps the planning input manageable. The hierarchical and end-to-end formulations receive the same overall information, but organize the computation differently. Figure 4 from the paper. <a href="https://hanson-hschang.github.io/blogs/science/hierarchical-foraging-cyberoctopus/img/foraging-controller.png">Open full-size figure</a>.</p>
+</figcaption></figure>
+<p>The policy observes a fixed maximum number of nearby, uncollected targets within an attention region. This is a spatial selection rule that limits the input size. Target coordinates are supplied by the simulation; the study does not solve visual detection.</p>
+<p>PPO trains the policy to balance food rewards against muscle activation costs and a penalty when all active arms choose to reach despite no food being available. The resulting behavior can delay reaching until several targets are conveniently placed, then gather them together.</p>
+<h2 id="what-does-the-hierarchy-change">What does the hierarchy change?</h2>
+<p>The single-active-arm experiment compares the learned policy, a simplified analytical Q-policy, and greedy and random high-level policies, all backed by the arm controller. An additional end-to-end PPO network learns muscle commands directly from food locations and current activation.</p>
+<p>All four hierarchical policies outperform the tested end-to-end controller on the reported metrics. Even randomly choosing between useful behaviors benefits from having a capable arm controller underneath. The learned high-level policy performs best overall, using its choices to improve both the modeled energy return and the number of decision steps needed per food item.</p>
+<p>This comparison supports the chosen decomposition for this task and training setup. The paper does not establish that every hierarchical method outperforms every end-to-end method, and it does not report further end-to-end benchmarks for the multiarm cases.</p>
+<p>With two active arms, the policy can coordinate movement along two orthogonal directions. Four active arms add forward, backward, left, and right movement, making it possible to revisit missed food. In the four-arm experiment without obstacles, the learned policy collects <strong>88% of available food on average</strong>, compared with <strong>38% for the greedy policy</strong>.</p>
+<h2 id="let-contact-trigger-a-local-response">Let contact trigger a local response</h2>
+<p>An arm reaching toward food can become stuck against an obstacle even when the target is geometrically reachable. We address this with a local reflex inspired by waves of muscle activation observed in octopus arms.</p>
+<p>At contact, the part of the arm beyond the contact point relaxes. Toward the base, longitudinal muscles on the contacting side increase activation while the other muscles relax. This reshapes the compliant arm so that it can slide past the obstacle. When contact ends, the original muscle command resumes. The model treats the activation signals as propagating instantaneously.</p>
+<figure class="post__figure"><a href="https://hanson-hschang.github.io/blogs/science/hierarchical-foraging-cyberoctopus/img/obstacle-reflex.png" data-post-lightbox-trigger aria-label="View full-size image: Without local feedback an arm gets stuck at a spherical obstacle; with feedback it slides past. Food-collection results and a four-arm foraging sequence show the benefit of the contact reflex."><img src="https://hanson-hschang.github.io/processed_images/obstacle-reflex.5bec1c5a500999dd.png" alt="Without local feedback an arm gets stuck at a spherical obstacle; with feedback it slides past. Food-collection results and a four-arm foraging sequence show the benefit of the contact reflex." width="1620" height="828" loading="lazy" decoding="async"></a><figcaption><p><strong>Local feedback restores access to food.</strong> The central policy was trained without obstacles. Enabling the contact reflex improves food collection when obstacles are introduced. Panel b summarizes 100 evaluation episodes; panel c illustrates one foraging sequence. Figure 7 from the paper. <a href="https://hanson-hschang.github.io/blogs/science/hierarchical-foraging-cyberoctopus/img/obstacle-reflex.png">Open full-size figure</a>.</p>
+</figcaption></figure>
+<p>The four-arm results show both the benefit and its limits:</p>
+<table><thead><tr><th style="text-align: left">Evaluation condition</th><th style="text-align: right">Mean fraction of food collected</th></tr></thead><tbody>
+<tr><td style="text-align: left">No obstacles</td><td style="text-align: right">88%</td></tr>
+<tr><td style="text-align: left">Obstacles, without local reflex</td><td style="text-align: right">21%</td></tr>
+<tr><td style="text-align: left">Obstacles, with local reflex</td><td style="text-align: right">67%</td></tr>
+</tbody></table>
+<p>The high-level policy is <strong>trained without obstacles</strong>. Adding the reflex at deployment recovers much of the lost performance without retraining that policy, although collection remains below the unobstructed result. The response handles contact locally, allowing the existing foraging decisions to remain useful.</p>
+<h2 id="what-this-teaches-us-about-soft-control">What this teaches us about soft control</h2>
+<p>The contribution is a way to combine methods with different strengths. Reinforcement learning handles sequences of discrete decisions. A mechanics-based neural controller provides fast reaching commands. Local feedback and physical compliance respond to disturbances where they occur.</p>
+<p>These results come from a computational model, with food's horizontal coordinates on a grid compatible with the crawl step, simplified anchoring and collection, and frictionless obstacle contact. They establish a working control strategy in that setting, while hardware performance and more general arm dynamics remain open questions.</p>
+<p>For soft robotics, the useful design principle is to make each layer solve a problem it can handle well. A central policy can coordinate a deformable body more effectively when reliable arm behaviors and local responses are already available.</p>
+<h2 id="paper-and-attribution">Paper and attribution</h2>
+<p>This post is based on <strong>Hierarchical Control and Learning of a Foraging CyberOctopus</strong>, by Chia-Hsien Shih, Noel Naughton, Udit Halder, Heng-Sheng Chang, Seung Hyun Kim, Rhanor Gillette, Prashant G. Mehta, and Mattia Gazzola. The paper appeared in <a rel="noopener noreferrer external" target="_blank" href="https://doi.org/10.1002/aisy.202300088"><em>Advanced Intelligent Systems</em>, 5(9), 2300088 (2023)</a>, and was first published online on June 22, 2023.</p>
+<p>Figures 1, 3, 4, and 7 are reproduced from the published paper, with surrounding page text and original captions removed and explanatory captions supplied here. The article is © 2023 The Authors, published by Wiley-VCH GmbH under <a rel="noopener noreferrer external" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. The octopus photograph within Figure 1 is separately credited to Anneli Salo under <a rel="noopener noreferrer external" target="_blank" href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>.</p>
+<p>The paper provides code for <a rel="noopener noreferrer external" target="_blank" href="https://github.com/chshih2/Multi-arm-coordination-for-foraging">multiarm foraging</a> and <a rel="noopener noreferrer external" target="_blank" href="https://github.com/chshih2/Real-time-control-of-an-octopus-arm-NNES">neural network energy shaping</a>. The BibTeX below cites the published article.</p>
+</div>
+
+        
+
+        
+
+        
+
+        
+        <section class="post__section post__citation" id="post-citation" aria-labelledby="post-citation-title">
+          <div class="post__section-heading">
+            <h2 id="post-citation-title">Citation</h2>
+            <button class="post__button" type="button" data-copy-citation data-copy-feedback="BibTex Copied!" aria-controls="post-bibtex" hidden><i class="bi bi-copy" aria-hidden="true"></i><span data-copy-label>Copy BibTeX</span></button>
+          </div>
+          <pre tabindex="0" aria-label="BibTeX citation"><code id="post-bibtex">@article{shih2023hierarchical,
+  title = {Hierarchical Control and Learning of a Foraging {CyberOctopus}},
+  author = {Shih, Chia-Hsien and Naughton, Noel and Halder, Udit and Chang, Heng-Sheng and Kim, Seung Hyun and Gillette, Rhanor and Mehta, Prashant G. and Gazzola, Mattia},
+  journal = {Advanced Intelligent Systems},
+  volume = {5},
+  number = {9},
+  pages = {2300088},
+  year = {2023},
+  doi = {10.1002/aisy.202300088},
+  url = {https://doi.org/10.1002/aisy.202300088}
+}</code></pre>
+          <p class="post__copy-status visually-hidden" data-copy-status role="status" aria-live="polite"></p>
+        </section>
+        
+
+        
+
+      </div>
+      
+      <aside class="post__related sidebar" aria-labelledby="post-related-title">
+        <section class="widget">
+          <h2 class="widget__title" id="post-related-title">Related Posts</h2>
+          <ul class="post__related-list">
+            
+            <li><a href="https://hanson-hschang.github.io/blogs/science/machine-deception-detection/">A Polygraph for Language Models</a><time class="date-text" datetime="2026-10-11">October 11, 2026</time></li>
+            
+            <li><a href="https://hanson-hschang.github.io/blogs/science/diffusion-based-octopus-crawling/">Learning Many Ways to Crawl: Diffusion Models for an Adaptable CyberOctopus</a><time class="date-text" datetime="2026-10-02">October 02, 2026</time></li>
+            
+            <li><a href="https://hanson-hschang.github.io/blogs/science/transformer-inference-from-optimal-control/">From Optimal Control to Transformer-like Inference</a><time class="date-text" datetime="2026-05-15">May 15, 2026</time></li>
+            
+            <li><a href="https://hanson-hschang.github.io/blogs/science/transformers-and-state-space-models/">Transformers and State Space Models: A Connection in Sequential Data Modeling</a><time class="date-text" datetime="2026-02-28">February 28, 2026</time></li>
+            
+            <li><a href="https://hanson-hschang.github.io/blogs/science/belief-net/">Belief Net: Bridging Probabilistic Modeling and Deep Learning for Sequential Data</a><time class="date-text" datetime="2026-02-21">February 21, 2026</time></li>
+            
+          </ul>
+        </section>
+      </aside>
+      
+    </div>
+    
+<dialog class="post__lightbox" id="post-lightbox" data-post-lightbox aria-labelledby="post-lightbox-title">
+  <header class="post__lightbox-header">
+    <div class="post__lightbox-heading">
+      <span class="post__lightbox-count" data-lightbox-count>Figure</span>
+      <p id="post-lightbox-title" data-lightbox-title>Figure viewer</p>
+    </div>
+    <div class="post__lightbox-actions">
+      <button class="post__button post__lightbox-close" type="button" data-lightbox-close aria-label="Close image viewer" title="Close" autofocus><i class="bi bi-x-lg" aria-hidden="true"></i></button>
+    </div>
+  </header>
+  <div class="post__lightbox-viewport" data-lightbox-viewport role="region" aria-label="Figure image">
+    <img data-lightbox-image alt="">
+    <p class="post__lightbox-status" data-lightbox-status role="status"></p>
+  </div>
+  <footer class="post__lightbox-footer">
+    <p class="post__lightbox-caption" data-lightbox-caption tabindex="0" role="region" aria-label="Figure caption"></p>
+  </footer>
+</dialog>
+
+  </article>
+
+    </main>
+
+    <!-- Footer -->
+    <footer id="footer" class="footer position-relative">
+  <div class="container">
+    <p class="footer__sitename">Hanson.HSChang</p>
+    <p class="footer__quote">Everything is theoretically impossible, until it is done. --- Robert A. Heinlein</p>
+    <nav class="footer__social-links d-flex justify-content-center" aria-label="Social links">
+      
+  <a href="https://github.com/hanson-hschang" 
+    aria-label="Link to my GitHub profile" 
+    target="_blank" 
+    rel="noopener noreferrer"
+  >
+    <i class="bi bi-github" aria-hidden="true"></i>
+  </a>
+
+  <a href="https://scholar.google.com/citations?user=S7AWv3oAAAAJ" 
+    aria-label="Link to my Google Scholar profile" 
+    target="_blank" 
+    rel="noopener noreferrer"
+  >
+    <i class="ai ai-google-scholar" aria-hidden="true"></i>
+  </a>
+
+  <a href="https://www.linkedin.com/in/hanson-hschang/" 
+    aria-label="Link to my LinkedIn profile" 
+    target="_blank" 
+    rel="noopener noreferrer"
+  >
+    <i class="bi bi-linkedin" aria-hidden="true"></i>
+  </a>
+
+  <a href="https://www.instagram.com/hanson.hschang/" 
+    aria-label="Link to my Instagram profile" 
+    target="_blank" 
+    rel="noopener noreferrer"
+  >
+    <i class="bi bi-instagram" aria-hidden="true"></i>
+  </a>
+
+    </nav>
+    <div class="container">
+      <div class="footer__copyright"><p>© All Rights Reserved</p>
+</div>
+      <div class="footer__credits"><p>Powered by <a rel="noopener noreferrer external" target="_blank" href="https://www.getzola.org/">Zola</a>, <a rel="noopener noreferrer external" target="_blank" href="https://getbootstrap.com/">Bootstrap</a>, and <a rel="noopener noreferrer external" target="_blank" href="https://web3forms.com/">Web3Forms</a></p>
+</div>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- Preloader -->
+    
+
+    <!-- Java Scripts -->
+    
+  
+      
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const katexMacros = {};
+    renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\[', right: '\\]', display: true},
+        {left: '\\(', right: '\\)', display: false},
+      ],
+      macros: katexMacros
+    });
+  });
+</script>
+
+      
+    
+  <script src="https://hanson-hschang.github.io/vendor/aos/aos.js"></script>
+  <script src="https://hanson-hschang.github.io/assets/script/home.js"></script>
+  <script src="https://hanson-hschang.github.io/assets/script/share.js" defer></script>
+  <script src="https://hanson-hschang.github.io/assets/script/post.js" defer></script>
+
+     
+  </body>
+
+</html>

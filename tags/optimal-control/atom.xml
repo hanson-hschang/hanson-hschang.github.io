@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title>Hanson.HSChang - Optimal Control</title>
+    <subtitle>This is Hanson&#39;s personal website.</subtitle>
+    <link rel="self" type="application/atom+xml" href="https://hanson-hschang.github.io/tags/optimal-control/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://hanson-hschang.github.io/"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2026-05-15T00:00:00+00:00</updated>
+    <id>https://hanson-hschang.github.io/tags/optimal-control/atom.xml</id>
+    <entry xml:lang="en">
+        <title>From Optimal Control to Transformer-like Inference</title>
+        <published>2026-05-15T00:00:00+00:00</published>
+        <updated>2026-05-15T00:00:00+00:00</updated>
+        
+        <author>
+          <name>Heng-Sheng Chang</name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://hanson-hschang.github.io/blogs/science/transformer-inference-from-optimal-control/"/>
+        <id>https://hanson-hschang.github.io/blogs/science/transformer-inference-from-optimal-control/</id>
+        
+        <content type="html" xml:base="https://hanson-hschang.github.io/blogs/science/transformer-inference-from-optimal-control/">&lt;p&gt;A decoder-only transformer predicts the next token by repeatedly updating a sequence of vectors. At each layer, a position can use information from itself and earlier positions. This gives the model a way to revisit earlier observations as it builds a prediction.&lt;/p&gt;
+&lt;p&gt;Can this familiar layer structure emerge from the mathematics of prediction itself?&lt;/p&gt;
+&lt;p&gt;In our preprint, &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://arxiv.org/abs/2605.15608&quot;&gt;&lt;em&gt;Transformer-like Inference from Optimal Control&lt;/em&gt;&lt;/a&gt;, Aditya Kudre, Prashant G. Mehta, and I approach that question through &lt;strong&gt;filtering-control duality&lt;/strong&gt;. We begin with a probabilistic model of how observations are generated. Minimizing prediction error then becomes an optimal control problem, whose solution defines an inference algorithm called the &lt;strong&gt;dual filter&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;The resulting algorithm updates a whole sequence of vectors, much like a transformer layer. A controlled experiment also exposes an important difference: when the representation is too small for the assumed hidden-state model, a trained transformer can still make nearly optimal predictions by using the observation history.&lt;/p&gt;
+&lt;h2 id=&quot;prediction-as-hidden-state-inference&quot;&gt;Prediction as hidden-state inference&lt;/h2&gt;
+&lt;p&gt;Imagine observing a sequence of symbols produced by a system whose internal state is hidden. To predict the next symbol, we first estimate what that internal state could be.&lt;/p&gt;
+&lt;p&gt;For a discrete state space with $d$ possible states, the estimate is a probability vector:&lt;/p&gt;
+&lt;div&gt;
+$$
+\pi_T(x)=\mathbb{P}(X_T=x\mid Z_{1:T}).
+$$
+&lt;/div&gt;
+&lt;p&gt;Here, $X_T$ is the hidden state and $Z_{1:T}$ is the observed sequence. If $C(x,z)$ is the probability that state $x$ emits token $z$, the next-token distribution follows from&lt;/p&gt;
+&lt;div&gt;
+$$
+\mathbb{P}(Z_{T+1}=z\mid Z_{1:T})
+=\sum_{x=1}^{d}\pi_T(x)C(x,z).
+$$
+&lt;/div&gt;
+&lt;p&gt;This is a probabilistic analogue of decoding an internal representation into token probabilities. Each coordinate of $\pi_T$ has a concrete meaning: the probability assigned to one hidden state.&lt;/p&gt;
+&lt;p&gt;The paper studies two settings. A &lt;strong&gt;linear Gaussian model&lt;/strong&gt; provides a tractable case in which the target is a conditional mean. A &lt;strong&gt;discrete-state model&lt;/strong&gt; brings us closer to token prediction, where the target is a conditional probability distribution. Both lead to a control formulation.&lt;/p&gt;
+&lt;h2 id=&quot;the-weights-become-the-controls&quot;&gt;The weights become the controls&lt;/h2&gt;
+&lt;p&gt;The key step is to represent a prediction as a weighted combination of observations. In the nonlinear setting, for a function $f$ of the hidden state, the paper establishes a representation of the form&lt;/p&gt;
+&lt;div&gt;
+$$
+\pi_T(f)=c_f-\sum_{t=1}^{T}U_{t-1}^{\mathsf T}e(Z_t).
+$$
+&lt;/div&gt;
+&lt;p&gt;The left-hand side is the conditional expectation of $f(X_T)$. Choosing $f$ to indicate a particular state gives that state&#39;s posterior probability. On the right, $c_f$ is a deterministic constant, $e$ encodes tokens, and the weights $U_{t-1}$ can depend on the observations preceding $Z_t$. For binary observations, the encoding is simply $e(1)=1$ and $e(0)=-1$.&lt;/p&gt;
+&lt;p&gt;Although the expression looks like a linear sum, &lt;strong&gt;its weights depend on the data&lt;/strong&gt;, allowing it to represent a nonlinear predictor. Their dependence on past observations also imposes a causal information constraint.&lt;/p&gt;
+&lt;p&gt;The next step is to choose those weights. For a hidden Markov model (HMM), the duality principle constructs an auxiliary control system and a cost that equals the estimator&#39;s mean squared error:&lt;/p&gt;
+&lt;div&gt;
+$$
+J_T(U;f)=\mathbb{E}\!\left[\bigl(f(X_T)-S_T\bigr)^2\right].
+$$
+&lt;/div&gt;
+&lt;p&gt;Here, $S_T$ is the estimator associated with the chosen controls. Solving the control problem therefore produces the minimum mean squared error estimate, $\pi_T(f)$. The controls determine how observations contribute to inference; they do not physically steer the system generating the tokens.&lt;/p&gt;
+&lt;p&gt;There is a useful distinction between the two results. The nonlinear weighted representation applies beyond HMMs, but the paper&#39;s explicit nonlinear control formula is derived for the &lt;strong&gt;Markovian hidden-state case&lt;/strong&gt;. The linear Gaussian analysis also handles hidden dynamics with longer memory.&lt;/p&gt;
+&lt;h2 id=&quot;how-a-layer-emerges&quot;&gt;How a layer emerges&lt;/h2&gt;
+&lt;p&gt;For the HMM, the optimal control law depends on the hidden-state probabilities we are trying to compute. Combining that law with the predictor produces a &lt;strong&gt;fixed-point equation&lt;/strong&gt;: the correct probability sequence reproduces itself under the update.&lt;/p&gt;
+&lt;p&gt;This suggests a layer operation. Start with approximate probability vectors at all $T$ positions, use them to compute controls through the dual equations, and produce a new sequence:&lt;/p&gt;
+&lt;div&gt;
+$$
+[\rho_1,\ldots,\rho_T]
+\longmapsto
+[\rho_1^+,\ldots,\rho_T^+].
+$$
+&lt;/div&gt;
+&lt;p&gt;Both input and output have shape $d\times T$. Repeating the operation gives a layered inference architecture. The linear Gaussian case has a similar construction using a sequence of auxiliary vectors called momenta, with updates supplied by the optimality equations.&lt;/p&gt;
+&lt;p&gt;This is the sense in which the architecture is &lt;strong&gt;transformer-like&lt;/strong&gt;: causal sequence-to-sequence updates arise from the inference objective. The derivation does not identify the controls with standard softmax attention, recover every component of a transformer block, or establish a general guarantee that a chosen finite number of iterations reaches the fixed point.&lt;/p&gt;
+&lt;p&gt;For hidden dynamics with long memory, the linear formulation also offers a computational motivation. It works with a $d\times T$ sequence, whereas a Kalman formulation that explicitly augments the state with the full history must maintain growing covariance matrices. The paper&#39;s complexity comparison concerns that history-dependent setting; the number of iterations needed to solve the dual equations remains relevant to practical runtime.&lt;/p&gt;
+&lt;h2 id=&quot;a-small-experiment-with-an-exact-benchmark&quot;&gt;A small experiment with an exact benchmark&lt;/h2&gt;
+&lt;p&gt;To compare control and attention, we use a process that concatenates independently chosen binary patterns. With the paper&#39;s main settings, the long pattern has two ones followed by fourteen zeros; the short pattern has one one followed by four zeros. Each new cycle is chosen with equal probability.&lt;/p&gt;
+&lt;figure class=&quot;post__figure&quot;&gt;&lt;a href=&quot;https://hanson-hschang.github.io/blogs/science/transformer-inference-from-optimal-control/img/two-cycle-model.png&quot; data-post-lightbox-trigger aria-label=&quot;View full-size image: A sixteen-state hidden Markov model branches between long and short cycles; a sample binary sequence shows ones separated by runs of zeros.&quot;&gt;&lt;img src=&quot;https://hanson-hschang.github.io/processed_images/two-cycle-model.b45ae44333083be7.png&quot; alt=&quot;A sixteen-state hidden Markov model branches between long and short cycles; a sample binary sequence shows ones separated by runs of zeros.&quot; width=&quot;1504&quot; height=&quot;287&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot;&gt;&lt;/a&gt;&lt;figcaption&gt;&lt;p&gt;&lt;strong&gt;Two cycles, one prediction task.&lt;/strong&gt; The hidden state tracks progress around the cycles. The locations of the ones help identify that progress. Figure 2 from the paper, with long-cycle length $d=16$ and short-cycle length $q+1=5$. &lt;a href=&quot;https://hanson-hschang.github.io/blogs/science/transformer-inference-from-optimal-control/img/two-cycle-model.png&quot;&gt;Open full-size figure&lt;/a&gt;.&lt;/p&gt;
+&lt;/figcaption&gt;&lt;/figure&gt;
+&lt;p&gt;Because the generating HMM is known, its exact filter provides an optimal next-token prediction benchmark. We train a nanoGPT with &lt;strong&gt;one layer and one attention head&lt;/strong&gt;, using sequences of length $T=64$ and initially an embedding dimension of $16$.&lt;/p&gt;
+&lt;p&gt;The figure at the top of this post compares its attention weights with dual-filter controls computed from the &lt;strong&gt;true HMM parameters&lt;/strong&gt;. Both emphasize sparse, informative time indices associated with observed ones. The transformer learns this pattern from data, without receiving the HMM parameters.&lt;/p&gt;
+&lt;p&gt;The resemblance is qualitative. Attention weights are nonnegative and normalized, while the control weights may have either sign. Similar places to look do not imply identical numerical weights or identical computations.&lt;/p&gt;
+&lt;h2 id=&quot;what-happens-when-the-representation-is-too-small&quot;&gt;What happens when the representation is too small?&lt;/h2&gt;
+&lt;p&gt;The next experiment holds the true hidden-state dimension at $d=16$ and varies the candidate dimension $\hat d$. For every candidate dimension, the HMM parameters are estimated from data using Baum-Welch; nanoGPT is trained on the same dataset. This differs from the preceding comparison, which used known HMM parameters.&lt;/p&gt;
+&lt;figure class=&quot;post__figure&quot;&gt;&lt;a href=&quot;https://hanson-hschang.github.io/blogs/science/transformer-inference-from-optimal-control/img/dimension-and-prediction.png&quot; data-post-lightbox-trigger aria-label=&quot;View full-size image: Next-token cross-entropy approaches the exact-filter benchmark for nanoGPT at embedding dimension eight, while the fitted HMM dual filter degrades below sixteen states. Heatmaps compare dimensions eight, sixteen, and thirty-two.&quot;&gt;&lt;img src=&quot;https://hanson-hschang.github.io/processed_images/dimension-and-prediction.4afc28d2052f63e9.png&quot; alt=&quot;Next-token cross-entropy approaches the exact-filter benchmark for nanoGPT at embedding dimension eight, while the fitted HMM dual filter degrades below sixteen states. Heatmaps compare dimensions eight, sixteen, and thirty-two.&quot; width=&quot;1512&quot; height=&quot;1216&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot;&gt;&lt;/a&gt;&lt;figcaption&gt;&lt;p&gt;&lt;strong&gt;Prediction under a dimension constraint.&lt;/strong&gt; Lower cross-entropy is better. At $\hat d=8$, nanoGPT stays close to the optimal HMM-filter benchmark while the smaller fitted HMM loses accuracy. The lower panels compare control and attention patterns. Figure 4 from the paper. &lt;a href=&quot;https://hanson-hschang.github.io/blogs/science/transformer-inference-from-optimal-control/img/dimension-and-prediction.png&quot;&gt;Open full-size figure&lt;/a&gt;.&lt;/p&gt;
+&lt;/figcaption&gt;&lt;/figure&gt;
+&lt;p&gt;When $\hat d\geq16$, both methods achieve near-optimal performance. At $\hat d=8$, the fitted Markovian model loses predictive accuracy, while nanoGPT remains near the benchmark.&lt;/p&gt;
+&lt;p&gt;We call this a &lt;strong&gt;non-Markovian advantage&lt;/strong&gt;. The smaller HMM must summarize history within an insufficient hidden-state model. Attention can revisit observations across the context, giving the transformer another way to use temporal information.&lt;/p&gt;
+&lt;p&gt;The underlying data generator is still an HMM. The advantage concerns the restricted representation used for prediction: a smaller embedding dimension does not force a transformer to behave like an HMM with that many states. Nor does matching these dimensions make the two models equal in parameter count or total memory. The experiment identifies a useful gap between these architectures under the tested conditions.&lt;/p&gt;
+&lt;h2 id=&quot;weight-patterns-are-only-part-of-the-story&quot;&gt;Weight patterns are only part of the story&lt;/h2&gt;
+&lt;p&gt;The appendix tests how the comparison changes when the transition or emission probabilities are perturbed. Each perturbation setting uses a separately trained transformer.&lt;/p&gt;
+&lt;p&gt;Perturbing transitions changes the optimal controls from a mainly vertical, event-focused pattern to a sparse diagonal pattern that aggregates evidence across past cycles. The transformer&#39;s attention remains largely vertical, yet its prediction loss stays near optimal. Perturbing emissions has a smaller effect on the pattern, with weights becoming more diffuse as the perturbation grows.&lt;/p&gt;
+&lt;p&gt;This makes the interpretation more precise: &lt;strong&gt;similar predictive performance can coexist with different weight structures&lt;/strong&gt;. The experiments do not establish that attention sparsity causes the advantage seen at smaller dimensions.&lt;/p&gt;
+&lt;h2 id=&quot;where-this-leads&quot;&gt;Where this leads&lt;/h2&gt;
+&lt;p&gt;Filtering-control duality gives a principled route from a prediction objective to a layered inference algorithm. It also gives us interpretable quantities to compare with learned attention: observation weights tied to an explicit probabilistic model and an error criterion.&lt;/p&gt;
+&lt;p&gt;The present evidence comes from synthetic sequence tasks. Extending the nonlinear control synthesis to hidden dynamics with longer memory, developing a learning framework for the model or the controls, and understanding convergence and computational cost remain important next steps. The undercomplete experiment gives the first of these a concrete target: capture the history dependence that the transformer can exploit.&lt;/p&gt;
+&lt;p&gt;This connects with the site&#39;s earlier posts on &lt;a href=&quot;https://hanson-hschang.github.io/blogs/science/belief-net/&quot;&gt;Belief Net&lt;/a&gt; and &lt;a href=&quot;https://hanson-hschang.github.io/blogs/science/transformers-and-state-space-models/&quot;&gt;transformers and state space models&lt;/a&gt;. Here, the organizing connection is between &lt;strong&gt;optimal estimation and optimal control&lt;/strong&gt;: a way to derive an inference architecture from the problem it is meant to solve.&lt;/p&gt;
+&lt;h2 id=&quot;paper-and-attribution&quot;&gt;Paper and attribution&lt;/h2&gt;
+&lt;p&gt;This post is based on &lt;strong&gt;Transformer-like Inference from Optimal Control&lt;/strong&gt;, by Aditya Kudre, Heng-Sheng Chang, and Prashant G. Mehta, University of Illinois Urbana-Champaign. The source reviewed here is &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://arxiv.org/abs/2605.15608v1&quot;&gt;arXiv:2605.15608v1&lt;/a&gt;, submitted May 15, 2026.&lt;/p&gt;
+&lt;p&gt;Figures 2, 3, and 4 are reproduced as crops from that version. The perturbation study is in Appendix C.2 and Figure 6. The BibTeX citation below refers to the source paper.&lt;/p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>Shaping Energy to Control a Muscular Octopus Arm</title>
+        <published>2023-02-01T00:00:00+00:00</published>
+        <updated>2023-02-01T00:00:00+00:00</updated>
+        
+        <author>
+          <name>Heng-Sheng Chang</name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://hanson-hschang.github.io/blogs/science/energy-shaping-octopus-arm/"/>
+        <id>https://hanson-hschang.github.io/blogs/science/energy-shaping-octopus-arm/</id>
+        
+        <content type="html" xml:base="https://hanson-hschang.github.io/blogs/science/energy-shaping-octopus-arm/">&lt;p&gt;An octopus arm has no rigid skeleton and no small set of joints to command. It can bend along its length, extend toward an object, and twist to bring its suckers into contact. That flexibility makes the arm a compelling model for soft robots, but it also raises a difficult control question: &lt;strong&gt;how should its muscles work together to produce a useful shape?&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;In our paper, &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://doi.org/10.1098/rspa.2022.0593&quot;&gt;&lt;em&gt;Energy-shaping control of a muscular octopus arm moving in three dimensions&lt;/em&gt;&lt;/a&gt;, Udit Halder, Chia-Hsien Shih, Noel Naughton, Mattia Gazzola, Prashant G. Mehta, and I approach this problem through energy. We model the arm and its muscles together, then choose muscle activations that make a task-specific shape an equilibrium of the combined system.&lt;/p&gt;
+&lt;p&gt;The resulting motion comes from the arm&#39;s mechanics. Once the activation pattern is applied, elastic forces, muscle forces, inertia, and damping determine how the arm moves toward its new resting configuration. We demonstrate this approach in simulations of reaching and grasping in three dimensions.&lt;/p&gt;
+&lt;h2 id=&quot;reaching-and-grasping-in-motion&quot;&gt;Reaching and grasping in motion&lt;/h2&gt;
+&lt;figure class=&quot;post__figure&quot;&gt;
+&lt;div class=&quot;post__embed&quot;&gt;
+  &lt;iframe src=&quot;https://www.youtube-nocookie.com/embed/SQ_KViaDov0&quot; title=&quot;Muscular octopus arm reaching and grasping in three dimensions&quot; loading=&quot;lazy&quot; allow=&quot;fullscreen; picture-in-picture&quot; referrerpolicy=&quot;strict-origin-when-cross-origin&quot; allowfullscreen&gt;&lt;/iframe&gt;
+&lt;/div&gt;
+&lt;figcaption&gt;&lt;strong&gt;The muscular arm in motion.&lt;/strong&gt; Watch the reaching and grasping simulations, or &lt;a href=&quot;https://www.youtube.com/watch?v=SQ_KViaDov0&quot;&gt;open the video on YouTube&lt;/a&gt;.&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;h2 id=&quot;three-muscle-groups-many-possible-motions&quot;&gt;Three muscle groups, many possible motions&lt;/h2&gt;
+&lt;p&gt;The geometry of a muscle matters as much as its ability to contract. In an octopus arm, three major muscle groups turn local contraction into different kinds of deformation:&lt;/p&gt;
+&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th style=&quot;text-align: left&quot;&gt;Muscle group&lt;/th&gt;&lt;th style=&quot;text-align: left&quot;&gt;Arrangement&lt;/th&gt;&lt;th style=&quot;text-align: left&quot;&gt;Main mechanical role&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;
+&lt;tr&gt;&lt;td style=&quot;text-align: left&quot;&gt;Transverse&lt;/td&gt;&lt;td style=&quot;text-align: left&quot;&gt;Across the arm, surrounding the central nerve cord&lt;/td&gt;&lt;td style=&quot;text-align: left&quot;&gt;Narrows the cross-section and extends the arm through approximate volume conservation&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style=&quot;text-align: left&quot;&gt;Longitudinal&lt;/td&gt;&lt;td style=&quot;text-align: left&quot;&gt;Along the arm, away from its center line&lt;/td&gt;&lt;td style=&quot;text-align: left&quot;&gt;Shortens the arm and produces bending when activation is uneven across its sides&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style=&quot;text-align: left&quot;&gt;Oblique&lt;/td&gt;&lt;td style=&quot;text-align: left&quot;&gt;Helically around the arm, with opposite handedness&lt;/td&gt;&lt;td style=&quot;text-align: left&quot;&gt;Produces twisting together with other coupled deformations&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;&lt;/table&gt;
+&lt;figure class=&quot;post__figure&quot;&gt;&lt;a href=&quot;https://hanson-hschang.github.io/blogs/science/energy-shaping-octopus-arm/img/musculature.png&quot; data-post-lightbox-trigger aria-label=&quot;View full-size image: Transverse muscles form green rings, longitudinal muscles run lengthwise in purple, and orange oblique muscles wind around the arm in opposite directions; insets show anatomical cross-sections.&quot;&gt;&lt;img src=&quot;https://hanson-hschang.github.io/processed_images/musculature.b1296e945adc95e5.png&quot; alt=&quot;Transverse muscles form green rings, longitudinal muscles run lengthwise in purple, and orange oblique muscles wind around the arm in opposite directions; insets show anatomical cross-sections.&quot; width=&quot;1600&quot; height=&quot;1125&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot;&gt;&lt;/a&gt;&lt;figcaption&gt;&lt;p&gt;&lt;strong&gt;Geometry turns contraction into motion.&lt;/strong&gt; The virtual muscles follow the arrangement of the arm&#39;s major muscle groups. Anatomical cross-sections appear in the insets. Figure 2 from the preprint. &lt;a href=&quot;https://hanson-hschang.github.io/blogs/science/energy-shaping-octopus-arm/img/musculature.png&quot;&gt;Open full-size figure&lt;/a&gt;.&lt;/p&gt;
+&lt;/figcaption&gt;&lt;/figure&gt;
+&lt;p&gt;We describe the arm as a &lt;strong&gt;Cosserat rod&lt;/strong&gt;. At each location along its center line, the model tracks both a position and the orientation of a small material frame. This lets it describe stretching, shearing, bending, and twisting in one continuum model.&lt;/p&gt;
+&lt;p&gt;Keeping track of orientation is essential. Two configurations can have similar center lines while presenting different sides of the arm to an object. To model a grasp with the suckers facing inward, we need to control that orientation as well as position.&lt;/p&gt;
+&lt;p&gt;The implementation uses one transverse activation field, four longitudinal fields, and two oblique fields, one for each handedness. Each field can vary along the arm. The oblique fibers of the same handedness share an activation, giving seven distributed controls overall.&lt;/p&gt;
+&lt;h2 id=&quot;muscles-become-part-of-the-energy-model&quot;&gt;Muscles become part of the energy model&lt;/h2&gt;
+&lt;p&gt;An elastic rod stores energy when it deforms. Its internal forces and bending or twisting moments can be obtained by differentiating that energy with respect to strain. Our key modeling step is to give the muscles a compatible description.&lt;/p&gt;
+&lt;p&gt;For muscle $m$, the paper constructs a scalar function $W^m$ whose strain derivatives generate its active force and moment. The construction incorporates the muscle&#39;s geometry and a force-length relation fitted to experimental data. Multiplying by its activation $u^m$ scales its contribution:&lt;/p&gt;
+&lt;div&gt;
+$$
+\mathbf n^m=u^m\frac{\partial W^m}{\partial\boldsymbol\nu},
+\qquad
+\mathbf m^m=u^m\frac{\partial W^m}{\partial\boldsymbol\kappa}.
+$$
+&lt;/div&gt;
+&lt;p&gt;Here, $\boldsymbol\nu$ describes shear and stretch, while $\boldsymbol\kappa$ describes bending and twist. The vectors $\mathbf n^m$ and $\mathbf m^m$ are the muscle&#39;s internal force and moment in the arm&#39;s local frame.&lt;/p&gt;
+&lt;p&gt;For a fixed spatial activation profile $\alpha^m(s)$, the combined potential energy becomes&lt;/p&gt;
+&lt;div&gt;
+$$
+V(q;\alpha)=\int_0^L\left[
+W^e(\varepsilon(s))+
+\sum_m\alpha^m(s)W^m(s,\varepsilon(s))
+\right]\,ds.
+$$
+&lt;/div&gt;
+&lt;p&gt;The notation $q$ represents the arm&#39;s position and orientation along its length, $\varepsilon=(\boldsymbol\nu,\boldsymbol\kappa)$ collects its strains, and $W^e$ is the passive elastic energy density. The muscle term is written here with its dependence on muscle strain absorbed into $\varepsilon$.&lt;/p&gt;
+&lt;p&gt;This gives us a family of energy landscapes indexed by muscle activation. It is a mechanical representation of the actuator forces; it does not measure the biological energy consumed by muscle metabolism.&lt;/p&gt;
+&lt;h2 id=&quot;choose-the-equilibrium-then-let-the-arm-move&quot;&gt;Choose the equilibrium, then let the arm move&lt;/h2&gt;
+&lt;p&gt;The picture at the top of this post captures the control idea. Before activation, a straight arm is at rest in its passive energy landscape. Activating the muscles reshapes that landscape, allowing a bent or twisted configuration to become a new equilibrium.&lt;/p&gt;
+&lt;p&gt;There is an important constraint: the available muscles determine which landscapes can be produced. A transverse muscle cannot apply an arbitrary sideways force, for example. In conventional energy-shaping design, reconciling a desired energy with these actuator restrictions leads to difficult equations called &lt;strong&gt;matching conditions&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Our muscle-energy formulation builds those restrictions into the family $V(q;\alpha)$. We search over physically available activations, with $0\leq\alpha^m(s)\leq1$, to find an equilibrium suited to the task. For the unloaded arm with a fixed base and free tip, the equilibrium condition balances active muscle loads against passive elastic loads.&lt;/p&gt;
+&lt;p&gt;The search minimizes a combination of activation effort and task error:&lt;/p&gt;
+&lt;div&gt;
+$$
+J(\alpha,q)=
+\frac12\sum_m\int_0^L[\alpha^m(s)]^2\,ds
++J_{\mathrm{task}}(q).
+$$
+&lt;/div&gt;
+&lt;p&gt;For reaching, the task cost penalizes tip-position and tip-orientation errors. For grasping, it encourages the arm to approach the object and face its suckers toward it, while a penalty discourages penetration. The squared-activation term regularizes muscle effort; minimizing it is not a claim of optimal metabolic efficiency.&lt;/p&gt;
+&lt;p&gt;The algorithm alternates between three steps:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;For the current activations, solve for equilibrium strains and reconstruct the arm from base to tip.&lt;/li&gt;
+&lt;li&gt;Propagate a costate from tip to base to determine how the task objective responds to changes along the arm.&lt;/li&gt;
+&lt;li&gt;Update the activations using that information, respecting their bounds, and repeat.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;This is an optimal control calculation along the &lt;strong&gt;spatial coordinate of the arm&lt;/strong&gt;. The pose evolves in $SE(3)$, the space of three-dimensional positions and rotations. A useful reduction expresses the costate through two three-component vectors with the interpretation of internal forces and moments.&lt;/p&gt;
+&lt;p&gt;After optimization, the activation profile is held constant in time. Muscle forces still change as the arm deforms because they depend on its current geometry and muscle lengths. With damping, the model&#39;s total mechanical energy is non-increasing along the motion. The paper uses this to argue local asymptotic stability under technical assumptions; a full functional-analytic proof for the infinite-dimensional system is left for future work.&lt;/p&gt;
+&lt;h2 id=&quot;reaching-means-getting-the-orientation-right-too&quot;&gt;Reaching means getting the orientation right, too&lt;/h2&gt;
+&lt;p&gt;The simulated arm is 20 cm long and tapers from a base radius of 1.2 cm to a tip radius of 0.12 cm. We discretize it into 100 rod elements in Elastica.&lt;/p&gt;
+&lt;p&gt;In a representative reaching movement, transverse activation extends the distal arm, longitudinal activation near the base bends it toward the target, and oblique activation twists it to orient the suckers. The three muscle groups cooperate to meet a position-and-orientation objective.&lt;/p&gt;
+&lt;figure class=&quot;post__figure&quot;&gt;&lt;a href=&quot;https://hanson-hschang.github.io/blogs/science/energy-shaping-octopus-arm/img/reaching.png&quot; data-post-lightbox-trigger aria-label=&quot;View full-size image: A simulated arm reaches toward an orange target using transverse, longitudinal, and oblique activations. A 125-target workspace study shows position and orientation errors, including difficult distant and near-base targets.&quot;&gt;&lt;img src=&quot;https://hanson-hschang.github.io/processed_images/reaching.53a658daebdd39a6.png&quot; alt=&quot;A simulated arm reaches toward an orange target using transverse, longitudinal, and oblique activations. A 125-target workspace study shows position and orientation errors, including difficult distant and near-base targets.&quot; width=&quot;1600&quot; height=&quot;909&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot;&gt;&lt;/a&gt;&lt;figcaption&gt;&lt;p&gt;&lt;strong&gt;Reach, bend, and turn the sucker side toward the target.&lt;/strong&gt; The upper panels show the task and a representative movement; the lower panels characterize errors across 125 target positions. Figure 5 from the preprint. &lt;a href=&quot;https://hanson-hschang.github.io/blogs/science/energy-shaping-octopus-arm/img/reaching.png&quot;&gt;Open full-size figure&lt;/a&gt;.&lt;/p&gt;
+&lt;/figcaption&gt;&lt;/figure&gt;
+&lt;p&gt;We test 125 targets distributed within a cube of side length 20 cm. The largest position errors occur at distant corners outside the arm&#39;s reachable workspace. Targets close to the base also challenge the arm&#39;s ability to bend and twist at the same time.&lt;/p&gt;
+&lt;p&gt;The normalized orientation error stays below 0.1 in all tested cases. This is a specific matrix-based measure, $|Q^*-Q(L)|_F^2/8$, rather than an angular error in degrees or a percentage of successful reaches. The experiment shows how the controller performs across a workspace that includes physically difficult and unreachable targets.&lt;/p&gt;
+&lt;h2 id=&quot;wrapping-around-an-object&quot;&gt;Wrapping around an object&lt;/h2&gt;
+&lt;p&gt;Grasping asks more of the arm than bringing its tip to a point. A substantial length of the arm must approach the object, curve around it, and turn its sucker-facing side inward.&lt;/p&gt;
+&lt;p&gt;We express these requirements through an objective acting on the distal 70% of the arm, together with a non-penetration penalty. Longitudinal and oblique activation then produce a spiral-like configuration around a cylindrical target.&lt;/p&gt;
+&lt;figure class=&quot;post__figure&quot;&gt;&lt;a href=&quot;https://hanson-hschang.github.io/blogs/science/energy-shaping-octopus-arm/img/grasping.png&quot; data-post-lightbox-trigger aria-label=&quot;View full-size image: An octopus-arm simulation wraps around a cylinder while turning the sucker-facing side inward. Additional tests vary cylinder radius from one to four centimeters and tilt cylinders in two directions.&quot;&gt;&lt;img src=&quot;https://hanson-hschang.github.io/processed_images/grasping.5d80b5a11058413b.png&quot; alt=&quot;An octopus-arm simulation wraps around a cylinder while turning the sucker-facing side inward. Additional tests vary cylinder radius from one to four centimeters and tilt cylinders in two directions.&quot; width=&quot;1600&quot; height=&quot;1080&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot;&gt;&lt;/a&gt;&lt;figcaption&gt;&lt;p&gt;&lt;strong&gt;A grasp depends on shape and orientation.&lt;/strong&gt; The simulated arm wraps around cylinders with different radii and tilts. The lower plots compare position and director errors relative to the indicated reference cases. Figure 6 from the preprint. &lt;a href=&quot;https://hanson-hschang.github.io/blogs/science/energy-shaping-octopus-arm/img/grasping.png&quot;&gt;Open full-size figure&lt;/a&gt;.&lt;/p&gt;
+&lt;/figcaption&gt;&lt;/figure&gt;
+&lt;p&gt;The tests vary cylinder radius from 1 to 4 cm. Thinner cylinders are harder to wrap around: their surfaces require tighter bending, which competes with the activation-effort penalty. Separate tests keep the radius at 2 cm and vary the cylinder&#39;s tilt from $-60^\circ$ to $60^\circ$ about each of two axes.&lt;/p&gt;
+&lt;p&gt;Across those tilt tests, the position-error measure varies less than the orientation-error measure. The chosen objective places greater weight on proximity, so keeping the arm close to the cylinder can take priority over perfectly orienting the suckers.&lt;/p&gt;
+&lt;p&gt;Here, grasping means achieving the wrapping configuration in simulation. Sucker adhesion and sensing are outside this model, and the experiments do not test holding or lifting a load.&lt;/p&gt;
+&lt;h2 id=&quot;what-energy-shaping-gives-us&quot;&gt;What energy shaping gives us&lt;/h2&gt;
+&lt;p&gt;The contribution is a connection between &lt;strong&gt;anatomy, mechanics, and control design&lt;/strong&gt;. Muscle geometry determines forces and moments; a common energy description combines them with elasticity; optimization selects activations for a useful equilibrium. The arm&#39;s dynamics then produce the transition toward that configuration.&lt;/p&gt;
+&lt;p&gt;This provides a way to coordinate a highly deformable body without prescribing the full motion of every point along it. It also keeps the actuator constraints visible throughout the design.&lt;/p&gt;
+&lt;p&gt;The demonstrated tasks involve static targets and a simulated arm. Extending the approach to moving targets, sensory feedback, and neural control requires additional work. Still, the study gives a concrete starting point for soft robotic manipulation: design how the body wants to settle, and use its mechanics to help it get there.&lt;/p&gt;
+&lt;h2 id=&quot;paper-and-attribution&quot;&gt;Paper and attribution&lt;/h2&gt;
+&lt;p&gt;This post is based on &lt;strong&gt;Energy-shaping control of a muscular octopus arm moving in three dimensions&lt;/strong&gt;, by Heng-Sheng Chang, Udit Halder, Chia-Hsien Shih, Noel Naughton, Mattia Gazzola, and Prashant G. Mehta. The paper appeared in &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://doi.org/10.1098/rspa.2022.0593&quot;&gt;&lt;em&gt;Proceedings of the Royal Society A&lt;/em&gt;, 479(2270), 20220593 (2023)&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The technical discussion and Figures 2, 3, 5, and 6 follow the &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://arxiv.org/abs/2209.04089v1&quot;&gt;arXiv:2209.04089v1 preprint&lt;/a&gt;, submitted September 9, 2022. The figures are reproduced in full from that version, with surrounding page text removed. The arXiv version is distributed under &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://creativecommons.org/licenses/by-nc-nd/4.0/&quot;&gt;CC BY-NC-ND 4.0&lt;/a&gt;. The &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://mehta.mechse.illinois.edu/research/soft-robotics/energy-shaping-control&quot;&gt;research group page&lt;/a&gt; includes a video of three-dimensional reaching and grasping. The BibTeX below cites the published paper.&lt;/p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>Seeing How Soft Arms Deform: From Camera Images to Six Strain Fields</title>
+        <published>2022-06-01T00:00:00+00:00</published>
+        <updated>2022-06-01T00:00:00+00:00</updated>
+        
+        <author>
+          <name>Heng-Sheng Chang</name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://hanson-hschang.github.io/blogs/science/vision-based-soft-arm-reconstruction/"/>
+        <id>https://hanson-hschang.github.io/blogs/science/vision-based-soft-arm-reconstruction/</id>
+        
+        <content type="html" xml:base="https://hanson-hschang.github.io/blogs/science/vision-based-soft-arm-reconstruction/">&lt;p&gt;Take a flexible tube and twist one end. Its center line can remain almost unchanged, even though the material has undergone a substantial deformation. Now bend it while twisting, or let neighboring cross-sections slide sideways relative to one another. A picture of the tube&#39;s outline becomes even less informative about what is happening inside its motion.&lt;/p&gt;
+&lt;p&gt;This is a measurement problem for soft robotics and biomechanics: &lt;strong&gt;how can we recover the way a slender body deforms, along its entire length, from a few camera observations?&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;In our paper, &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://doi.org/10.1109/ICRA46639.2022.9811909&quot;&gt;&lt;em&gt;A physics-informed, vision-based method to reconstruct all deformation modes in slender bodies&lt;/em&gt;&lt;/a&gt;, Seung Hyun Kim, Chia-Hsien Shih, Naveen Kumar Uppalapati, Udit Halder, Girish Krishnan, Prashant G. Mehta, Mattia Gazzola, and I combine multi-camera tracking with Cosserat rod mechanics. The result is an estimate of both the body&#39;s three-dimensional pose and its six strain fields, including twist and shear.&lt;/p&gt;
+&lt;p&gt;The cameras supply discrete observations. Mechanics helps connect them into a continuous body.&lt;/p&gt;
+&lt;h2 id=&quot;reconstruction-in-action&quot;&gt;Reconstruction in action&lt;/h2&gt;
+&lt;figure class=&quot;post__figure&quot;&gt;
+&lt;div class=&quot;post__embed&quot;&gt;
+  &lt;iframe src=&quot;https://www.youtube-nocookie.com/embed/MUGVKLAMELk&quot; title=&quot;Physics-informed vision-based reconstruction of soft arm deformation&quot; loading=&quot;lazy&quot; allow=&quot;fullscreen; picture-in-picture&quot; referrerpolicy=&quot;strict-origin-when-cross-origin&quot; allowfullscreen&gt;&lt;/iframe&gt;
+&lt;/div&gt;
+&lt;figcaption&gt;&lt;strong&gt;Watch the reconstruction in action.&lt;/strong&gt; &lt;a href=&quot;https://www.youtube.com/watch?v=MUGVKLAMELk&quot;&gt;Open the video on YouTube&lt;/a&gt;.&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;h2 id=&quot;a-center-line-is-only-part-of-the-shape&quot;&gt;A center line is only part of the shape&lt;/h2&gt;
+&lt;p&gt;A Cosserat rod represents a slender body with two ingredients at every location along its length: a position $\mathbf r(s)$ and an orientation $Q(s)$. Here, $s$ labels position along the reference length of the arm. The columns of $Q$ are three perpendicular unit vectors, called &lt;strong&gt;directors&lt;/strong&gt;, attached to each cross-section.&lt;/p&gt;
+&lt;p&gt;Two directors span the cross-section; the third is perpendicular to it. That third director need not align with the center-line tangent. Their misalignment is precisely what allows the model to describe shear.&lt;/p&gt;
+&lt;p&gt;The changes in position and orientation are governed by six components:&lt;/p&gt;
+&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th style=&quot;text-align: left&quot;&gt;Deformation&lt;/th&gt;&lt;th style=&quot;text-align: left&quot;&gt;Components&lt;/th&gt;&lt;th style=&quot;text-align: left&quot;&gt;What changes locally&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;
+&lt;tr&gt;&lt;td style=&quot;text-align: left&quot;&gt;Bending&lt;/td&gt;&lt;td style=&quot;text-align: left&quot;&gt;$\kappa_1,\kappa_2$&lt;/td&gt;&lt;td style=&quot;text-align: left&quot;&gt;Cross-sections rotate about their two transverse axes&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style=&quot;text-align: left&quot;&gt;Twisting&lt;/td&gt;&lt;td style=&quot;text-align: left&quot;&gt;$\kappa_3$&lt;/td&gt;&lt;td style=&quot;text-align: left&quot;&gt;Cross-sections rotate about their own normal axis&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style=&quot;text-align: left&quot;&gt;Shearing&lt;/td&gt;&lt;td style=&quot;text-align: left&quot;&gt;$\nu_1,\nu_2$&lt;/td&gt;&lt;td style=&quot;text-align: left&quot;&gt;Neighboring cross-sections shift sideways relative to the local frame&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style=&quot;text-align: left&quot;&gt;Stretching&lt;/td&gt;&lt;td style=&quot;text-align: left&quot;&gt;$\nu_3$&lt;/td&gt;&lt;td style=&quot;text-align: left&quot;&gt;Separation changes along the cross-section normal; the undeformed value is 1 for a straight, unstretched rod&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;&lt;/table&gt;
+&lt;p&gt;With $Q$ mapping local coordinates into the laboratory frame, the rod&#39;s kinematics can be written as&lt;/p&gt;
+&lt;div&gt;
+$$
+\frac{d\mathbf r}{ds}=Q\boldsymbol\nu,
+\qquad
+\frac{dQ}{ds}=Q[\boldsymbol\kappa]_\times.
+$$
+&lt;/div&gt;
+&lt;p&gt;The notation $[\boldsymbol\kappa]_\times$ denotes the matrix that takes a cross product with $\boldsymbol\kappa$. Given these strain fields and a base pose, we can integrate the equations to reconstruct the rod.&lt;/p&gt;
+&lt;p&gt;The inverse problem goes the other way: use measured positions and orientations to infer the strains. Tracking cross-section markers makes orientation observable, which is essential for distinguishing a straight, twisted arm from a straight, untwisted one.&lt;/p&gt;
+&lt;h2 id=&quot;from-five-cameras-to-discrete-poses&quot;&gt;From five cameras to discrete poses&lt;/h2&gt;
+&lt;p&gt;Our laboratory setup surrounds the arm with five action cameras recording at 60 frames per second and 1080p. The cameras are arranged so that each tracked marker point is visible in at least two views over the intended motions.&lt;/p&gt;
+&lt;p&gt;Before tracking the arm, we calibrate the cameras throughout a $40\times30\times40$ cm workspace. Colored flags hang along weighted nylon wires, and moving this grid through the volume provides more than 1,000 reference points. The reported calibration errors are 1.4 mm on average and 2.6 mm at maximum.&lt;/p&gt;
+&lt;figure class=&quot;post__figure&quot;&gt;&lt;a href=&quot;https://hanson-hschang.github.io/blogs/science/vision-based-soft-arm-reconstruction/img/camera-pipeline.png&quot; data-post-lightbox-trigger aria-label=&quot;View full-size image: A movable grid of colored flags calibrates the camera volume. Optical flow tracks arm markers, direct linear transformation recovers three-dimensional points, and rod smoothing reconstructs the arm&amp;#39;s position and orientation.&quot;&gt;&lt;img src=&quot;https://hanson-hschang.github.io/processed_images/camera-pipeline.b3442b75c263418a.png&quot; alt=&quot;A movable grid of colored flags calibrates the camera volume. Optical flow tracks arm markers, direct linear transformation recovers three-dimensional points, and rod smoothing reconstructs the arm&amp;#39;s position and orientation.&quot; width=&quot;1600&quot; height=&quot;814&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot;&gt;&lt;/a&gt;&lt;figcaption&gt;&lt;p&gt;&lt;strong&gt;Calibrate, track, reconstruct.&lt;/strong&gt; Multiple views provide discrete three-dimensional marker positions and cross-section orientations. The rightmost panel illustrates how other camera views help recover a marker when it reappears. Figure 2 from the &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://arxiv.org/abs/2109.08372v1&quot;&gt;preprint&lt;/a&gt;. &lt;a href=&quot;https://hanson-hschang.github.io/blogs/science/vision-based-soft-arm-reconstruction/img/camera-pipeline.png&quot;&gt;Open full-size figure&lt;/a&gt;.&lt;/p&gt;
+&lt;/figcaption&gt;&lt;/figure&gt;
+&lt;p&gt;After an initial manual selection, Lucas–Kanade optical flow follows marker points through successive images. Direct Linear Transformation (DLT) combines the calibrated views to estimate their three-dimensional coordinates. The cross-section markers then supply discrete position-and-orientation measurements along the arm.&lt;/p&gt;
+&lt;p&gt;Multiple views also help with occlusion. When a point disappears from one camera but remains visible to others, its reconstructed position predicts where to look for it when it reappears. This depends on sufficient camera coverage; the method cannot observe a marker hidden from every view.&lt;/p&gt;
+&lt;h2 id=&quot;let-mechanics-fill-the-gaps&quot;&gt;Let mechanics fill the gaps&lt;/h2&gt;
+&lt;p&gt;Directly differentiating noisy pose measurements can produce unreliable strains. Fitting independent rod segments between successive markers also creates a problem: the segments may meet in position and orientation while their strains jump at the boundaries.&lt;/p&gt;
+&lt;p&gt;We instead optimize a single rod over its full length. Three terms guide the estimate: an elastic energy, a penalty on rapid spatial changes in strain, and a mismatch cost for the measured poses.&lt;/p&gt;
+&lt;p&gt;Collect the six strains into $\varepsilon=(\boldsymbol\kappa,\boldsymbol\nu)$, and let $\varepsilon^\circ$ be their intrinsic, stress-free values. Using the paper&#39;s quadratic elastic model, the objective is&lt;/p&gt;
+&lt;div&gt;
+$$
+\begin{aligned}
+J={}&amp;\frac12\int_0^L
+(\varepsilon-\varepsilon^\circ)^T R(s)
+(\varepsilon-\varepsilon^\circ)\,ds\\
+&amp;+\frac{\chi_u}{2}\int_0^L
+\left\|\frac{d\varepsilon}{ds}\right\|^2\,ds\\
+&amp;+\sum_j\left[
+\frac{\chi_r}{2}\|\mathbf r(s_j)-\mathbf r_j\|^2
++\frac{\chi_Q}{2}\|Q(s_j)-Q_j\|_F^2
+\right].
+\end{aligned}
+$$
+&lt;/div&gt;
+&lt;p&gt;Here, $R(s)$ is the rigidity matrix, $(\mathbf r_j,Q_j)$ are measured poses, and the positive weights $\chi_u,\chi_r,\chi_Q$ balance smoothness and data agreement. The Frobenius norm $\lVert\cdot\rVert_F$ measures the orientation-matrix mismatch.&lt;/p&gt;
+&lt;p&gt;The elastic term gives different deformations a mechanical cost. The strain-gradient term discourages abrupt variation. The measurement term keeps the reconstruction close to the observations without forcing it to pass exactly through noisy data. Together, these terms express what &lt;strong&gt;physics-informed reconstruction&lt;/strong&gt; means in this work: rod kinematics constrain the geometry, and elasticity supplies a mechanical prior.&lt;/p&gt;
+&lt;p&gt;The key optimization choice is to treat the &lt;strong&gt;spatial derivative of strain&lt;/strong&gt;, $u(s)=d\varepsilon/ds$, as the control variable. Integrating it produces continuous strain fields. With the base pose and base strain specified, the solver repeatedly:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Integrates strain and pose forward from base to tip.&lt;/li&gt;
+&lt;li&gt;Propagates sensitivity information backward, accounting for the measurement errors at each marker.&lt;/li&gt;
+&lt;li&gt;Updates $u(s)$ to reduce the objective.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;This is optimal control along the arm&#39;s &lt;strong&gt;spatial coordinate&lt;/strong&gt;. The pose costates, which carry sensitivity information backward, can be expressed as internal force and moment. The calculation reconstructs an observed configuration; it does not require prescribing the robot&#39;s actuator commands or solving a full time-dependent motion model.&lt;/p&gt;
+&lt;h2 id=&quot;testing-what-can-be-recovered&quot;&gt;Testing what can be recovered&lt;/h2&gt;
+&lt;p&gt;We first generate synthetic rods from known, smoothly varying strain functions. This gives an exact reference for all six strain components, something much harder to obtain on hardware.&lt;/p&gt;
+&lt;p&gt;For the tested synthetic curves, the reported relative reconstruction errors fall to roughly 1% with five sampled poses and remain around 5% with two. These are results for the chosen smooth strain profiles, rather than a general sampling rule for every possible soft-body shape.&lt;/p&gt;
+&lt;figure class=&quot;post__figure&quot;&gt;&lt;a href=&quot;https://hanson-hschang.github.io/blogs/science/vision-based-soft-arm-reconstruction/img/synthetic-reconstruction.png&quot; data-post-lightbox-trigger aria-label=&quot;View full-size image: Reconstructed material frames align with five synthetic pose samples. Recovered shear, stretch, bending, and twist curves follow their known references, and reconstruction error decreases with sample count.&quot;&gt;&lt;img src=&quot;https://hanson-hschang.github.io/processed_images/synthetic-reconstruction.a0044c7907cd8a71.png&quot; alt=&quot;Reconstructed material frames align with five synthetic pose samples. Recovered shear, stretch, bending, and twist curves follow their known references, and reconstruction error decreases with sample count.&quot; width=&quot;1400&quot; height=&quot;672&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot;&gt;&lt;/a&gt;&lt;figcaption&gt;&lt;p&gt;&lt;strong&gt;Checking against known strains.&lt;/strong&gt; Synthetic data makes it possible to compare the recovered strain fields with their generating functions. The right-hand plot varies the number of sampled poses. Figure 3 from the &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://arxiv.org/abs/2109.08372v1&quot;&gt;preprint&lt;/a&gt;. &lt;a href=&quot;https://hanson-hschang.github.io/blogs/science/vision-based-soft-arm-reconstruction/img/synthetic-reconstruction.png&quot;&gt;Open full-size figure&lt;/a&gt;.&lt;/p&gt;
+&lt;/figcaption&gt;&lt;/figure&gt;
+&lt;p&gt;For the first hardware experiment, we use an 18 cm pneumatic &lt;strong&gt;BR² arm&lt;/strong&gt; made from three parallel fiber-reinforced elastomeric actuators: one designed to bend and two to twist in opposite directions. Five cross-section markers provide the observations.&lt;/p&gt;
+&lt;p&gt;The opening figure shows separate bending, twisting, and combined actuation. The recovered strain profiles identify the dominant deformation in each case. They also reveal smaller accompanying deformations caused by mechanical coupling, fabrication effects, and gravity.&lt;/p&gt;
+&lt;p&gt;To measure position accuracy independently, the published paper compares reconstruction with electromagnetic sensors at the arm&#39;s midsection, three-quarter position, and last-marker tip. Each actuation experiment is repeated eight times. Table I reports:&lt;/p&gt;
+&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th style=&quot;text-align: left&quot;&gt;Actuation condition&lt;/th&gt;&lt;th style=&quot;text-align: right&quot;&gt;Median position error&lt;/th&gt;&lt;th style=&quot;text-align: right&quot;&gt;Maximum position error&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;
+&lt;tr&gt;&lt;td style=&quot;text-align: left&quot;&gt;Maximum bending&lt;/td&gt;&lt;td style=&quot;text-align: right&quot;&gt;4.15 mm&lt;/td&gt;&lt;td style=&quot;text-align: right&quot;&gt;5.43 mm&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style=&quot;text-align: left&quot;&gt;Maximum twisting&lt;/td&gt;&lt;td style=&quot;text-align: right&quot;&gt;2.96 mm&lt;/td&gt;&lt;td style=&quot;text-align: right&quot;&gt;4.03 mm&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style=&quot;text-align: left&quot;&gt;Both&lt;/td&gt;&lt;td style=&quot;text-align: right&quot;&gt;4.13 mm&lt;/td&gt;&lt;td style=&quot;text-align: right&quot;&gt;5.13 mm&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;&lt;/table&gt;
+&lt;p&gt;These measurements assess the complete pipeline, including calibration and reconstruction. The median errors are about 3–4 mm on an arm with a 15.9 mm diameter. Although the abstract summarizes accuracy as below 5 mm, the table records some larger errors. These are &lt;strong&gt;position errors&lt;/strong&gt;, not independent measurements of the accuracy of every strain component.&lt;/p&gt;
+&lt;h2 id=&quot;recovering-coupled-deformations&quot;&gt;Recovering coupled deformations&lt;/h2&gt;
+&lt;p&gt;The more demanding demonstrations use a two-section BR² arm and a cable-driven arm. Their different designs help test whether the reconstruction can capture several deformation modes at once.&lt;/p&gt;
+&lt;p&gt;In the 38 cm BR² arm, one section receives a bending command and the other a twisting command. Eleven cross-section markers support reconstruction of all six strain fields. The expected bending and twisting dominate their respective sections, while smaller coupled strains appear elsewhere.&lt;/p&gt;
+&lt;p&gt;The 35 cm cable-driven arm uses twelve markers and bends its two sections in different directions. Its softer construction and cable routing let its cross-sectional holders tilt away from perpendicular to the center line. The reconstructed shear captures this visible feature of the deformation.&lt;/p&gt;
+&lt;figure class=&quot;post__figure&quot;&gt;&lt;a href=&quot;https://hanson-hschang.github.io/blogs/science/vision-based-soft-arm-reconstruction/img/all-deformation-modes.png&quot; data-post-lightbox-trigger aria-label=&quot;View full-size image: A two-section pneumatic arm bends above and twists below, while a cable-driven arm bends in two directions and shears. Image overlays and six reconstructed strain profiles describe each experiment.&quot;&gt;&lt;img src=&quot;https://hanson-hschang.github.io/processed_images/all-deformation-modes.54620a3b92aa9c27.png&quot; alt=&quot;A two-section pneumatic arm bends above and twists below, while a cable-driven arm bends in two directions and shears. Image overlays and six reconstructed strain profiles describe each experiment.&quot; width=&quot;1600&quot; height=&quot;891&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot;&gt;&lt;/a&gt;&lt;figcaption&gt;&lt;p&gt;&lt;strong&gt;One description for different soft arms.&lt;/strong&gt; The upper row shows the multi-section BR² arm; the lower row shows the cable-driven arm. Position and orientation overlays connect the camera observations to the recovered strain fields. Figure 5 from the &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://arxiv.org/abs/2109.08372v1&quot;&gt;preprint&lt;/a&gt;. &lt;a href=&quot;https://hanson-hschang.github.io/blogs/science/vision-based-soft-arm-reconstruction/img/all-deformation-modes.png&quot;&gt;Open full-size figure&lt;/a&gt;.&lt;/p&gt;
+&lt;/figcaption&gt;&lt;/figure&gt;
+&lt;p&gt;We also perturb the cable-driven arm&#39;s measured marker positions with uniform noise of up to 5 mm. Reconstructing again changes the strain fields by about 10% on average in the paper&#39;s relative $L_2$ measure. This tests sensitivity to added noise by comparing two reconstructions; it is not a comparison with independently known physical strains.&lt;/p&gt;
+&lt;h2 id=&quot;what-this-makes-measurable&quot;&gt;What this makes measurable&lt;/h2&gt;
+&lt;p&gt;The contribution is a way to turn sparse pose observations into a mechanically informed description of a whole slender body. It brings bending, twist, shear, and stretch into the same reconstruction, so an experiment can ask where each deformation occurs and how they interact.&lt;/p&gt;
+&lt;p&gt;The approach still depends on camera calibration, visible markers, a suitable rod model, specified base conditions, and choices of stiffness and smoothing weights. Fine spatial features between widely spaced markers may be smoothed away. Recording at 60 frames per second also does not establish that the complete reconstruction runs in real time.&lt;/p&gt;
+&lt;p&gt;The hardware demonstrations support laboratory characterization of soft robots. Applying the method to biological bodies would require suitable tracking and modeling choices. Within that scope, it provides a useful connection between what cameras can observe and what mechanics needs to explain: &lt;strong&gt;both where the body is and how its material deforms along its length.&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id=&quot;paper-and-attribution&quot;&gt;Paper and attribution&lt;/h2&gt;
+&lt;p&gt;This post is based on &lt;strong&gt;A physics-informed, vision-based method to reconstruct all deformation modes in slender bodies&lt;/strong&gt;, by Seung Hyun Kim, Heng-Sheng Chang, Chia-Hsien Shih, Naveen Kumar Uppalapati, Udit Halder, Girish Krishnan, Prashant G. Mehta, and Mattia Gazzola, published in &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://doi.org/10.1109/ICRA46639.2022.9811909&quot;&gt;ICRA 2022, pp. 4810–4817&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The experimental error statistics above follow Table I in the published paper. Figures 2–5 are reproduced from the &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://arxiv.org/abs/2109.08372v1&quot;&gt;September 17, 2021 arXiv preprint&lt;/a&gt;, with surrounding page text and original captions removed and explanatory captions supplied here. The figure assets retain the source&#39;s &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://creativecommons.org/licenses/by-nc-sa/4.0/&quot;&gt;CC BY-NC-SA 4.0 license&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://github.com/GazzolaLab/BR2-vision-based-smoothing&quot;&gt;code repository&lt;/a&gt; links to demonstration data and identifies its &lt;strong&gt;v0.1&lt;/strong&gt; version as the code used to reproduce the paper&#39;s results. The BibTeX below cites the published conference paper.&lt;/p&gt;
+</content>
+        
+    </entry>
+</feed>

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title>Hanson.HSChang - Hidden Markov Models</title>
+    <subtitle>This is Hanson&#39;s personal website.</subtitle>
+    <link rel="self" type="application/atom+xml" href="https://hanson-hschang.github.io/tags/hidden-markov-models/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://hanson-hschang.github.io/"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2026-05-15T00:00:00+00:00</updated>
+    <id>https://hanson-hschang.github.io/tags/hidden-markov-models/atom.xml</id>
+    <entry xml:lang="en">
+        <title>From Optimal Control to Transformer-like Inference</title>
+        <published>2026-05-15T00:00:00+00:00</published>
+        <updated>2026-05-15T00:00:00+00:00</updated>
+        
+        <author>
+          <name>Heng-Sheng Chang</name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://hanson-hschang.github.io/blogs/science/transformer-inference-from-optimal-control/"/>
+        <id>https://hanson-hschang.github.io/blogs/science/transformer-inference-from-optimal-control/</id>
+        
+        <content type="html" xml:base="https://hanson-hschang.github.io/blogs/science/transformer-inference-from-optimal-control/">&lt;p&gt;A decoder-only transformer predicts the next token by repeatedly updating a sequence of vectors. At each layer, a position can use information from itself and earlier positions. This gives the model a way to revisit earlier observations as it builds a prediction.&lt;/p&gt;
+&lt;p&gt;Can this familiar layer structure emerge from the mathematics of prediction itself?&lt;/p&gt;
+&lt;p&gt;In our preprint, &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://arxiv.org/abs/2605.15608&quot;&gt;&lt;em&gt;Transformer-like Inference from Optimal Control&lt;/em&gt;&lt;/a&gt;, Aditya Kudre, Prashant G. Mehta, and I approach that question through &lt;strong&gt;filtering-control duality&lt;/strong&gt;. We begin with a probabilistic model of how observations are generated. Minimizing prediction error then becomes an optimal control problem, whose solution defines an inference algorithm called the &lt;strong&gt;dual filter&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;The resulting algorithm updates a whole sequence of vectors, much like a transformer layer. A controlled experiment also exposes an important difference: when the representation is too small for the assumed hidden-state model, a trained transformer can still make nearly optimal predictions by using the observation history.&lt;/p&gt;
+&lt;h2 id=&quot;prediction-as-hidden-state-inference&quot;&gt;Prediction as hidden-state inference&lt;/h2&gt;
+&lt;p&gt;Imagine observing a sequence of symbols produced by a system whose internal state is hidden. To predict the next symbol, we first estimate what that internal state could be.&lt;/p&gt;
+&lt;p&gt;For a discrete state space with $d$ possible states, the estimate is a probability vector:&lt;/p&gt;
+&lt;div&gt;
+$$
+\pi_T(x)=\mathbb{P}(X_T=x\mid Z_{1:T}).
+$$
+&lt;/div&gt;
+&lt;p&gt;Here, $X_T$ is the hidden state and $Z_{1:T}$ is the observed sequence. If $C(x,z)$ is the probability that state $x$ emits token $z$, the next-token distribution follows from&lt;/p&gt;
+&lt;div&gt;
+$$
+\mathbb{P}(Z_{T+1}=z\mid Z_{1:T})
+=\sum_{x=1}^{d}\pi_T(x)C(x,z).
+$$
+&lt;/div&gt;
+&lt;p&gt;This is a probabilistic analogue of decoding an internal representation into token probabilities. Each coordinate of $\pi_T$ has a concrete meaning: the probability assigned to one hidden state.&lt;/p&gt;
+&lt;p&gt;The paper studies two settings. A &lt;strong&gt;linear Gaussian model&lt;/strong&gt; provides a tractable case in which the target is a conditional mean. A &lt;strong&gt;discrete-state model&lt;/strong&gt; brings us closer to token prediction, where the target is a conditional probability distribution. Both lead to a control formulation.&lt;/p&gt;
+&lt;h2 id=&quot;the-weights-become-the-controls&quot;&gt;The weights become the controls&lt;/h2&gt;
+&lt;p&gt;The key step is to represent a prediction as a weighted combination of observations. In the nonlinear setting, for a function $f$ of the hidden state, the paper establishes a representation of the form&lt;/p&gt;
+&lt;div&gt;
+$$
+\pi_T(f)=c_f-\sum_{t=1}^{T}U_{t-1}^{\mathsf T}e(Z_t).
+$$
+&lt;/div&gt;
+&lt;p&gt;The left-hand side is the conditional expectation of $f(X_T)$. Choosing $f$ to indicate a particular state gives that state&#39;s posterior probability. On the right, $c_f$ is a deterministic constant, $e$ encodes tokens, and the weights $U_{t-1}$ can depend on the observations preceding $Z_t$. For binary observations, the encoding is simply $e(1)=1$ and $e(0)=-1$.&lt;/p&gt;
+&lt;p&gt;Although the expression looks like a linear sum, &lt;strong&gt;its weights depend on the data&lt;/strong&gt;, allowing it to represent a nonlinear predictor. Their dependence on past observations also imposes a causal information constraint.&lt;/p&gt;
+&lt;p&gt;The next step is to choose those weights. For a hidden Markov model (HMM), the duality principle constructs an auxiliary control system and a cost that equals the estimator&#39;s mean squared error:&lt;/p&gt;
+&lt;div&gt;
+$$
+J_T(U;f)=\mathbb{E}\!\left[\bigl(f(X_T)-S_T\bigr)^2\right].
+$$
+&lt;/div&gt;
+&lt;p&gt;Here, $S_T$ is the estimator associated with the chosen controls. Solving the control problem therefore produces the minimum mean squared error estimate, $\pi_T(f)$. The controls determine how observations contribute to inference; they do not physically steer the system generating the tokens.&lt;/p&gt;
+&lt;p&gt;There is a useful distinction between the two results. The nonlinear weighted representation applies beyond HMMs, but the paper&#39;s explicit nonlinear control formula is derived for the &lt;strong&gt;Markovian hidden-state case&lt;/strong&gt;. The linear Gaussian analysis also handles hidden dynamics with longer memory.&lt;/p&gt;
+&lt;h2 id=&quot;how-a-layer-emerges&quot;&gt;How a layer emerges&lt;/h2&gt;
+&lt;p&gt;For the HMM, the optimal control law depends on the hidden-state probabilities we are trying to compute. Combining that law with the predictor produces a &lt;strong&gt;fixed-point equation&lt;/strong&gt;: the correct probability sequence reproduces itself under the update.&lt;/p&gt;
+&lt;p&gt;This suggests a layer operation. Start with approximate probability vectors at all $T$ positions, use them to compute controls through the dual equations, and produce a new sequence:&lt;/p&gt;
+&lt;div&gt;
+$$
+[\rho_1,\ldots,\rho_T]
+\longmapsto
+[\rho_1^+,\ldots,\rho_T^+].
+$$
+&lt;/div&gt;
+&lt;p&gt;Both input and output have shape $d\times T$. Repeating the operation gives a layered inference architecture. The linear Gaussian case has a similar construction using a sequence of auxiliary vectors called momenta, with updates supplied by the optimality equations.&lt;/p&gt;
+&lt;p&gt;This is the sense in which the architecture is &lt;strong&gt;transformer-like&lt;/strong&gt;: causal sequence-to-sequence updates arise from the inference objective. The derivation does not identify the controls with standard softmax attention, recover every component of a transformer block, or establish a general guarantee that a chosen finite number of iterations reaches the fixed point.&lt;/p&gt;
+&lt;p&gt;For hidden dynamics with long memory, the linear formulation also offers a computational motivation. It works with a $d\times T$ sequence, whereas a Kalman formulation that explicitly augments the state with the full history must maintain growing covariance matrices. The paper&#39;s complexity comparison concerns that history-dependent setting; the number of iterations needed to solve the dual equations remains relevant to practical runtime.&lt;/p&gt;
+&lt;h2 id=&quot;a-small-experiment-with-an-exact-benchmark&quot;&gt;A small experiment with an exact benchmark&lt;/h2&gt;
+&lt;p&gt;To compare control and attention, we use a process that concatenates independently chosen binary patterns. With the paper&#39;s main settings, the long pattern has two ones followed by fourteen zeros; the short pattern has one one followed by four zeros. Each new cycle is chosen with equal probability.&lt;/p&gt;
+&lt;figure class=&quot;post__figure&quot;&gt;&lt;a href=&quot;https://hanson-hschang.github.io/blogs/science/transformer-inference-from-optimal-control/img/two-cycle-model.png&quot; data-post-lightbox-trigger aria-label=&quot;View full-size image: A sixteen-state hidden Markov model branches between long and short cycles; a sample binary sequence shows ones separated by runs of zeros.&quot;&gt;&lt;img src=&quot;https://hanson-hschang.github.io/processed_images/two-cycle-model.b45ae44333083be7.png&quot; alt=&quot;A sixteen-state hidden Markov model branches between long and short cycles; a sample binary sequence shows ones separated by runs of zeros.&quot; width=&quot;1504&quot; height=&quot;287&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot;&gt;&lt;/a&gt;&lt;figcaption&gt;&lt;p&gt;&lt;strong&gt;Two cycles, one prediction task.&lt;/strong&gt; The hidden state tracks progress around the cycles. The locations of the ones help identify that progress. Figure 2 from the paper, with long-cycle length $d=16$ and short-cycle length $q+1=5$. &lt;a href=&quot;https://hanson-hschang.github.io/blogs/science/transformer-inference-from-optimal-control/img/two-cycle-model.png&quot;&gt;Open full-size figure&lt;/a&gt;.&lt;/p&gt;
+&lt;/figcaption&gt;&lt;/figure&gt;
+&lt;p&gt;Because the generating HMM is known, its exact filter provides an optimal next-token prediction benchmark. We train a nanoGPT with &lt;strong&gt;one layer and one attention head&lt;/strong&gt;, using sequences of length $T=64$ and initially an embedding dimension of $16$.&lt;/p&gt;
+&lt;p&gt;The figure at the top of this post compares its attention weights with dual-filter controls computed from the &lt;strong&gt;true HMM parameters&lt;/strong&gt;. Both emphasize sparse, informative time indices associated with observed ones. The transformer learns this pattern from data, without receiving the HMM parameters.&lt;/p&gt;
+&lt;p&gt;The resemblance is qualitative. Attention weights are nonnegative and normalized, while the control weights may have either sign. Similar places to look do not imply identical numerical weights or identical computations.&lt;/p&gt;
+&lt;h2 id=&quot;what-happens-when-the-representation-is-too-small&quot;&gt;What happens when the representation is too small?&lt;/h2&gt;
+&lt;p&gt;The next experiment holds the true hidden-state dimension at $d=16$ and varies the candidate dimension $\hat d$. For every candidate dimension, the HMM parameters are estimated from data using Baum-Welch; nanoGPT is trained on the same dataset. This differs from the preceding comparison, which used known HMM parameters.&lt;/p&gt;
+&lt;figure class=&quot;post__figure&quot;&gt;&lt;a href=&quot;https://hanson-hschang.github.io/blogs/science/transformer-inference-from-optimal-control/img/dimension-and-prediction.png&quot; data-post-lightbox-trigger aria-label=&quot;View full-size image: Next-token cross-entropy approaches the exact-filter benchmark for nanoGPT at embedding dimension eight, while the fitted HMM dual filter degrades below sixteen states. Heatmaps compare dimensions eight, sixteen, and thirty-two.&quot;&gt;&lt;img src=&quot;https://hanson-hschang.github.io/processed_images/dimension-and-prediction.4afc28d2052f63e9.png&quot; alt=&quot;Next-token cross-entropy approaches the exact-filter benchmark for nanoGPT at embedding dimension eight, while the fitted HMM dual filter degrades below sixteen states. Heatmaps compare dimensions eight, sixteen, and thirty-two.&quot; width=&quot;1512&quot; height=&quot;1216&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot;&gt;&lt;/a&gt;&lt;figcaption&gt;&lt;p&gt;&lt;strong&gt;Prediction under a dimension constraint.&lt;/strong&gt; Lower cross-entropy is better. At $\hat d=8$, nanoGPT stays close to the optimal HMM-filter benchmark while the smaller fitted HMM loses accuracy. The lower panels compare control and attention patterns. Figure 4 from the paper. &lt;a href=&quot;https://hanson-hschang.github.io/blogs/science/transformer-inference-from-optimal-control/img/dimension-and-prediction.png&quot;&gt;Open full-size figure&lt;/a&gt;.&lt;/p&gt;
+&lt;/figcaption&gt;&lt;/figure&gt;
+&lt;p&gt;When $\hat d\geq16$, both methods achieve near-optimal performance. At $\hat d=8$, the fitted Markovian model loses predictive accuracy, while nanoGPT remains near the benchmark.&lt;/p&gt;
+&lt;p&gt;We call this a &lt;strong&gt;non-Markovian advantage&lt;/strong&gt;. The smaller HMM must summarize history within an insufficient hidden-state model. Attention can revisit observations across the context, giving the transformer another way to use temporal information.&lt;/p&gt;
+&lt;p&gt;The underlying data generator is still an HMM. The advantage concerns the restricted representation used for prediction: a smaller embedding dimension does not force a transformer to behave like an HMM with that many states. Nor does matching these dimensions make the two models equal in parameter count or total memory. The experiment identifies a useful gap between these architectures under the tested conditions.&lt;/p&gt;
+&lt;h2 id=&quot;weight-patterns-are-only-part-of-the-story&quot;&gt;Weight patterns are only part of the story&lt;/h2&gt;
+&lt;p&gt;The appendix tests how the comparison changes when the transition or emission probabilities are perturbed. Each perturbation setting uses a separately trained transformer.&lt;/p&gt;
+&lt;p&gt;Perturbing transitions changes the optimal controls from a mainly vertical, event-focused pattern to a sparse diagonal pattern that aggregates evidence across past cycles. The transformer&#39;s attention remains largely vertical, yet its prediction loss stays near optimal. Perturbing emissions has a smaller effect on the pattern, with weights becoming more diffuse as the perturbation grows.&lt;/p&gt;
+&lt;p&gt;This makes the interpretation more precise: &lt;strong&gt;similar predictive performance can coexist with different weight structures&lt;/strong&gt;. The experiments do not establish that attention sparsity causes the advantage seen at smaller dimensions.&lt;/p&gt;
+&lt;h2 id=&quot;where-this-leads&quot;&gt;Where this leads&lt;/h2&gt;
+&lt;p&gt;Filtering-control duality gives a principled route from a prediction objective to a layered inference algorithm. It also gives us interpretable quantities to compare with learned attention: observation weights tied to an explicit probabilistic model and an error criterion.&lt;/p&gt;
+&lt;p&gt;The present evidence comes from synthetic sequence tasks. Extending the nonlinear control synthesis to hidden dynamics with longer memory, developing a learning framework for the model or the controls, and understanding convergence and computational cost remain important next steps. The undercomplete experiment gives the first of these a concrete target: capture the history dependence that the transformer can exploit.&lt;/p&gt;
+&lt;p&gt;This connects with the site&#39;s earlier posts on &lt;a href=&quot;https://hanson-hschang.github.io/blogs/science/belief-net/&quot;&gt;Belief Net&lt;/a&gt; and &lt;a href=&quot;https://hanson-hschang.github.io/blogs/science/transformers-and-state-space-models/&quot;&gt;transformers and state space models&lt;/a&gt;. Here, the organizing connection is between &lt;strong&gt;optimal estimation and optimal control&lt;/strong&gt;: a way to derive an inference architecture from the problem it is meant to solve.&lt;/p&gt;
+&lt;h2 id=&quot;paper-and-attribution&quot;&gt;Paper and attribution&lt;/h2&gt;
+&lt;p&gt;This post is based on &lt;strong&gt;Transformer-like Inference from Optimal Control&lt;/strong&gt;, by Aditya Kudre, Heng-Sheng Chang, and Prashant G. Mehta, University of Illinois Urbana-Champaign. The source reviewed here is &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://arxiv.org/abs/2605.15608v1&quot;&gt;arXiv:2605.15608v1&lt;/a&gt;, submitted May 15, 2026.&lt;/p&gt;
+&lt;p&gt;Figures 2, 3, and 4 are reproduced as crops from that version. The perturbation study is in Appendix C.2 and Figure 6. The BibTeX citation below refers to the source paper.&lt;/p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>Belief Net: Bridging Probabilistic Modeling and Deep Learning for Sequential Data</title>
+        <published>2026-02-21T00:00:00+00:00</published>
+        <updated>2026-02-21T00:00:00+00:00</updated>
+        
+        <author>
+          <name>Heng-Sheng Chang</name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://hanson-hschang.github.io/blogs/science/belief-net/"/>
+        <id>https://hanson-hschang.github.io/blogs/science/belief-net/</id>
+        
+        <content type="html" xml:base="https://hanson-hschang.github.io/blogs/science/belief-net/">&lt;p&gt;This &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://arxiv.org/abs/2511.10571&quot;&gt;research&lt;/a&gt;, co-authored with Prof. Prashant G. Mehta and my mentee Reginald Zhiyan Chen at the University of Illinois Urbana-Champaign, addresses a long-standing challenge in sequential data modeling: how do we combine the rock-solid interpretability of Hidden Markov Models (HMMs) with the powerful optimization of modern deep learning?&lt;/p&gt;
+&lt;h2 id=&quot;the-problem-interpretability-vs-optimization&quot;&gt;The Problem: Interpretability vs. Optimization&lt;/h2&gt;
+&lt;p&gt;For decades, researchers have faced a &quot;pick your poison&quot; scenario when modeling sequences:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;The Baum-Welch Method (an Expectation-Maximization algorithm): The classic approach for learning HMMs.
+It’s interpretable, but slow, computationally intensive, and notorious for getting stuck in local optima.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Spectral Algorithms: Extremely fast and provably correct, but they often produce &quot;probabilities&quot; that aren&#39;t actually valid (e.g., negative values) and fail when the hidden state space is larger than the observation space (the &quot;overcomplete&quot; setting).&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Transformers: The current gold standard for prediction. They are incredibly powerful but remain &quot;black boxes&quot;—you can’t easily look under the hood to see the underlying transition or emission logic.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;We asked ourselves: Can we train an HMM like a Transformer?&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;our-solution-belief-net&quot;&gt;Our Solution: Belief Net&lt;/h3&gt;
+&lt;p&gt;The Belief Net is a framework that formulates the HMM&#39;s recursive &quot;forward filter&quot; as a structured neural network.
+Instead of abstract weights, the learnable parameters in Belief Net are explicitly the logits of the initial distribution, transition matrix, and emission matrix.
+This means that every parameter has a clear probabilistic interpretation, and the entire model is fully differentiable and trainable end-to-end using standard deep learning techniques.&lt;/p&gt;
+&lt;figure class=&quot;post__figure&quot;&gt;&lt;img src=&quot;https://hanson-hschang.github.io/processed_images/belief-net.752ce914d672f441.png&quot; alt=&quot;Belief Net Architecture&quot; width=&quot;3000&quot; height=&quot;1215&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot;&gt;&lt;/figure&gt;
+&lt;h2 id=&quot;performance-highlights&quot;&gt;Performance Highlights&lt;/h2&gt;
+&lt;p&gt;We put Belief Net to the test against classical baselines (Baum-Welch and Spectral algorithms) and modern Transformer architectures (nanoGPT) on two tasks:&lt;/p&gt;
+&lt;h3 id=&quot;task-1-synthetic-hmm-data&quot;&gt;Task 1. Synthetic HMM Data&lt;/h3&gt;
+&lt;p&gt;Belief Net consistently outperformed the Baum-Welch algorithm in both convergence speed and accuracy.
+Notably, it succeeded in overcomplete settings where spectral methods completely failed due to rank deficiencies.&lt;/p&gt;
+&lt;figure class=&quot;post__figure&quot;&gt;&lt;img src=&quot;https://hanson-hschang.github.io/processed_images/hmm-training.218f50c13a6c127c.png&quot; alt=&quot;Belief Net Training Results on Synthetic HMM Data&quot; width=&quot;1000&quot; height=&quot;571&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot;&gt;&lt;/figure&gt;
+&lt;h3 id=&quot;task-2-real-world-text-data&quot;&gt;Task 2. Real-World Text Data&lt;/h3&gt;
+&lt;p&gt;When tested on the Federalist Papers dataset, Belief Net achieved lower perplexity than classical HMM methods.
+While Transformers (unsurprisingly) still lead in raw predictive power, Belief Net provides something they can&#39;t: &lt;strong&gt;Interpretable Logic&lt;/strong&gt;.&lt;/p&gt;
+&lt;figure class=&quot;post__figure&quot;&gt;&lt;img src=&quot;https://hanson-hschang.github.io/processed_images/text-training.5c854c423a9ff451.png&quot; alt=&quot;Belief Net Training Results on Real-World Text Data&quot; width=&quot;3000&quot; height=&quot;1297&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot;&gt;&lt;/figure&gt;
+&lt;p&gt;As shown above, we can actually see what the model learned—identifying specific states responsible for emitting uppercase letters or digits, providing a level of transparency that &quot;black-box&quot; models lack.&lt;/p&gt;
+&lt;h2 id=&quot;looking-ahead&quot;&gt;Looking Ahead&lt;/h2&gt;
+&lt;p&gt;Belief Net is more than just a faster HMM; it’s a bridge between system identification and representation learning.
+We are excited about future extensions into Partially Observable Markov Decision Processes (POMDPs) and integrating these interpretable filters into reinforcement learning and control pipelines.&lt;/p&gt;
+&lt;hr /&gt;
+&lt;p&gt;This work, &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://arxiv.org/abs/2511.10571&quot;&gt;Belief Net: A Filter-Based Framework for Learning Hidden Markov Models from Observations&lt;/a&gt;, has been accepted to the &lt;strong&gt;Learning for Dynamics and Control conference&lt;/strong&gt; (&lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://sites.google.com/usc.edu/l4dc2026/&quot;&gt;L4DC 2026&lt;/a&gt;).&lt;/p&gt;
+</content>
+        
+    </entry>
+</feed>

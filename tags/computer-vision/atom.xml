@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title>Hanson.HSChang - Computer Vision</title>
+    <subtitle>This is Hanson&#39;s personal website.</subtitle>
+    <link rel="self" type="application/atom+xml" href="https://hanson-hschang.github.io/tags/computer-vision/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://hanson-hschang.github.io/"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2022-06-01T00:00:00+00:00</updated>
+    <id>https://hanson-hschang.github.io/tags/computer-vision/atom.xml</id>
+    <entry xml:lang="en">
+        <title>Seeing How Soft Arms Deform: From Camera Images to Six Strain Fields</title>
+        <published>2022-06-01T00:00:00+00:00</published>
+        <updated>2022-06-01T00:00:00+00:00</updated>
+        
+        <author>
+          <name>Heng-Sheng Chang</name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://hanson-hschang.github.io/blogs/science/vision-based-soft-arm-reconstruction/"/>
+        <id>https://hanson-hschang.github.io/blogs/science/vision-based-soft-arm-reconstruction/</id>
+        
+        <content type="html" xml:base="https://hanson-hschang.github.io/blogs/science/vision-based-soft-arm-reconstruction/">&lt;p&gt;Take a flexible tube and twist one end. Its center line can remain almost unchanged, even though the material has undergone a substantial deformation. Now bend it while twisting, or let neighboring cross-sections slide sideways relative to one another. A picture of the tube&#39;s outline becomes even less informative about what is happening inside its motion.&lt;/p&gt;
+&lt;p&gt;This is a measurement problem for soft robotics and biomechanics: &lt;strong&gt;how can we recover the way a slender body deforms, along its entire length, from a few camera observations?&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;In our paper, &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://doi.org/10.1109/ICRA46639.2022.9811909&quot;&gt;&lt;em&gt;A physics-informed, vision-based method to reconstruct all deformation modes in slender bodies&lt;/em&gt;&lt;/a&gt;, Seung Hyun Kim, Chia-Hsien Shih, Naveen Kumar Uppalapati, Udit Halder, Girish Krishnan, Prashant G. Mehta, Mattia Gazzola, and I combine multi-camera tracking with Cosserat rod mechanics. The result is an estimate of both the body&#39;s three-dimensional pose and its six strain fields, including twist and shear.&lt;/p&gt;
+&lt;p&gt;The cameras supply discrete observations. Mechanics helps connect them into a continuous body.&lt;/p&gt;
+&lt;h2 id=&quot;reconstruction-in-action&quot;&gt;Reconstruction in action&lt;/h2&gt;
+&lt;figure class=&quot;post__figure&quot;&gt;
+&lt;div class=&quot;post__embed&quot;&gt;
+  &lt;iframe src=&quot;https://www.youtube-nocookie.com/embed/MUGVKLAMELk&quot; title=&quot;Physics-informed vision-based reconstruction of soft arm deformation&quot; loading=&quot;lazy&quot; allow=&quot;fullscreen; picture-in-picture&quot; referrerpolicy=&quot;strict-origin-when-cross-origin&quot; allowfullscreen&gt;&lt;/iframe&gt;
+&lt;/div&gt;
+&lt;figcaption&gt;&lt;strong&gt;Watch the reconstruction in action.&lt;/strong&gt; &lt;a href=&quot;https://www.youtube.com/watch?v=MUGVKLAMELk&quot;&gt;Open the video on YouTube&lt;/a&gt;.&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;h2 id=&quot;a-center-line-is-only-part-of-the-shape&quot;&gt;A center line is only part of the shape&lt;/h2&gt;
+&lt;p&gt;A Cosserat rod represents a slender body with two ingredients at every location along its length: a position $\mathbf r(s)$ and an orientation $Q(s)$. Here, $s$ labels position along the reference length of the arm. The columns of $Q$ are three perpendicular unit vectors, called &lt;strong&gt;directors&lt;/strong&gt;, attached to each cross-section.&lt;/p&gt;
+&lt;p&gt;Two directors span the cross-section; the third is perpendicular to it. That third director need not align with the center-line tangent. Their misalignment is precisely what allows the model to describe shear.&lt;/p&gt;
+&lt;p&gt;The changes in position and orientation are governed by six components:&lt;/p&gt;
+&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th style=&quot;text-align: left&quot;&gt;Deformation&lt;/th&gt;&lt;th style=&quot;text-align: left&quot;&gt;Components&lt;/th&gt;&lt;th style=&quot;text-align: left&quot;&gt;What changes locally&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;
+&lt;tr&gt;&lt;td style=&quot;text-align: left&quot;&gt;Bending&lt;/td&gt;&lt;td style=&quot;text-align: left&quot;&gt;$\kappa_1,\kappa_2$&lt;/td&gt;&lt;td style=&quot;text-align: left&quot;&gt;Cross-sections rotate about their two transverse axes&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style=&quot;text-align: left&quot;&gt;Twisting&lt;/td&gt;&lt;td style=&quot;text-align: left&quot;&gt;$\kappa_3$&lt;/td&gt;&lt;td style=&quot;text-align: left&quot;&gt;Cross-sections rotate about their own normal axis&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style=&quot;text-align: left&quot;&gt;Shearing&lt;/td&gt;&lt;td style=&quot;text-align: left&quot;&gt;$\nu_1,\nu_2$&lt;/td&gt;&lt;td style=&quot;text-align: left&quot;&gt;Neighboring cross-sections shift sideways relative to the local frame&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style=&quot;text-align: left&quot;&gt;Stretching&lt;/td&gt;&lt;td style=&quot;text-align: left&quot;&gt;$\nu_3$&lt;/td&gt;&lt;td style=&quot;text-align: left&quot;&gt;Separation changes along the cross-section normal; the undeformed value is 1 for a straight, unstretched rod&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;&lt;/table&gt;
+&lt;p&gt;With $Q$ mapping local coordinates into the laboratory frame, the rod&#39;s kinematics can be written as&lt;/p&gt;
+&lt;div&gt;
+$$
+\frac{d\mathbf r}{ds}=Q\boldsymbol\nu,
+\qquad
+\frac{dQ}{ds}=Q[\boldsymbol\kappa]_\times.
+$$
+&lt;/div&gt;
+&lt;p&gt;The notation $[\boldsymbol\kappa]_\times$ denotes the matrix that takes a cross product with $\boldsymbol\kappa$. Given these strain fields and a base pose, we can integrate the equations to reconstruct the rod.&lt;/p&gt;
+&lt;p&gt;The inverse problem goes the other way: use measured positions and orientations to infer the strains. Tracking cross-section markers makes orientation observable, which is essential for distinguishing a straight, twisted arm from a straight, untwisted one.&lt;/p&gt;
+&lt;h2 id=&quot;from-five-cameras-to-discrete-poses&quot;&gt;From five cameras to discrete poses&lt;/h2&gt;
+&lt;p&gt;Our laboratory setup surrounds the arm with five action cameras recording at 60 frames per second and 1080p. The cameras are arranged so that each tracked marker point is visible in at least two views over the intended motions.&lt;/p&gt;
+&lt;p&gt;Before tracking the arm, we calibrate the cameras throughout a $40\times30\times40$ cm workspace. Colored flags hang along weighted nylon wires, and moving this grid through the volume provides more than 1,000 reference points. The reported calibration errors are 1.4 mm on average and 2.6 mm at maximum.&lt;/p&gt;
+&lt;figure class=&quot;post__figure&quot;&gt;&lt;a href=&quot;https://hanson-hschang.github.io/blogs/science/vision-based-soft-arm-reconstruction/img/camera-pipeline.png&quot; data-post-lightbox-trigger aria-label=&quot;View full-size image: A movable grid of colored flags calibrates the camera volume. Optical flow tracks arm markers, direct linear transformation recovers three-dimensional points, and rod smoothing reconstructs the arm&amp;#39;s position and orientation.&quot;&gt;&lt;img src=&quot;https://hanson-hschang.github.io/processed_images/camera-pipeline.b3442b75c263418a.png&quot; alt=&quot;A movable grid of colored flags calibrates the camera volume. Optical flow tracks arm markers, direct linear transformation recovers three-dimensional points, and rod smoothing reconstructs the arm&amp;#39;s position and orientation.&quot; width=&quot;1600&quot; height=&quot;814&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot;&gt;&lt;/a&gt;&lt;figcaption&gt;&lt;p&gt;&lt;strong&gt;Calibrate, track, reconstruct.&lt;/strong&gt; Multiple views provide discrete three-dimensional marker positions and cross-section orientations. The rightmost panel illustrates how other camera views help recover a marker when it reappears. Figure 2 from the &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://arxiv.org/abs/2109.08372v1&quot;&gt;preprint&lt;/a&gt;. &lt;a href=&quot;https://hanson-hschang.github.io/blogs/science/vision-based-soft-arm-reconstruction/img/camera-pipeline.png&quot;&gt;Open full-size figure&lt;/a&gt;.&lt;/p&gt;
+&lt;/figcaption&gt;&lt;/figure&gt;
+&lt;p&gt;After an initial manual selection, Lucas–Kanade optical flow follows marker points through successive images. Direct Linear Transformation (DLT) combines the calibrated views to estimate their three-dimensional coordinates. The cross-section markers then supply discrete position-and-orientation measurements along the arm.&lt;/p&gt;
+&lt;p&gt;Multiple views also help with occlusion. When a point disappears from one camera but remains visible to others, its reconstructed position predicts where to look for it when it reappears. This depends on sufficient camera coverage; the method cannot observe a marker hidden from every view.&lt;/p&gt;
+&lt;h2 id=&quot;let-mechanics-fill-the-gaps&quot;&gt;Let mechanics fill the gaps&lt;/h2&gt;
+&lt;p&gt;Directly differentiating noisy pose measurements can produce unreliable strains. Fitting independent rod segments between successive markers also creates a problem: the segments may meet in position and orientation while their strains jump at the boundaries.&lt;/p&gt;
+&lt;p&gt;We instead optimize a single rod over its full length. Three terms guide the estimate: an elastic energy, a penalty on rapid spatial changes in strain, and a mismatch cost for the measured poses.&lt;/p&gt;
+&lt;p&gt;Collect the six strains into $\varepsilon=(\boldsymbol\kappa,\boldsymbol\nu)$, and let $\varepsilon^\circ$ be their intrinsic, stress-free values. Using the paper&#39;s quadratic elastic model, the objective is&lt;/p&gt;
+&lt;div&gt;
+$$
+\begin{aligned}
+J={}&amp;\frac12\int_0^L
+(\varepsilon-\varepsilon^\circ)^T R(s)
+(\varepsilon-\varepsilon^\circ)\,ds\\
+&amp;+\frac{\chi_u}{2}\int_0^L
+\left\|\frac{d\varepsilon}{ds}\right\|^2\,ds\\
+&amp;+\sum_j\left[
+\frac{\chi_r}{2}\|\mathbf r(s_j)-\mathbf r_j\|^2
++\frac{\chi_Q}{2}\|Q(s_j)-Q_j\|_F^2
+\right].
+\end{aligned}
+$$
+&lt;/div&gt;
+&lt;p&gt;Here, $R(s)$ is the rigidity matrix, $(\mathbf r_j,Q_j)$ are measured poses, and the positive weights $\chi_u,\chi_r,\chi_Q$ balance smoothness and data agreement. The Frobenius norm $\lVert\cdot\rVert_F$ measures the orientation-matrix mismatch.&lt;/p&gt;
+&lt;p&gt;The elastic term gives different deformations a mechanical cost. The strain-gradient term discourages abrupt variation. The measurement term keeps the reconstruction close to the observations without forcing it to pass exactly through noisy data. Together, these terms express what &lt;strong&gt;physics-informed reconstruction&lt;/strong&gt; means in this work: rod kinematics constrain the geometry, and elasticity supplies a mechanical prior.&lt;/p&gt;
+&lt;p&gt;The key optimization choice is to treat the &lt;strong&gt;spatial derivative of strain&lt;/strong&gt;, $u(s)=d\varepsilon/ds$, as the control variable. Integrating it produces continuous strain fields. With the base pose and base strain specified, the solver repeatedly:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Integrates strain and pose forward from base to tip.&lt;/li&gt;
+&lt;li&gt;Propagates sensitivity information backward, accounting for the measurement errors at each marker.&lt;/li&gt;
+&lt;li&gt;Updates $u(s)$ to reduce the objective.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;This is optimal control along the arm&#39;s &lt;strong&gt;spatial coordinate&lt;/strong&gt;. The pose costates, which carry sensitivity information backward, can be expressed as internal force and moment. The calculation reconstructs an observed configuration; it does not require prescribing the robot&#39;s actuator commands or solving a full time-dependent motion model.&lt;/p&gt;
+&lt;h2 id=&quot;testing-what-can-be-recovered&quot;&gt;Testing what can be recovered&lt;/h2&gt;
+&lt;p&gt;We first generate synthetic rods from known, smoothly varying strain functions. This gives an exact reference for all six strain components, something much harder to obtain on hardware.&lt;/p&gt;
+&lt;p&gt;For the tested synthetic curves, the reported relative reconstruction errors fall to roughly 1% with five sampled poses and remain around 5% with two. These are results for the chosen smooth strain profiles, rather than a general sampling rule for every possible soft-body shape.&lt;/p&gt;
+&lt;figure class=&quot;post__figure&quot;&gt;&lt;a href=&quot;https://hanson-hschang.github.io/blogs/science/vision-based-soft-arm-reconstruction/img/synthetic-reconstruction.png&quot; data-post-lightbox-trigger aria-label=&quot;View full-size image: Reconstructed material frames align with five synthetic pose samples. Recovered shear, stretch, bending, and twist curves follow their known references, and reconstruction error decreases with sample count.&quot;&gt;&lt;img src=&quot;https://hanson-hschang.github.io/processed_images/synthetic-reconstruction.a0044c7907cd8a71.png&quot; alt=&quot;Reconstructed material frames align with five synthetic pose samples. Recovered shear, stretch, bending, and twist curves follow their known references, and reconstruction error decreases with sample count.&quot; width=&quot;1400&quot; height=&quot;672&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot;&gt;&lt;/a&gt;&lt;figcaption&gt;&lt;p&gt;&lt;strong&gt;Checking against known strains.&lt;/strong&gt; Synthetic data makes it possible to compare the recovered strain fields with their generating functions. The right-hand plot varies the number of sampled poses. Figure 3 from the &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://arxiv.org/abs/2109.08372v1&quot;&gt;preprint&lt;/a&gt;. &lt;a href=&quot;https://hanson-hschang.github.io/blogs/science/vision-based-soft-arm-reconstruction/img/synthetic-reconstruction.png&quot;&gt;Open full-size figure&lt;/a&gt;.&lt;/p&gt;
+&lt;/figcaption&gt;&lt;/figure&gt;
+&lt;p&gt;For the first hardware experiment, we use an 18 cm pneumatic &lt;strong&gt;BR² arm&lt;/strong&gt; made from three parallel fiber-reinforced elastomeric actuators: one designed to bend and two to twist in opposite directions. Five cross-section markers provide the observations.&lt;/p&gt;
+&lt;p&gt;The opening figure shows separate bending, twisting, and combined actuation. The recovered strain profiles identify the dominant deformation in each case. They also reveal smaller accompanying deformations caused by mechanical coupling, fabrication effects, and gravity.&lt;/p&gt;
+&lt;p&gt;To measure position accuracy independently, the published paper compares reconstruction with electromagnetic sensors at the arm&#39;s midsection, three-quarter position, and last-marker tip. Each actuation experiment is repeated eight times. Table I reports:&lt;/p&gt;
+&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th style=&quot;text-align: left&quot;&gt;Actuation condition&lt;/th&gt;&lt;th style=&quot;text-align: right&quot;&gt;Median position error&lt;/th&gt;&lt;th style=&quot;text-align: right&quot;&gt;Maximum position error&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;
+&lt;tr&gt;&lt;td style=&quot;text-align: left&quot;&gt;Maximum bending&lt;/td&gt;&lt;td style=&quot;text-align: right&quot;&gt;4.15 mm&lt;/td&gt;&lt;td style=&quot;text-align: right&quot;&gt;5.43 mm&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style=&quot;text-align: left&quot;&gt;Maximum twisting&lt;/td&gt;&lt;td style=&quot;text-align: right&quot;&gt;2.96 mm&lt;/td&gt;&lt;td style=&quot;text-align: right&quot;&gt;4.03 mm&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style=&quot;text-align: left&quot;&gt;Both&lt;/td&gt;&lt;td style=&quot;text-align: right&quot;&gt;4.13 mm&lt;/td&gt;&lt;td style=&quot;text-align: right&quot;&gt;5.13 mm&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;&lt;/table&gt;
+&lt;p&gt;These measurements assess the complete pipeline, including calibration and reconstruction. The median errors are about 3–4 mm on an arm with a 15.9 mm diameter. Although the abstract summarizes accuracy as below 5 mm, the table records some larger errors. These are &lt;strong&gt;position errors&lt;/strong&gt;, not independent measurements of the accuracy of every strain component.&lt;/p&gt;
+&lt;h2 id=&quot;recovering-coupled-deformations&quot;&gt;Recovering coupled deformations&lt;/h2&gt;
+&lt;p&gt;The more demanding demonstrations use a two-section BR² arm and a cable-driven arm. Their different designs help test whether the reconstruction can capture several deformation modes at once.&lt;/p&gt;
+&lt;p&gt;In the 38 cm BR² arm, one section receives a bending command and the other a twisting command. Eleven cross-section markers support reconstruction of all six strain fields. The expected bending and twisting dominate their respective sections, while smaller coupled strains appear elsewhere.&lt;/p&gt;
+&lt;p&gt;The 35 cm cable-driven arm uses twelve markers and bends its two sections in different directions. Its softer construction and cable routing let its cross-sectional holders tilt away from perpendicular to the center line. The reconstructed shear captures this visible feature of the deformation.&lt;/p&gt;
+&lt;figure class=&quot;post__figure&quot;&gt;&lt;a href=&quot;https://hanson-hschang.github.io/blogs/science/vision-based-soft-arm-reconstruction/img/all-deformation-modes.png&quot; data-post-lightbox-trigger aria-label=&quot;View full-size image: A two-section pneumatic arm bends above and twists below, while a cable-driven arm bends in two directions and shears. Image overlays and six reconstructed strain profiles describe each experiment.&quot;&gt;&lt;img src=&quot;https://hanson-hschang.github.io/processed_images/all-deformation-modes.54620a3b92aa9c27.png&quot; alt=&quot;A two-section pneumatic arm bends above and twists below, while a cable-driven arm bends in two directions and shears. Image overlays and six reconstructed strain profiles describe each experiment.&quot; width=&quot;1600&quot; height=&quot;891&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot;&gt;&lt;/a&gt;&lt;figcaption&gt;&lt;p&gt;&lt;strong&gt;One description for different soft arms.&lt;/strong&gt; The upper row shows the multi-section BR² arm; the lower row shows the cable-driven arm. Position and orientation overlays connect the camera observations to the recovered strain fields. Figure 5 from the &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://arxiv.org/abs/2109.08372v1&quot;&gt;preprint&lt;/a&gt;. &lt;a href=&quot;https://hanson-hschang.github.io/blogs/science/vision-based-soft-arm-reconstruction/img/all-deformation-modes.png&quot;&gt;Open full-size figure&lt;/a&gt;.&lt;/p&gt;
+&lt;/figcaption&gt;&lt;/figure&gt;
+&lt;p&gt;We also perturb the cable-driven arm&#39;s measured marker positions with uniform noise of up to 5 mm. Reconstructing again changes the strain fields by about 10% on average in the paper&#39;s relative $L_2$ measure. This tests sensitivity to added noise by comparing two reconstructions; it is not a comparison with independently known physical strains.&lt;/p&gt;
+&lt;h2 id=&quot;what-this-makes-measurable&quot;&gt;What this makes measurable&lt;/h2&gt;
+&lt;p&gt;The contribution is a way to turn sparse pose observations into a mechanically informed description of a whole slender body. It brings bending, twist, shear, and stretch into the same reconstruction, so an experiment can ask where each deformation occurs and how they interact.&lt;/p&gt;
+&lt;p&gt;The approach still depends on camera calibration, visible markers, a suitable rod model, specified base conditions, and choices of stiffness and smoothing weights. Fine spatial features between widely spaced markers may be smoothed away. Recording at 60 frames per second also does not establish that the complete reconstruction runs in real time.&lt;/p&gt;
+&lt;p&gt;The hardware demonstrations support laboratory characterization of soft robots. Applying the method to biological bodies would require suitable tracking and modeling choices. Within that scope, it provides a useful connection between what cameras can observe and what mechanics needs to explain: &lt;strong&gt;both where the body is and how its material deforms along its length.&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id=&quot;paper-and-attribution&quot;&gt;Paper and attribution&lt;/h2&gt;
+&lt;p&gt;This post is based on &lt;strong&gt;A physics-informed, vision-based method to reconstruct all deformation modes in slender bodies&lt;/strong&gt;, by Seung Hyun Kim, Heng-Sheng Chang, Chia-Hsien Shih, Naveen Kumar Uppalapati, Udit Halder, Girish Krishnan, Prashant G. Mehta, and Mattia Gazzola, published in &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://doi.org/10.1109/ICRA46639.2022.9811909&quot;&gt;ICRA 2022, pp. 4810–4817&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The experimental error statistics above follow Table I in the published paper. Figures 2–5 are reproduced from the &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://arxiv.org/abs/2109.08372v1&quot;&gt;September 17, 2021 arXiv preprint&lt;/a&gt;, with surrounding page text and original captions removed and explanatory captions supplied here. The figure assets retain the source&#39;s &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://creativecommons.org/licenses/by-nc-sa/4.0/&quot;&gt;CC BY-NC-SA 4.0 license&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://github.com/GazzolaLab/BR2-vision-based-smoothing&quot;&gt;code repository&lt;/a&gt; links to demonstration data and identifies its &lt;strong&gt;v0.1&lt;/strong&gt; version as the code used to reproduce the paper&#39;s results. The BibTeX below cites the published conference paper.&lt;/p&gt;
+</content>
+        
+    </entry>
+</feed>

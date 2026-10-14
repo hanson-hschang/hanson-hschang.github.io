@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+
+    <!-- Meta Info -->
+    <title>
+  
+    
+    Shaping Energy to Control a Muscular Octopus Arm &middot; Hanson.HSChang
+  
+</title>
+    
+  
+  <meta name="description" content="How muscle geometry and energy shaping turn reaching and grasping in three dimensions into a search for a useful equilibrium.">
+  <link rel="canonical" href="https://hanson-hschang.github.io/blogs/science/energy-shaping-octopus-arm/">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Shaping Energy to Control a Muscular Octopus Arm">
+  <meta property="og:description" content="How muscle geometry and energy shaping turn reaching and grasping in three dimensions into a search for a useful equilibrium.">
+  <meta property="og:url" content="https://hanson-hschang.github.io/blogs/science/energy-shaping-octopus-arm/">
+  <meta property="og:site_name" content="Hanson.HSChang">
+  
+  
+  
+  
+  
+  
+  
+    <meta property="og:image" content="https://hanson-hschang.github.io/blogs/science/energy-shaping-octopus-arm/img/energy-landscape.png">
+    
+      
+      
+      
+      
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://hanson-hschang.github.io/blogs/science/energy-shaping-octopus-arm/img/energy-landscape.png">
+    
+  
+  <meta name="citation_title" content="Shaping Energy to Control a Muscular Octopus Arm">
+  
+  <meta name="author" content="Heng-Sheng Chang">
+  <meta name="citation_publication_date" content="2023/02/01">
+  
+  
+
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="https://hanson-hschang.github.io/assets/img/favicon.ico" >
+    <link rel="apple-touch-icon" href="https://hanson-hschang.github.io/assets/img/apple-touch-icon.png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400&family=Poppins:wght@400;700&display=swap">
+
+    <!-- Vendor CSS Files -->
+    <link rel="stylesheet" href="https://hanson-hschang.github.io/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://hanson-hschang.github.io/vendor/bootstrap-icons/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://hanson-hschang.github.io/vendor/aos/aos.css">
+    <link rel="stylesheet" href="https://hanson-hschang.github.io/vendor/academicons/css/academicons.min.css"/>
+
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css">
+
+    
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="https://hanson-hschang.github.io/assets/stylesheet/main.css">
+    
+  <link rel="stylesheet" href="https://hanson-hschang.github.io/assets/stylesheet/page-post.css">
+  <link rel="stylesheet" href="https://hanson-hschang.github.io/assets/stylesheet/citations.css">
+
+    
+  </head>
+
+  <body>
+
+    <!-- Header -->
+    
+  <a class="post__skip" href="#post-main">Skip to post</a>
+   
+      <!-- Navigation Menu -->
+
+
+
+  
+  
+    
+  
+
+  
+  
+    
+  
+
+  
+  
+    
+  
+
+
+
+  
+  
+  
+  
+    
+    
+    
+  
+  <header id="header" class="header d-flex justify-content-center">
+    <nav id="navmenu" class="navmenu">
+      <ul>
+        <li><a href="https://hanson-hschang.github.io" aria-label="Link to Home"><i class="bi bi-house"></i><span>Home</span></a></li>
+        
+          
+          
+          
+          <li>
+            <a href="https://hanson-hschang.github.io/about/"  aria-label="Link to About"><i class="bi bi-file-earmark-person" aria-hidden="true"></i><span>About</span></a>
+            
+          </li>
+        
+          
+          
+          
+          <li>
+            <a href="https://hanson-hschang.github.io/resume/"  aria-label="Link to Resume"><i class="bi bi-person-vcard" aria-hidden="true"></i><span>Resume</span></a>
+            
+          </li>
+        
+          
+          
+            
+              
+              
+                
+              
+            
+              
+              
+                
+              
+            
+              
+              
+                
+              
+            
+          
+          
+          <li class="dropdown">
+            <a href="https://hanson-hschang.github.io/blogs/" class="active" aria-label="Link to Blogs"><i class="bi bi-pencil-square" aria-hidden="true"></i><span>Blogs</span></a>
+            
+              <button class="navmenu__dropdown-toggle" type="button" aria-label="Toggle Blogs sections" aria-expanded="false" aria-controls="nav-subsections-blogs" hidden></button>
+              <ul id="nav-subsections-blogs" aria-label="Blogs sections">
+                
+                  
+                  <li><a href="https://hanson-hschang.github.io/blogs/life/">Life</a></li>
+                
+                  
+                  <li><a href="https://hanson-hschang.github.io/blogs/miscellanea/">Miscellanea</a></li>
+                
+                  
+                  <li><a href="https://hanson-hschang.github.io/blogs/science/" class="active" aria-current="location">Science</a></li>
+                
+              </ul>
+            
+          </li>
+        
+        
+          
+            
+              <li><a href="https://hanson-hschang.github.io#contact" aria-label="Link to Contact"><i class="bi bi-chat-text"></i><span>Contact</span></a></li>
+            
+          
+            
+          
+            
+          
+            
+          
+        
+      </ul>
+    </nav>
+  </header>
+
+
+    
+
+
+    <!-- Navigation Menu Toggle -->
+    
+    <i class="nav-toggle d-lg-none bi bi-list"></i>
+    
+
+    <!-- Main -->
+    <main class="main">
+    
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    
+    
+      
+      
+        
+      
+    
+      
+      
+        
+      
+    
+      
+      
+        
+      
+    
+      
+      
+        
+      
+    
+      
+      
+        
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+  
+  
+  
+  
+  
+
+
+<header class="page-title d-flex align-items-center post-breadcrumbs">
+  <div class="container" data-aos="fade">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <ol>
+        
+        <li><a href="https://hanson-hschang.github.io">Home</a></li>
+        
+          
+          
+            
+            
+          
+            
+            
+            <li><a href="https://hanson-hschang.github.io/blogs/">Blogs</a></li>
+            
+          
+            
+            
+            <li><a href="https://hanson-hschang.github.io/blogs/science/">Science</a></li>
+            
+          
+          <li class="current" aria-current="page">Shaping Energy to Control a Muscular Octopus Arm</li>
+        
+      </ol>
+    </nav>
+  </div>
+</header>
+
+  <article class="post container" id="post-main" aria-labelledby="post-title" tabindex="-1">
+    <header class="post__hero">
+      <div class="post__heading">
+        
+        
+        <div class="post__eyebrow">
+          
+  
+  
+  <ul class="taxonomy-labels taxonomy-labels--categories" aria-label="Categories" role="list">
+    
+    <li class="taxonomy-labels__item"><a class="taxonomy-labels__link" href="https://hanson-hschang.github.io/categories/research/">Research</a></li>
+    
+    <li class="taxonomy-labels__item"><a class="taxonomy-labels__link" href="https://hanson-hschang.github.io/categories/paper/">Paper</a></li>
+    
+  </ul>
+  
+
+          
+        </div>
+        
+        <h1 id="post-title">Shaping Energy to Control a Muscular Octopus Arm</h1>
+        
+        <p class="post__subtitle">Letting the arm&#39;s mechanics carry it toward a useful shape</p>
+        
+  
+  
+  <ul class="taxonomy-labels taxonomy-labels--tags" aria-label="Tags" role="list">
+    
+    <li class="taxonomy-labels__item"><a class="taxonomy-labels__link" href="https://hanson-hschang.github.io/tags/soft-robotics/">Soft Robotics</a></li>
+    
+    <li class="taxonomy-labels__item"><a class="taxonomy-labels__link" href="https://hanson-hschang.github.io/tags/energy-shaping/">Energy Shaping</a></li>
+    
+    <li class="taxonomy-labels__item"><a class="taxonomy-labels__link" href="https://hanson-hschang.github.io/tags/optimal-control/">Optimal Control</a></li>
+    
+    <li class="taxonomy-labels__item"><a class="taxonomy-labels__link" href="https://hanson-hschang.github.io/tags/biomechanics/">Biomechanics</a></li>
+    
+  </ul>
+  
+
+        
+      </div>
+      
+      
+<div class="article-meta">
+  <ul class="article-meta__details" aria-label="Article information">
+    
+    <li><time class="date-text article-meta__date" datetime="2023-02-01">February 01, 2023</time></li>
+    
+    <li><i class="bi bi-hourglass-split" aria-hidden="true"></i><span class="article-meta__reading-time">9 min read</span></li>
+  </ul>
+  
+<aside class="share" data-share aria-label="Article sharing">
+  <button class="share__button" data-share-toggle type="button" aria-expanded="false" aria-controls="article-share-menu" hidden>
+    <i class="bi bi-box-arrow-up" aria-hidden="true"></i><span>Share</span>
+  </button>
+  <nav id="article-share-menu" class="share-menu" aria-label="Share this article">
+    <a class="share-menu__item" href="https://hanson-hschang.github.io/blogs/science/energy-shaping-octopus-arm/">
+      <i class="bi bi-link-45deg" aria-hidden="true"></i><span>Permalink</span>
+    </a>
+    <a class="share-menu__item" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A//hanson-hschang.github.io/blogs/science/energy-shaping-octopus-arm/" target="_blank" rel="noopener noreferrer">
+      <i class="bi bi-linkedin" aria-hidden="true"></i>
+      <span>Share on LinkedIn</span>
+    </a>
+    <a class="share-menu__item" href="https://www.facebook.com/sharer/sharer.php?u=https%3A//hanson-hschang.github.io/blogs/science/energy-shaping-octopus-arm/" target="_blank" rel="noopener noreferrer">
+      <i class="bi bi-facebook" aria-hidden="true"></i>
+      <span>Share on Facebook</span>
+    </a>
+    <a class="share-menu__item" href="https://x.com/intent/tweet?url=https%3A//hanson-hschang.github.io/blogs/science/energy-shaping-octopus-arm/&text=Shaping%20Energy%20to%20Control%20a%20Muscular%20Octopus%20Arm" target="_blank" rel="noopener noreferrer">
+      <i class="bi bi-twitter-x" aria-hidden="true"></i>
+      <span>Share on X</span>
+    </a>
+    <a class="share-menu__item" href="mailto:?subject=Shaping%20Energy%20to%20Control%20a%20Muscular%20Octopus%20Arm&body=https%3A//hanson-hschang.github.io/blogs/science/energy-shaping-octopus-arm/">
+      <i class="bi bi-envelope-fill" aria-hidden="true"></i>
+      <span>Email</span>
+    </a>
+  </nav>
+</aside>
+
+</div>
+
+      
+  
+  
+  
+    
+    
+      
+    
+  
+    
+    
+      
+    
+  
+    
+    
+      
+    
+  
+    
+    
+      
+    
+  
+  
+  <nav class="post__resources" aria-label="Post resources">
+    
+      
+      
+      
+      <a class="post__button post__button--primary" href="https://royalsocietypublishing.org/rspa/article/479/2270/20220593/56735/Energy-shaping-control-of-a-muscular-octopus-arm"><i class="bi bi-file-earmark-text" aria-hidden="true"></i>Read the paper</a>
+      
+    
+      
+      
+      
+      <a class="post__button" href="https://arxiv.org/abs/2209.04089"><i class="bi bi-file-earmark-pdf" aria-hidden="true"></i>arXiv preprint</a>
+      
+    
+      
+      
+      
+      <a class="post__button" href="https://mehta.mechse.illinois.edu/research/soft-robotics/energy-shaping-control"><i class="bi bi-globe" aria-hidden="true"></i>Research page</a>
+      
+    
+      
+      
+      
+      <a class="post__button" href="#reaching-and-grasping-in-motion"><i class="bi bi-play-circle" aria-hidden="true"></i>Watch video</a>
+      
+    
+    
+  </nav>
+  
+
+    </header>
+
+    
+    <div class="post__teaser"><figure class="post__figure"><img src="https://hanson-hschang.github.io/blogs/science/energy-shaping-octopus-arm/img/energy-landscape.png" alt="Muscle activation changes the potential energy landscape, shifting the arm&#39;s equilibrium from a straight configuration to a curved one." width="1600" height="641" loading="eager" decoding="async"><figcaption><p><strong>Control through an energy landscape.</strong> Activating the muscles changes which arm shape is an equilibrium. Figure 3 from <a rel="noopener noreferrer external" target="_blank" href="https://arxiv.org/abs/2209.04089v1">Chang et al., arXiv:2209.04089v1</a>.</p>
+</figcaption></figure></div>
+    
+
+    <div class="post__layout">
+      
+      <div class="post__sidebar">
+        <div class="post__sidebar-inner">
+      
+      <aside class="post__contents">
+        <details class="post__outline" data-post-outline>
+          <summary class="post__outline-toggle">
+            <span id="post-outline-title">Outline</span>
+            <i class="bi bi-chevron-down" aria-hidden="true"></i>
+          </summary>
+          <nav aria-labelledby="post-outline-title">
+            <ul>
+              
+              <li data-prose-heading><a href="https://hanson-hschang.github.io/blogs/science/energy-shaping-octopus-arm/#reaching-and-grasping-in-motion">Reaching and grasping in motion</a></li><li data-prose-heading><a href="https://hanson-hschang.github.io/blogs/science/energy-shaping-octopus-arm/#three-muscle-groups-many-possible-motions">Three muscle groups, many possible motions</a></li><li data-prose-heading><a href="https://hanson-hschang.github.io/blogs/science/energy-shaping-octopus-arm/#muscles-become-part-of-the-energy-model">Muscles become part of the energy model</a></li><li data-prose-heading><a href="https://hanson-hschang.github.io/blogs/science/energy-shaping-octopus-arm/#choose-the-equilibrium-then-let-the-arm-move">Choose the equilibrium, then let the arm move</a></li><li data-prose-heading><a href="https://hanson-hschang.github.io/blogs/science/energy-shaping-octopus-arm/#reaching-means-getting-the-orientation-right-too">Reaching means getting the orientation right, too</a></li><li data-prose-heading><a href="https://hanson-hschang.github.io/blogs/science/energy-shaping-octopus-arm/#wrapping-around-an-object">Wrapping around an object</a></li><li data-prose-heading><a href="https://hanson-hschang.github.io/blogs/science/energy-shaping-octopus-arm/#what-energy-shaping-gives-us">What energy shaping gives us</a></li><li data-prose-heading><a href="https://hanson-hschang.github.io/blogs/science/energy-shaping-octopus-arm/#paper-and-attribution">Paper and attribution</a></li>
+              <li data-prose-toc-end hidden></li>
+              
+              
+              
+              <li><a href="#post-citation">Citation</a></li>
+              
+            </ul>
+          </nav>
+        </details>
+      </aside>
+      
+        </div>
+      </div>
+      
+      <div class="post__body">
+        
+
+        <div class="post__prose"><p>An octopus arm has no rigid skeleton and no small set of joints to command. It can bend along its length, extend toward an object, and twist to bring its suckers into contact. That flexibility makes the arm a compelling model for soft robots, but it also raises a difficult control question: <strong>how should its muscles work together to produce a useful shape?</strong></p>
+<p>In our paper, <a rel="noopener noreferrer external" target="_blank" href="https://doi.org/10.1098/rspa.2022.0593"><em>Energy-shaping control of a muscular octopus arm moving in three dimensions</em></a>, Udit Halder, Chia-Hsien Shih, Noel Naughton, Mattia Gazzola, Prashant G. Mehta, and I approach this problem through energy. We model the arm and its muscles together, then choose muscle activations that make a task-specific shape an equilibrium of the combined system.</p>
+<p>The resulting motion comes from the arm's mechanics. Once the activation pattern is applied, elastic forces, muscle forces, inertia, and damping determine how the arm moves toward its new resting configuration. We demonstrate this approach in simulations of reaching and grasping in three dimensions.</p>
+<h2 id="reaching-and-grasping-in-motion">Reaching and grasping in motion</h2>
+<figure class="post__figure">
+<div class="post__embed">
+  <iframe src="https://www.youtube-nocookie.com/embed/SQ_KViaDov0" title="Muscular octopus arm reaching and grasping in three dimensions" loading="lazy" allow="fullscreen; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</div>
+<figcaption><strong>The muscular arm in motion.</strong> Watch the reaching and grasping simulations, or <a href="https://www.youtube.com/watch?v=SQ_KViaDov0">open the video on YouTube</a>.</figcaption>
+</figure>
+<h2 id="three-muscle-groups-many-possible-motions">Three muscle groups, many possible motions</h2>
+<p>The geometry of a muscle matters as much as its ability to contract. In an octopus arm, three major muscle groups turn local contraction into different kinds of deformation:</p>
+<table><thead><tr><th style="text-align: left">Muscle group</th><th style="text-align: left">Arrangement</th><th style="text-align: left">Main mechanical role</th></tr></thead><tbody>
+<tr><td style="text-align: left">Transverse</td><td style="text-align: left">Across the arm, surrounding the central nerve cord</td><td style="text-align: left">Narrows the cross-section and extends the arm through approximate volume conservation</td></tr>
+<tr><td style="text-align: left">Longitudinal</td><td style="text-align: left">Along the arm, away from its center line</td><td style="text-align: left">Shortens the arm and produces bending when activation is uneven across its sides</td></tr>
+<tr><td style="text-align: left">Oblique</td><td style="text-align: left">Helically around the arm, with opposite handedness</td><td style="text-align: left">Produces twisting together with other coupled deformations</td></tr>
+</tbody></table>
+<figure class="post__figure"><a href="https://hanson-hschang.github.io/blogs/science/energy-shaping-octopus-arm/img/musculature.png" data-post-lightbox-trigger aria-label="View full-size image: Transverse muscles form green rings, longitudinal muscles run lengthwise in purple, and orange oblique muscles wind around the arm in opposite directions; insets show anatomical cross-sections."><img src="https://hanson-hschang.github.io/processed_images/musculature.b1296e945adc95e5.png" alt="Transverse muscles form green rings, longitudinal muscles run lengthwise in purple, and orange oblique muscles wind around the arm in opposite directions; insets show anatomical cross-sections." width="1600" height="1125" loading="lazy" decoding="async"></a><figcaption><p><strong>Geometry turns contraction into motion.</strong> The virtual muscles follow the arrangement of the arm's major muscle groups. Anatomical cross-sections appear in the insets. Figure 2 from the preprint. <a href="https://hanson-hschang.github.io/blogs/science/energy-shaping-octopus-arm/img/musculature.png">Open full-size figure</a>.</p>
+</figcaption></figure>
+<p>We describe the arm as a <strong>Cosserat rod</strong>. At each location along its center line, the model tracks both a position and the orientation of a small material frame. This lets it describe stretching, shearing, bending, and twisting in one continuum model.</p>
+<p>Keeping track of orientation is essential. Two configurations can have similar center lines while presenting different sides of the arm to an object. To model a grasp with the suckers facing inward, we need to control that orientation as well as position.</p>
+<p>The implementation uses one transverse activation field, four longitudinal fields, and two oblique fields, one for each handedness. Each field can vary along the arm. The oblique fibers of the same handedness share an activation, giving seven distributed controls overall.</p>
+<h2 id="muscles-become-part-of-the-energy-model">Muscles become part of the energy model</h2>
+<p>An elastic rod stores energy when it deforms. Its internal forces and bending or twisting moments can be obtained by differentiating that energy with respect to strain. Our key modeling step is to give the muscles a compatible description.</p>
+<p>For muscle $m$, the paper constructs a scalar function $W^m$ whose strain derivatives generate its active force and moment. The construction incorporates the muscle's geometry and a force-length relation fitted to experimental data. Multiplying by its activation $u^m$ scales its contribution:</p>
+<div>
+$$
+\mathbf n^m=u^m\frac{\partial W^m}{\partial\boldsymbol\nu},
+\qquad
+\mathbf m^m=u^m\frac{\partial W^m}{\partial\boldsymbol\kappa}.
+$$
+</div>
+<p>Here, $\boldsymbol\nu$ describes shear and stretch, while $\boldsymbol\kappa$ describes bending and twist. The vectors $\mathbf n^m$ and $\mathbf m^m$ are the muscle's internal force and moment in the arm's local frame.</p>
+<p>For a fixed spatial activation profile $\alpha^m(s)$, the combined potential energy becomes</p>
+<div>
+$$
+V(q;\alpha)=\int_0^L\left[
+W^e(\varepsilon(s))+
+\sum_m\alpha^m(s)W^m(s,\varepsilon(s))
+\right]\,ds.
+$$
+</div>
+<p>The notation $q$ represents the arm's position and orientation along its length, $\varepsilon=(\boldsymbol\nu,\boldsymbol\kappa)$ collects its strains, and $W^e$ is the passive elastic energy density. The muscle term is written here with its dependence on muscle strain absorbed into $\varepsilon$.</p>
+<p>This gives us a family of energy landscapes indexed by muscle activation. It is a mechanical representation of the actuator forces; it does not measure the biological energy consumed by muscle metabolism.</p>
+<h2 id="choose-the-equilibrium-then-let-the-arm-move">Choose the equilibrium, then let the arm move</h2>
+<p>The picture at the top of this post captures the control idea. Before activation, a straight arm is at rest in its passive energy landscape. Activating the muscles reshapes that landscape, allowing a bent or twisted configuration to become a new equilibrium.</p>
+<p>There is an important constraint: the available muscles determine which landscapes can be produced. A transverse muscle cannot apply an arbitrary sideways force, for example. In conventional energy-shaping design, reconciling a desired energy with these actuator restrictions leads to difficult equations called <strong>matching conditions</strong>.</p>
+<p>Our muscle-energy formulation builds those restrictions into the family $V(q;\alpha)$. We search over physically available activations, with $0\leq\alpha^m(s)\leq1$, to find an equilibrium suited to the task. For the unloaded arm with a fixed base and free tip, the equilibrium condition balances active muscle loads against passive elastic loads.</p>
+<p>The search minimizes a combination of activation effort and task error:</p>
+<div>
+$$
+J(\alpha,q)=
+\frac12\sum_m\int_0^L[\alpha^m(s)]^2\,ds
++J_{\mathrm{task}}(q).
+$$
+</div>
+<p>For reaching, the task cost penalizes tip-position and tip-orientation errors. For grasping, it encourages the arm to approach the object and face its suckers toward it, while a penalty discourages penetration. The squared-activation term regularizes muscle effort; minimizing it is not a claim of optimal metabolic efficiency.</p>
+<p>The algorithm alternates between three steps:</p>
+<ol>
+<li>For the current activations, solve for equilibrium strains and reconstruct the arm from base to tip.</li>
+<li>Propagate a costate from tip to base to determine how the task objective responds to changes along the arm.</li>
+<li>Update the activations using that information, respecting their bounds, and repeat.</li>
+</ol>
+<p>This is an optimal control calculation along the <strong>spatial coordinate of the arm</strong>. The pose evolves in $SE(3)$, the space of three-dimensional positions and rotations. A useful reduction expresses the costate through two three-component vectors with the interpretation of internal forces and moments.</p>
+<p>After optimization, the activation profile is held constant in time. Muscle forces still change as the arm deforms because they depend on its current geometry and muscle lengths. With damping, the model's total mechanical energy is non-increasing along the motion. The paper uses this to argue local asymptotic stability under technical assumptions; a full functional-analytic proof for the infinite-dimensional system is left for future work.</p>
+<h2 id="reaching-means-getting-the-orientation-right-too">Reaching means getting the orientation right, too</h2>
+<p>The simulated arm is 20 cm long and tapers from a base radius of 1.2 cm to a tip radius of 0.12 cm. We discretize it into 100 rod elements in Elastica.</p>
+<p>In a representative reaching movement, transverse activation extends the distal arm, longitudinal activation near the base bends it toward the target, and oblique activation twists it to orient the suckers. The three muscle groups cooperate to meet a position-and-orientation objective.</p>
+<figure class="post__figure"><a href="https://hanson-hschang.github.io/blogs/science/energy-shaping-octopus-arm/img/reaching.png" data-post-lightbox-trigger aria-label="View full-size image: A simulated arm reaches toward an orange target using transverse, longitudinal, and oblique activations. A 125-target workspace study shows position and orientation errors, including difficult distant and near-base targets."><img src="https://hanson-hschang.github.io/processed_images/reaching.53a658daebdd39a6.png" alt="A simulated arm reaches toward an orange target using transverse, longitudinal, and oblique activations. A 125-target workspace study shows position and orientation errors, including difficult distant and near-base targets." width="1600" height="909" loading="lazy" decoding="async"></a><figcaption><p><strong>Reach, bend, and turn the sucker side toward the target.</strong> The upper panels show the task and a representative movement; the lower panels characterize errors across 125 target positions. Figure 5 from the preprint. <a href="https://hanson-hschang.github.io/blogs/science/energy-shaping-octopus-arm/img/reaching.png">Open full-size figure</a>.</p>
+</figcaption></figure>
+<p>We test 125 targets distributed within a cube of side length 20 cm. The largest position errors occur at distant corners outside the arm's reachable workspace. Targets close to the base also challenge the arm's ability to bend and twist at the same time.</p>
+<p>The normalized orientation error stays below 0.1 in all tested cases. This is a specific matrix-based measure, $|Q^*-Q(L)|_F^2/8$, rather than an angular error in degrees or a percentage of successful reaches. The experiment shows how the controller performs across a workspace that includes physically difficult and unreachable targets.</p>
+<h2 id="wrapping-around-an-object">Wrapping around an object</h2>
+<p>Grasping asks more of the arm than bringing its tip to a point. A substantial length of the arm must approach the object, curve around it, and turn its sucker-facing side inward.</p>
+<p>We express these requirements through an objective acting on the distal 70% of the arm, together with a non-penetration penalty. Longitudinal and oblique activation then produce a spiral-like configuration around a cylindrical target.</p>
+<figure class="post__figure"><a href="https://hanson-hschang.github.io/blogs/science/energy-shaping-octopus-arm/img/grasping.png" data-post-lightbox-trigger aria-label="View full-size image: An octopus-arm simulation wraps around a cylinder while turning the sucker-facing side inward. Additional tests vary cylinder radius from one to four centimeters and tilt cylinders in two directions."><img src="https://hanson-hschang.github.io/processed_images/grasping.5d80b5a11058413b.png" alt="An octopus-arm simulation wraps around a cylinder while turning the sucker-facing side inward. Additional tests vary cylinder radius from one to four centimeters and tilt cylinders in two directions." width="1600" height="1080" loading="lazy" decoding="async"></a><figcaption><p><strong>A grasp depends on shape and orientation.</strong> The simulated arm wraps around cylinders with different radii and tilts. The lower plots compare position and director errors relative to the indicated reference cases. Figure 6 from the preprint. <a href="https://hanson-hschang.github.io/blogs/science/energy-shaping-octopus-arm/img/grasping.png">Open full-size figure</a>.</p>
+</figcaption></figure>
+<p>The tests vary cylinder radius from 1 to 4 cm. Thinner cylinders are harder to wrap around: their surfaces require tighter bending, which competes with the activation-effort penalty. Separate tests keep the radius at 2 cm and vary the cylinder's tilt from $-60^\circ$ to $60^\circ$ about each of two axes.</p>
+<p>Across those tilt tests, the position-error measure varies less than the orientation-error measure. The chosen objective places greater weight on proximity, so keeping the arm close to the cylinder can take priority over perfectly orienting the suckers.</p>
+<p>Here, grasping means achieving the wrapping configuration in simulation. Sucker adhesion and sensing are outside this model, and the experiments do not test holding or lifting a load.</p>
+<h2 id="what-energy-shaping-gives-us">What energy shaping gives us</h2>
+<p>The contribution is a connection between <strong>anatomy, mechanics, and control design</strong>. Muscle geometry determines forces and moments; a common energy description combines them with elasticity; optimization selects activations for a useful equilibrium. The arm's dynamics then produce the transition toward that configuration.</p>
+<p>This provides a way to coordinate a highly deformable body without prescribing the full motion of every point along it. It also keeps the actuator constraints visible throughout the design.</p>
+<p>The demonstrated tasks involve static targets and a simulated arm. Extending the approach to moving targets, sensory feedback, and neural control requires additional work. Still, the study gives a concrete starting point for soft robotic manipulation: design how the body wants to settle, and use its mechanics to help it get there.</p>
+<h2 id="paper-and-attribution">Paper and attribution</h2>
+<p>This post is based on <strong>Energy-shaping control of a muscular octopus arm moving in three dimensions</strong>, by Heng-Sheng Chang, Udit Halder, Chia-Hsien Shih, Noel Naughton, Mattia Gazzola, and Prashant G. Mehta. The paper appeared in <a rel="noopener noreferrer external" target="_blank" href="https://doi.org/10.1098/rspa.2022.0593"><em>Proceedings of the Royal Society A</em>, 479(2270), 20220593 (2023)</a>.</p>
+<p>The technical discussion and Figures 2, 3, 5, and 6 follow the <a rel="noopener noreferrer external" target="_blank" href="https://arxiv.org/abs/2209.04089v1">arXiv:2209.04089v1 preprint</a>, submitted September 9, 2022. The figures are reproduced in full from that version, with surrounding page text removed. The arXiv version is distributed under <a rel="noopener noreferrer external" target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a>. The <a rel="noopener noreferrer external" target="_blank" href="https://mehta.mechse.illinois.edu/research/soft-robotics/energy-shaping-control">research group page</a> includes a video of three-dimensional reaching and grasping. The BibTeX below cites the published paper.</p>
+</div>
+
+        
+
+        
+
+        
+
+        
+        <section class="post__section post__citation" id="post-citation" aria-labelledby="post-citation-title">
+          <div class="post__section-heading">
+            <h2 id="post-citation-title">Citation</h2>
+            <button class="post__button" type="button" data-copy-citation data-copy-feedback="BibTex Copied!" aria-controls="post-bibtex" hidden><i class="bi bi-copy" aria-hidden="true"></i><span data-copy-label>Copy BibTeX</span></button>
+          </div>
+          <pre tabindex="0" aria-label="BibTeX citation"><code id="post-bibtex">@article{chang2023energy,
+  title = {Energy-shaping control of a muscular octopus arm moving in three dimensions},
+  author = {Chang, Heng-Sheng and Halder, Udit and Shih, Chia-Hsien and Naughton, Noel and Gazzola, Mattia and Mehta, Prashant G.},
+  journal = {Proceedings of the Royal Society A: Mathematical, Physical and Engineering Sciences},
+  volume = {479},
+  number = {2270},
+  pages = {20220593},
+  year = {2023},
+  doi = {10.1098/rspa.2022.0593},
+  url = {https://doi.org/10.1098/rspa.2022.0593}
+}</code></pre>
+          <p class="post__copy-status visually-hidden" data-copy-status role="status" aria-live="polite"></p>
+        </section>
+        
+
+        
+
+      </div>
+      
+      <aside class="post__related sidebar" aria-labelledby="post-related-title">
+        <section class="widget">
+          <h2 class="widget__title" id="post-related-title">Related Posts</h2>
+          <ul class="post__related-list">
+            
+            <li><a href="https://hanson-hschang.github.io/blogs/science/machine-deception-detection/">A Polygraph for Language Models</a><time class="date-text" datetime="2026-10-11">October 11, 2026</time></li>
+            
+            <li><a href="https://hanson-hschang.github.io/blogs/science/diffusion-based-octopus-crawling/">Learning Many Ways to Crawl: Diffusion Models for an Adaptable CyberOctopus</a><time class="date-text" datetime="2026-10-02">October 02, 2026</time></li>
+            
+            <li><a href="https://hanson-hschang.github.io/blogs/science/transformer-inference-from-optimal-control/">From Optimal Control to Transformer-like Inference</a><time class="date-text" datetime="2026-05-15">May 15, 2026</time></li>
+            
+            <li><a href="https://hanson-hschang.github.io/blogs/science/transformers-and-state-space-models/">Transformers and State Space Models: A Connection in Sequential Data Modeling</a><time class="date-text" datetime="2026-02-28">February 28, 2026</time></li>
+            
+            <li><a href="https://hanson-hschang.github.io/blogs/science/belief-net/">Belief Net: Bridging Probabilistic Modeling and Deep Learning for Sequential Data</a><time class="date-text" datetime="2026-02-21">February 21, 2026</time></li>
+            
+          </ul>
+        </section>
+      </aside>
+      
+    </div>
+    
+<dialog class="post__lightbox" id="post-lightbox" data-post-lightbox aria-labelledby="post-lightbox-title">
+  <header class="post__lightbox-header">
+    <div class="post__lightbox-heading">
+      <span class="post__lightbox-count" data-lightbox-count>Figure</span>
+      <p id="post-lightbox-title" data-lightbox-title>Figure viewer</p>
+    </div>
+    <div class="post__lightbox-actions">
+      <button class="post__button post__lightbox-close" type="button" data-lightbox-close aria-label="Close image viewer" title="Close" autofocus><i class="bi bi-x-lg" aria-hidden="true"></i></button>
+    </div>
+  </header>
+  <div class="post__lightbox-viewport" data-lightbox-viewport role="region" aria-label="Figure image">
+    <img data-lightbox-image alt="">
+    <p class="post__lightbox-status" data-lightbox-status role="status"></p>
+  </div>
+  <footer class="post__lightbox-footer">
+    <p class="post__lightbox-caption" data-lightbox-caption tabindex="0" role="region" aria-label="Figure caption"></p>
+  </footer>
+</dialog>
+
+  </article>
+
+    </main>
+
+    <!-- Footer -->
+    <footer id="footer" class="footer position-relative">
+  <div class="container">
+    <p class="footer__sitename">Hanson.HSChang</p>
+    <p class="footer__quote">Everything is theoretically impossible, until it is done. --- Robert A. Heinlein</p>
+    <nav class="footer__social-links d-flex justify-content-center" aria-label="Social links">
+      
+  <a href="https://github.com/hanson-hschang" 
+    aria-label="Link to my GitHub profile" 
+    target="_blank" 
+    rel="noopener noreferrer"
+  >
+    <i class="bi bi-github" aria-hidden="true"></i>
+  </a>
+
+  <a href="https://scholar.google.com/citations?user=S7AWv3oAAAAJ" 
+    aria-label="Link to my Google Scholar profile" 
+    target="_blank" 
+    rel="noopener noreferrer"
+  >
+    <i class="ai ai-google-scholar" aria-hidden="true"></i>
+  </a>
+
+  <a href="https://www.linkedin.com/in/hanson-hschang/" 
+    aria-label="Link to my LinkedIn profile" 
+    target="_blank" 
+    rel="noopener noreferrer"
+  >
+    <i class="bi bi-linkedin" aria-hidden="true"></i>
+  </a>
+
+  <a href="https://www.instagram.com/hanson.hschang/" 
+    aria-label="Link to my Instagram profile" 
+    target="_blank" 
+    rel="noopener noreferrer"
+  >
+    <i class="bi bi-instagram" aria-hidden="true"></i>
+  </a>
+
+    </nav>
+    <div class="container">
+      <div class="footer__copyright"><p>© All Rights Reserved</p>
+</div>
+      <div class="footer__credits"><p>Powered by <a rel="noopener noreferrer external" target="_blank" href="https://www.getzola.org/">Zola</a>, <a rel="noopener noreferrer external" target="_blank" href="https://getbootstrap.com/">Bootstrap</a>, and <a rel="noopener noreferrer external" target="_blank" href="https://web3forms.com/">Web3Forms</a></p>
+</div>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- Preloader -->
+    
+
+    <!-- Java Scripts -->
+    
+  
+      
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const katexMacros = {};
+    renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\[', right: '\\]', display: true},
+        {left: '\\(', right: '\\)', display: false},
+      ],
+      macros: katexMacros
+    });
+  });
+</script>
+
+      
+    
+  <script src="https://hanson-hschang.github.io/vendor/aos/aos.js"></script>
+  <script src="https://hanson-hschang.github.io/assets/script/home.js"></script>
+  <script src="https://hanson-hschang.github.io/assets/script/share.js" defer></script>
+  <script src="https://hanson-hschang.github.io/assets/script/post.js" defer></script>
+
+     
+  </body>
+
+</html>

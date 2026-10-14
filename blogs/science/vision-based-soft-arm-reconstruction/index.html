@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+
+    <!-- Meta Info -->
+    <title>
+  
+    
+    Seeing How Soft Arms Deform: From Camera Images to Six Strain Fields &middot; Hanson.HSChang
+  
+</title>
+    
+  
+  <meta name="description" content="How camera measurements and Cosserat rod mechanics recover bending, twisting, stretching, and shearing along a soft robotic arm.">
+  <link rel="canonical" href="https://hanson-hschang.github.io/blogs/science/vision-based-soft-arm-reconstruction/">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Seeing How Soft Arms Deform: From Camera Images to Six Strain Fields">
+  <meta property="og:description" content="How camera measurements and Cosserat rod mechanics recover bending, twisting, stretching, and shearing along a soft robotic arm.">
+  <meta property="og:url" content="https://hanson-hschang.github.io/blogs/science/vision-based-soft-arm-reconstruction/">
+  <meta property="og:site_name" content="Hanson.HSChang">
+  
+  
+    
+  
+  
+  
+  
+    
+  
+  
+  
+    <meta property="og:image" content="https://hanson-hschang.github.io/blogs/science/vision-based-soft-arm-reconstruction/img/bending-and-twisting.png">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://hanson-hschang.github.io/blogs/science/vision-based-soft-arm-reconstruction/img/bending-and-twisting.png">
+    
+  
+  <meta name="citation_title" content="Seeing How Soft Arms Deform: From Camera Images to Six Strain Fields">
+  
+  <meta name="author" content="Heng-Sheng Chang">
+  <meta name="citation_publication_date" content="2022/06/01">
+  
+  
+
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="https://hanson-hschang.github.io/assets/img/favicon.ico" >
+    <link rel="apple-touch-icon" href="https://hanson-hschang.github.io/assets/img/apple-touch-icon.png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400&family=Poppins:wght@400;700&display=swap">
+
+    <!-- Vendor CSS Files -->
+    <link rel="stylesheet" href="https://hanson-hschang.github.io/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://hanson-hschang.github.io/vendor/bootstrap-icons/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://hanson-hschang.github.io/vendor/aos/aos.css">
+    <link rel="stylesheet" href="https://hanson-hschang.github.io/vendor/academicons/css/academicons.min.css"/>
+
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css">
+
+    
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="https://hanson-hschang.github.io/assets/stylesheet/main.css">
+    
+  <link rel="stylesheet" href="https://hanson-hschang.github.io/assets/stylesheet/page-post.css">
+  <link rel="stylesheet" href="https://hanson-hschang.github.io/assets/stylesheet/citations.css">
+
+    
+  </head>
+
+  <body>
+
+    <!-- Header -->
+    
+  <a class="post__skip" href="#post-main">Skip to post</a>
+   
+      <!-- Navigation Menu -->
+
+
+
+  
+  
+    
+  
+
+  
+  
+    
+  
+
+  
+  
+    
+  
+
+
+
+  
+  
+  
+  
+    
+    
+    
+  
+  <header id="header" class="header d-flex justify-content-center">
+    <nav id="navmenu" class="navmenu">
+      <ul>
+        <li><a href="https://hanson-hschang.github.io" aria-label="Link to Home"><i class="bi bi-house"></i><span>Home</span></a></li>
+        
+          
+          
+          
+          <li>
+            <a href="https://hanson-hschang.github.io/about/"  aria-label="Link to About"><i class="bi bi-file-earmark-person" aria-hidden="true"></i><span>About</span></a>
+            
+          </li>
+        
+          
+          
+          
+          <li>
+            <a href="https://hanson-hschang.github.io/resume/"  aria-label="Link to Resume"><i class="bi bi-person-vcard" aria-hidden="true"></i><span>Resume</span></a>
+            
+          </li>
+        
+          
+          
+            
+              
+              
+                
+              
+            
+              
+              
+                
+              
+            
+              
+              
+                
+              
+            
+          
+          
+          <li class="dropdown">
+            <a href="https://hanson-hschang.github.io/blogs/" class="active" aria-label="Link to Blogs"><i class="bi bi-pencil-square" aria-hidden="true"></i><span>Blogs</span></a>
+            
+              <button class="navmenu__dropdown-toggle" type="button" aria-label="Toggle Blogs sections" aria-expanded="false" aria-controls="nav-subsections-blogs" hidden></button>
+              <ul id="nav-subsections-blogs" aria-label="Blogs sections">
+                
+                  
+                  <li><a href="https://hanson-hschang.github.io/blogs/life/">Life</a></li>
+                
+                  
+                  <li><a href="https://hanson-hschang.github.io/blogs/miscellanea/">Miscellanea</a></li>
+                
+                  
+                  <li><a href="https://hanson-hschang.github.io/blogs/science/" class="active" aria-current="location">Science</a></li>
+                
+              </ul>
+            
+          </li>
+        
+        
+          
+            
+              <li><a href="https://hanson-hschang.github.io#contact" aria-label="Link to Contact"><i class="bi bi-chat-text"></i><span>Contact</span></a></li>
+            
+          
+            
+          
+            
+          
+            
+          
+        
+      </ul>
+    </nav>
+  </header>
+
+
+    
+
+
+    <!-- Navigation Menu Toggle -->
+    
+    <i class="nav-toggle d-lg-none bi bi-list"></i>
+    
+
+    <!-- Main -->
+    <main class="main">
+    
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    
+    
+      
+      
+        
+      
+    
+      
+      
+        
+      
+    
+      
+      
+        
+      
+    
+      
+      
+        
+      
+    
+      
+      
+        
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+  
+  
+  
+  
+  
+
+
+<header class="page-title d-flex align-items-center post-breadcrumbs">
+  <div class="container" data-aos="fade">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <ol>
+        
+        <li><a href="https://hanson-hschang.github.io">Home</a></li>
+        
+          
+          
+            
+            
+          
+            
+            
+            <li><a href="https://hanson-hschang.github.io/blogs/">Blogs</a></li>
+            
+          
+            
+            
+            <li><a href="https://hanson-hschang.github.io/blogs/science/">Science</a></li>
+            
+          
+          <li class="current" aria-current="page">Seeing How Soft Arms Deform: From Camera Images to Six Strain Fields</li>
+        
+      </ol>
+    </nav>
+  </div>
+</header>
+
+  <article class="post container" id="post-main" aria-labelledby="post-title" tabindex="-1">
+    <header class="post__hero">
+      <div class="post__heading">
+        
+        
+        <div class="post__eyebrow">
+          
+  
+  
+  <ul class="taxonomy-labels taxonomy-labels--categories" aria-label="Categories" role="list">
+    
+    <li class="taxonomy-labels__item"><a class="taxonomy-labels__link" href="https://hanson-hschang.github.io/categories/research/">Research</a></li>
+    
+    <li class="taxonomy-labels__item"><a class="taxonomy-labels__link" href="https://hanson-hschang.github.io/categories/paper/">Paper</a></li>
+    
+  </ul>
+  
+
+          
+        </div>
+        
+        <h1 id="post-title">Seeing How Soft Arms Deform: From Camera Images to Six Strain Fields</h1>
+        
+        <p class="post__subtitle">Using mechanics to connect sparse observations of a flexible body</p>
+        
+  
+  
+  <ul class="taxonomy-labels taxonomy-labels--tags" aria-label="Tags" role="list">
+    
+    <li class="taxonomy-labels__item"><a class="taxonomy-labels__link" href="https://hanson-hschang.github.io/tags/soft-robotics/">Soft Robotics</a></li>
+    
+    <li class="taxonomy-labels__item"><a class="taxonomy-labels__link" href="https://hanson-hschang.github.io/tags/computer-vision/">Computer Vision</a></li>
+    
+    <li class="taxonomy-labels__item"><a class="taxonomy-labels__link" href="https://hanson-hschang.github.io/tags/cosserat-rods/">Cosserat Rods</a></li>
+    
+    <li class="taxonomy-labels__item"><a class="taxonomy-labels__link" href="https://hanson-hschang.github.io/tags/optimal-control/">Optimal Control</a></li>
+    
+  </ul>
+  
+
+        
+      </div>
+      
+      
+<div class="article-meta">
+  <ul class="article-meta__details" aria-label="Article information">
+    
+    <li><time class="date-text article-meta__date" datetime="2022-06-01">June 01, 2022</time></li>
+    
+    <li><i class="bi bi-hourglass-split" aria-hidden="true"></i><span class="article-meta__reading-time">9 min read</span></li>
+  </ul>
+  
+<aside class="share" data-share aria-label="Article sharing">
+  <button class="share__button" data-share-toggle type="button" aria-expanded="false" aria-controls="article-share-menu" hidden>
+    <i class="bi bi-box-arrow-up" aria-hidden="true"></i><span>Share</span>
+  </button>
+  <nav id="article-share-menu" class="share-menu" aria-label="Share this article">
+    <a class="share-menu__item" href="https://hanson-hschang.github.io/blogs/science/vision-based-soft-arm-reconstruction/">
+      <i class="bi bi-link-45deg" aria-hidden="true"></i><span>Permalink</span>
+    </a>
+    <a class="share-menu__item" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A//hanson-hschang.github.io/blogs/science/vision-based-soft-arm-reconstruction/" target="_blank" rel="noopener noreferrer">
+      <i class="bi bi-linkedin" aria-hidden="true"></i>
+      <span>Share on LinkedIn</span>
+    </a>
+    <a class="share-menu__item" href="https://www.facebook.com/sharer/sharer.php?u=https%3A//hanson-hschang.github.io/blogs/science/vision-based-soft-arm-reconstruction/" target="_blank" rel="noopener noreferrer">
+      <i class="bi bi-facebook" aria-hidden="true"></i>
+      <span>Share on Facebook</span>
+    </a>
+    <a class="share-menu__item" href="https://x.com/intent/tweet?url=https%3A//hanson-hschang.github.io/blogs/science/vision-based-soft-arm-reconstruction/&text=Seeing%20How%20Soft%20Arms%20Deform%3A%20From%20Camera%20Images%20to%20Six%20Strain%20Fields" target="_blank" rel="noopener noreferrer">
+      <i class="bi bi-twitter-x" aria-hidden="true"></i>
+      <span>Share on X</span>
+    </a>
+    <a class="share-menu__item" href="mailto:?subject=Seeing%20How%20Soft%20Arms%20Deform%3A%20From%20Camera%20Images%20to%20Six%20Strain%20Fields&body=https%3A//hanson-hschang.github.io/blogs/science/vision-based-soft-arm-reconstruction/">
+      <i class="bi bi-envelope-fill" aria-hidden="true"></i>
+      <span>Email</span>
+    </a>
+  </nav>
+</aside>
+
+</div>
+
+      
+  
+  
+  
+    
+    
+      
+    
+  
+    
+    
+      
+    
+  
+    
+    
+      
+    
+  
+    
+    
+      
+    
+  
+  
+  <nav class="post__resources" aria-label="Post resources">
+    
+      
+      
+      
+      <a class="post__button post__button--primary" href="https://ieeexplore.ieee.org/abstract/document/9811909/"><i class="bi bi-file-earmark-text" aria-hidden="true"></i>Read the paper</a>
+      
+    
+      
+      
+      
+      <a class="post__button" href="https://arxiv.org/abs/2109.08372"><i class="bi bi-file-earmark-pdf" aria-hidden="true"></i>arXiv preprint</a>
+      
+    
+      
+      
+      
+      <a class="post__button" href="https://github.com/GazzolaLab/BR2-vision-based-smoothing"><i class="bi bi-github" aria-hidden="true"></i>Code and data</a>
+      
+    
+      
+      
+      
+      <a class="post__button" href="#reconstruction-in-action"><i class="bi bi-play-circle" aria-hidden="true"></i>Watch video</a>
+      
+    
+    
+  </nav>
+  
+
+    </header>
+
+    
+    <div class="post__teaser"><figure class="post__figure"><img src="https://hanson-hschang.github.io/blogs/science/vision-based-soft-arm-reconstruction/img/bending-and-twisting.png" alt="Three rows show bending, twisting, and mixed actuation of a soft arm. Reconstructed frames overlay the camera images, and plots show bending and twisting strains along the arm." width="1600" height="839" loading="eager" decoding="async"><figcaption><p><strong>Similar center lines can hide different deformations.</strong> During twisting, the arm remains nearly straight while its cross-sections rotate. Figure 4 from <a rel="noopener noreferrer external" target="_blank" href="https://arxiv.org/abs/2109.08372v1">Kim et al., arXiv:2109.08372v1</a>. <a href="https://hanson-hschang.github.io/blogs/science/vision-based-soft-arm-reconstruction/img/bending-and-twisting.png">Open full-size figure</a>.</p>
+</figcaption></figure></div>
+    
+
+    <div class="post__layout">
+      
+      <div class="post__sidebar">
+        <div class="post__sidebar-inner">
+      
+      <aside class="post__contents">
+        <details class="post__outline" data-post-outline>
+          <summary class="post__outline-toggle">
+            <span id="post-outline-title">Outline</span>
+            <i class="bi bi-chevron-down" aria-hidden="true"></i>
+          </summary>
+          <nav aria-labelledby="post-outline-title">
+            <ul>
+              
+              <li data-prose-heading><a href="https://hanson-hschang.github.io/blogs/science/vision-based-soft-arm-reconstruction/#reconstruction-in-action">Reconstruction in action</a></li><li data-prose-heading><a href="https://hanson-hschang.github.io/blogs/science/vision-based-soft-arm-reconstruction/#a-center-line-is-only-part-of-the-shape">A center line is only part of the shape</a></li><li data-prose-heading><a href="https://hanson-hschang.github.io/blogs/science/vision-based-soft-arm-reconstruction/#from-five-cameras-to-discrete-poses">From five cameras to discrete poses</a></li><li data-prose-heading><a href="https://hanson-hschang.github.io/blogs/science/vision-based-soft-arm-reconstruction/#let-mechanics-fill-the-gaps">Let mechanics fill the gaps</a></li><li data-prose-heading><a href="https://hanson-hschang.github.io/blogs/science/vision-based-soft-arm-reconstruction/#testing-what-can-be-recovered">Testing what can be recovered</a></li><li data-prose-heading><a href="https://hanson-hschang.github.io/blogs/science/vision-based-soft-arm-reconstruction/#recovering-coupled-deformations">Recovering coupled deformations</a></li><li data-prose-heading><a href="https://hanson-hschang.github.io/blogs/science/vision-based-soft-arm-reconstruction/#what-this-makes-measurable">What this makes measurable</a></li><li data-prose-heading><a href="https://hanson-hschang.github.io/blogs/science/vision-based-soft-arm-reconstruction/#paper-and-attribution">Paper and attribution</a></li>
+              <li data-prose-toc-end hidden></li>
+              
+              
+              
+              <li><a href="#post-citation">Citation</a></li>
+              
+            </ul>
+          </nav>
+        </details>
+      </aside>
+      
+        </div>
+      </div>
+      
+      <div class="post__body">
+        
+
+        <div class="post__prose"><p>Take a flexible tube and twist one end. Its center line can remain almost unchanged, even though the material has undergone a substantial deformation. Now bend it while twisting, or let neighboring cross-sections slide sideways relative to one another. A picture of the tube's outline becomes even less informative about what is happening inside its motion.</p>
+<p>This is a measurement problem for soft robotics and biomechanics: <strong>how can we recover the way a slender body deforms, along its entire length, from a few camera observations?</strong></p>
+<p>In our paper, <a rel="noopener noreferrer external" target="_blank" href="https://doi.org/10.1109/ICRA46639.2022.9811909"><em>A physics-informed, vision-based method to reconstruct all deformation modes in slender bodies</em></a>, Seung Hyun Kim, Chia-Hsien Shih, Naveen Kumar Uppalapati, Udit Halder, Girish Krishnan, Prashant G. Mehta, Mattia Gazzola, and I combine multi-camera tracking with Cosserat rod mechanics. The result is an estimate of both the body's three-dimensional pose and its six strain fields, including twist and shear.</p>
+<p>The cameras supply discrete observations. Mechanics helps connect them into a continuous body.</p>
+<h2 id="reconstruction-in-action">Reconstruction in action</h2>
+<figure class="post__figure">
+<div class="post__embed">
+  <iframe src="https://www.youtube-nocookie.com/embed/MUGVKLAMELk" title="Physics-informed vision-based reconstruction of soft arm deformation" loading="lazy" allow="fullscreen; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</div>
+<figcaption><strong>Watch the reconstruction in action.</strong> <a href="https://www.youtube.com/watch?v=MUGVKLAMELk">Open the video on YouTube</a>.</figcaption>
+</figure>
+<h2 id="a-center-line-is-only-part-of-the-shape">A center line is only part of the shape</h2>
+<p>A Cosserat rod represents a slender body with two ingredients at every location along its length: a position $\mathbf r(s)$ and an orientation $Q(s)$. Here, $s$ labels position along the reference length of the arm. The columns of $Q$ are three perpendicular unit vectors, called <strong>directors</strong>, attached to each cross-section.</p>
+<p>Two directors span the cross-section; the third is perpendicular to it. That third director need not align with the center-line tangent. Their misalignment is precisely what allows the model to describe shear.</p>
+<p>The changes in position and orientation are governed by six components:</p>
+<table><thead><tr><th style="text-align: left">Deformation</th><th style="text-align: left">Components</th><th style="text-align: left">What changes locally</th></tr></thead><tbody>
+<tr><td style="text-align: left">Bending</td><td style="text-align: left">$\kappa_1,\kappa_2$</td><td style="text-align: left">Cross-sections rotate about their two transverse axes</td></tr>
+<tr><td style="text-align: left">Twisting</td><td style="text-align: left">$\kappa_3$</td><td style="text-align: left">Cross-sections rotate about their own normal axis</td></tr>
+<tr><td style="text-align: left">Shearing</td><td style="text-align: left">$\nu_1,\nu_2$</td><td style="text-align: left">Neighboring cross-sections shift sideways relative to the local frame</td></tr>
+<tr><td style="text-align: left">Stretching</td><td style="text-align: left">$\nu_3$</td><td style="text-align: left">Separation changes along the cross-section normal; the undeformed value is 1 for a straight, unstretched rod</td></tr>
+</tbody></table>
+<p>With $Q$ mapping local coordinates into the laboratory frame, the rod's kinematics can be written as</p>
+<div>
+$$
+\frac{d\mathbf r}{ds}=Q\boldsymbol\nu,
+\qquad
+\frac{dQ}{ds}=Q[\boldsymbol\kappa]_\times.
+$$
+</div>
+<p>The notation $[\boldsymbol\kappa]_\times$ denotes the matrix that takes a cross product with $\boldsymbol\kappa$. Given these strain fields and a base pose, we can integrate the equations to reconstruct the rod.</p>
+<p>The inverse problem goes the other way: use measured positions and orientations to infer the strains. Tracking cross-section markers makes orientation observable, which is essential for distinguishing a straight, twisted arm from a straight, untwisted one.</p>
+<h2 id="from-five-cameras-to-discrete-poses">From five cameras to discrete poses</h2>
+<p>Our laboratory setup surrounds the arm with five action cameras recording at 60 frames per second and 1080p. The cameras are arranged so that each tracked marker point is visible in at least two views over the intended motions.</p>
+<p>Before tracking the arm, we calibrate the cameras throughout a $40\times30\times40$ cm workspace. Colored flags hang along weighted nylon wires, and moving this grid through the volume provides more than 1,000 reference points. The reported calibration errors are 1.4 mm on average and 2.6 mm at maximum.</p>
+<figure class="post__figure"><a href="https://hanson-hschang.github.io/blogs/science/vision-based-soft-arm-reconstruction/img/camera-pipeline.png" data-post-lightbox-trigger aria-label="View full-size image: A movable grid of colored flags calibrates the camera volume. Optical flow tracks arm markers, direct linear transformation recovers three-dimensional points, and rod smoothing reconstructs the arm&#39;s position and orientation."><img src="https://hanson-hschang.github.io/processed_images/camera-pipeline.b3442b75c263418a.png" alt="A movable grid of colored flags calibrates the camera volume. Optical flow tracks arm markers, direct linear transformation recovers three-dimensional points, and rod smoothing reconstructs the arm&#39;s position and orientation." width="1600" height="814" loading="lazy" decoding="async"></a><figcaption><p><strong>Calibrate, track, reconstruct.</strong> Multiple views provide discrete three-dimensional marker positions and cross-section orientations. The rightmost panel illustrates how other camera views help recover a marker when it reappears. Figure 2 from the <a rel="noopener noreferrer external" target="_blank" href="https://arxiv.org/abs/2109.08372v1">preprint</a>. <a href="https://hanson-hschang.github.io/blogs/science/vision-based-soft-arm-reconstruction/img/camera-pipeline.png">Open full-size figure</a>.</p>
+</figcaption></figure>
+<p>After an initial manual selection, Lucas–Kanade optical flow follows marker points through successive images. Direct Linear Transformation (DLT) combines the calibrated views to estimate their three-dimensional coordinates. The cross-section markers then supply discrete position-and-orientation measurements along the arm.</p>
+<p>Multiple views also help with occlusion. When a point disappears from one camera but remains visible to others, its reconstructed position predicts where to look for it when it reappears. This depends on sufficient camera coverage; the method cannot observe a marker hidden from every view.</p>
+<h2 id="let-mechanics-fill-the-gaps">Let mechanics fill the gaps</h2>
+<p>Directly differentiating noisy pose measurements can produce unreliable strains. Fitting independent rod segments between successive markers also creates a problem: the segments may meet in position and orientation while their strains jump at the boundaries.</p>
+<p>We instead optimize a single rod over its full length. Three terms guide the estimate: an elastic energy, a penalty on rapid spatial changes in strain, and a mismatch cost for the measured poses.</p>
+<p>Collect the six strains into $\varepsilon=(\boldsymbol\kappa,\boldsymbol\nu)$, and let $\varepsilon^\circ$ be their intrinsic, stress-free values. Using the paper's quadratic elastic model, the objective is</p>
+<div>
+$$
+\begin{aligned}
+J={}&\frac12\int_0^L
+(\varepsilon-\varepsilon^\circ)^T R(s)
+(\varepsilon-\varepsilon^\circ)\,ds\\
+&+\frac{\chi_u}{2}\int_0^L
+\left\|\frac{d\varepsilon}{ds}\right\|^2\,ds\\
+&+\sum_j\left[
+\frac{\chi_r}{2}\|\mathbf r(s_j)-\mathbf r_j\|^2
++\frac{\chi_Q}{2}\|Q(s_j)-Q_j\|_F^2
+\right].
+\end{aligned}
+$$
+</div>
+<p>Here, $R(s)$ is the rigidity matrix, $(\mathbf r_j,Q_j)$ are measured poses, and the positive weights $\chi_u,\chi_r,\chi_Q$ balance smoothness and data agreement. The Frobenius norm $\lVert\cdot\rVert_F$ measures the orientation-matrix mismatch.</p>
+<p>The elastic term gives different deformations a mechanical cost. The strain-gradient term discourages abrupt variation. The measurement term keeps the reconstruction close to the observations without forcing it to pass exactly through noisy data. Together, these terms express what <strong>physics-informed reconstruction</strong> means in this work: rod kinematics constrain the geometry, and elasticity supplies a mechanical prior.</p>
+<p>The key optimization choice is to treat the <strong>spatial derivative of strain</strong>, $u(s)=d\varepsilon/ds$, as the control variable. Integrating it produces continuous strain fields. With the base pose and base strain specified, the solver repeatedly:</p>
+<ol>
+<li>Integrates strain and pose forward from base to tip.</li>
+<li>Propagates sensitivity information backward, accounting for the measurement errors at each marker.</li>
+<li>Updates $u(s)$ to reduce the objective.</li>
+</ol>
+<p>This is optimal control along the arm's <strong>spatial coordinate</strong>. The pose costates, which carry sensitivity information backward, can be expressed as internal force and moment. The calculation reconstructs an observed configuration; it does not require prescribing the robot's actuator commands or solving a full time-dependent motion model.</p>
+<h2 id="testing-what-can-be-recovered">Testing what can be recovered</h2>
+<p>We first generate synthetic rods from known, smoothly varying strain functions. This gives an exact reference for all six strain components, something much harder to obtain on hardware.</p>
+<p>For the tested synthetic curves, the reported relative reconstruction errors fall to roughly 1% with five sampled poses and remain around 5% with two. These are results for the chosen smooth strain profiles, rather than a general sampling rule for every possible soft-body shape.</p>
+<figure class="post__figure"><a href="https://hanson-hschang.github.io/blogs/science/vision-based-soft-arm-reconstruction/img/synthetic-reconstruction.png" data-post-lightbox-trigger aria-label="View full-size image: Reconstructed material frames align with five synthetic pose samples. Recovered shear, stretch, bending, and twist curves follow their known references, and reconstruction error decreases with sample count."><img src="https://hanson-hschang.github.io/processed_images/synthetic-reconstruction.a0044c7907cd8a71.png" alt="Reconstructed material frames align with five synthetic pose samples. Recovered shear, stretch, bending, and twist curves follow their known references, and reconstruction error decreases with sample count." width="1400" height="672" loading="lazy" decoding="async"></a><figcaption><p><strong>Checking against known strains.</strong> Synthetic data makes it possible to compare the recovered strain fields with their generating functions. The right-hand plot varies the number of sampled poses. Figure 3 from the <a rel="noopener noreferrer external" target="_blank" href="https://arxiv.org/abs/2109.08372v1">preprint</a>. <a href="https://hanson-hschang.github.io/blogs/science/vision-based-soft-arm-reconstruction/img/synthetic-reconstruction.png">Open full-size figure</a>.</p>
+</figcaption></figure>
+<p>For the first hardware experiment, we use an 18 cm pneumatic <strong>BR² arm</strong> made from three parallel fiber-reinforced elastomeric actuators: one designed to bend and two to twist in opposite directions. Five cross-section markers provide the observations.</p>
+<p>The opening figure shows separate bending, twisting, and combined actuation. The recovered strain profiles identify the dominant deformation in each case. They also reveal smaller accompanying deformations caused by mechanical coupling, fabrication effects, and gravity.</p>
+<p>To measure position accuracy independently, the published paper compares reconstruction with electromagnetic sensors at the arm's midsection, three-quarter position, and last-marker tip. Each actuation experiment is repeated eight times. Table I reports:</p>
+<table><thead><tr><th style="text-align: left">Actuation condition</th><th style="text-align: right">Median position error</th><th style="text-align: right">Maximum position error</th></tr></thead><tbody>
+<tr><td style="text-align: left">Maximum bending</td><td style="text-align: right">4.15 mm</td><td style="text-align: right">5.43 mm</td></tr>
+<tr><td style="text-align: left">Maximum twisting</td><td style="text-align: right">2.96 mm</td><td style="text-align: right">4.03 mm</td></tr>
+<tr><td style="text-align: left">Both</td><td style="text-align: right">4.13 mm</td><td style="text-align: right">5.13 mm</td></tr>
+</tbody></table>
+<p>These measurements assess the complete pipeline, including calibration and reconstruction. The median errors are about 3–4 mm on an arm with a 15.9 mm diameter. Although the abstract summarizes accuracy as below 5 mm, the table records some larger errors. These are <strong>position errors</strong>, not independent measurements of the accuracy of every strain component.</p>
+<h2 id="recovering-coupled-deformations">Recovering coupled deformations</h2>
+<p>The more demanding demonstrations use a two-section BR² arm and a cable-driven arm. Their different designs help test whether the reconstruction can capture several deformation modes at once.</p>
+<p>In the 38 cm BR² arm, one section receives a bending command and the other a twisting command. Eleven cross-section markers support reconstruction of all six strain fields. The expected bending and twisting dominate their respective sections, while smaller coupled strains appear elsewhere.</p>
+<p>The 35 cm cable-driven arm uses twelve markers and bends its two sections in different directions. Its softer construction and cable routing let its cross-sectional holders tilt away from perpendicular to the center line. The reconstructed shear captures this visible feature of the deformation.</p>
+<figure class="post__figure"><a href="https://hanson-hschang.github.io/blogs/science/vision-based-soft-arm-reconstruction/img/all-deformation-modes.png" data-post-lightbox-trigger aria-label="View full-size image: A two-section pneumatic arm bends above and twists below, while a cable-driven arm bends in two directions and shears. Image overlays and six reconstructed strain profiles describe each experiment."><img src="https://hanson-hschang.github.io/processed_images/all-deformation-modes.54620a3b92aa9c27.png" alt="A two-section pneumatic arm bends above and twists below, while a cable-driven arm bends in two directions and shears. Image overlays and six reconstructed strain profiles describe each experiment." width="1600" height="891" loading="lazy" decoding="async"></a><figcaption><p><strong>One description for different soft arms.</strong> The upper row shows the multi-section BR² arm; the lower row shows the cable-driven arm. Position and orientation overlays connect the camera observations to the recovered strain fields. Figure 5 from the <a rel="noopener noreferrer external" target="_blank" href="https://arxiv.org/abs/2109.08372v1">preprint</a>. <a href="https://hanson-hschang.github.io/blogs/science/vision-based-soft-arm-reconstruction/img/all-deformation-modes.png">Open full-size figure</a>.</p>
+</figcaption></figure>
+<p>We also perturb the cable-driven arm's measured marker positions with uniform noise of up to 5 mm. Reconstructing again changes the strain fields by about 10% on average in the paper's relative $L_2$ measure. This tests sensitivity to added noise by comparing two reconstructions; it is not a comparison with independently known physical strains.</p>
+<h2 id="what-this-makes-measurable">What this makes measurable</h2>
+<p>The contribution is a way to turn sparse pose observations into a mechanically informed description of a whole slender body. It brings bending, twist, shear, and stretch into the same reconstruction, so an experiment can ask where each deformation occurs and how they interact.</p>
+<p>The approach still depends on camera calibration, visible markers, a suitable rod model, specified base conditions, and choices of stiffness and smoothing weights. Fine spatial features between widely spaced markers may be smoothed away. Recording at 60 frames per second also does not establish that the complete reconstruction runs in real time.</p>
+<p>The hardware demonstrations support laboratory characterization of soft robots. Applying the method to biological bodies would require suitable tracking and modeling choices. Within that scope, it provides a useful connection between what cameras can observe and what mechanics needs to explain: <strong>both where the body is and how its material deforms along its length.</strong></p>
+<h2 id="paper-and-attribution">Paper and attribution</h2>
+<p>This post is based on <strong>A physics-informed, vision-based method to reconstruct all deformation modes in slender bodies</strong>, by Seung Hyun Kim, Heng-Sheng Chang, Chia-Hsien Shih, Naveen Kumar Uppalapati, Udit Halder, Girish Krishnan, Prashant G. Mehta, and Mattia Gazzola, published in <a rel="noopener noreferrer external" target="_blank" href="https://doi.org/10.1109/ICRA46639.2022.9811909">ICRA 2022, pp. 4810–4817</a>.</p>
+<p>The experimental error statistics above follow Table I in the published paper. Figures 2–5 are reproduced from the <a rel="noopener noreferrer external" target="_blank" href="https://arxiv.org/abs/2109.08372v1">September 17, 2021 arXiv preprint</a>, with surrounding page text and original captions removed and explanatory captions supplied here. The figure assets retain the source's <a rel="noopener noreferrer external" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0 license</a>.</p>
+<p>The <a rel="noopener noreferrer external" target="_blank" href="https://github.com/GazzolaLab/BR2-vision-based-smoothing">code repository</a> links to demonstration data and identifies its <strong>v0.1</strong> version as the code used to reproduce the paper's results. The BibTeX below cites the published conference paper.</p>
+</div>
+
+        
+
+        
+
+        
+
+        
+        <section class="post__section post__citation" id="post-citation" aria-labelledby="post-citation-title">
+          <div class="post__section-heading">
+            <h2 id="post-citation-title">Citation</h2>
+            <button class="post__button" type="button" data-copy-citation data-copy-feedback="BibTex Copied!" aria-controls="post-bibtex" hidden><i class="bi bi-copy" aria-hidden="true"></i><span data-copy-label>Copy BibTeX</span></button>
+          </div>
+          <pre tabindex="0" aria-label="BibTeX citation"><code id="post-bibtex">@inproceedings{kim2022smoothing,
+  title = {A physics-informed, vision-based method to reconstruct all deformation modes in slender bodies},
+  author = {Kim, Seung Hyun and Chang, Heng-Sheng and Shih, Chia-Hsien and Uppalapati, Naveen Kumar and Halder, Udit and Krishnan, Girish and Mehta, Prashant G. and Gazzola, Mattia},
+  booktitle = {2022 International Conference on Robotics and Automation (ICRA)},
+  pages = {4810--4817},
+  year = {2022},
+  doi = {10.1109/ICRA46639.2022.9811909},
+  url = {https://doi.org/10.1109/ICRA46639.2022.9811909}
+}</code></pre>
+          <p class="post__copy-status visually-hidden" data-copy-status role="status" aria-live="polite"></p>
+        </section>
+        
+
+        
+
+      </div>
+      
+      <aside class="post__related sidebar" aria-labelledby="post-related-title">
+        <section class="widget">
+          <h2 class="widget__title" id="post-related-title">Related Posts</h2>
+          <ul class="post__related-list">
+            
+            <li><a href="https://hanson-hschang.github.io/blogs/science/machine-deception-detection/">A Polygraph for Language Models</a><time class="date-text" datetime="2026-10-11">October 11, 2026</time></li>
+            
+            <li><a href="https://hanson-hschang.github.io/blogs/science/diffusion-based-octopus-crawling/">Learning Many Ways to Crawl: Diffusion Models for an Adaptable CyberOctopus</a><time class="date-text" datetime="2026-10-02">October 02, 2026</time></li>
+            
+            <li><a href="https://hanson-hschang.github.io/blogs/science/transformer-inference-from-optimal-control/">From Optimal Control to Transformer-like Inference</a><time class="date-text" datetime="2026-05-15">May 15, 2026</time></li>
+            
+            <li><a href="https://hanson-hschang.github.io/blogs/science/transformers-and-state-space-models/">Transformers and State Space Models: A Connection in Sequential Data Modeling</a><time class="date-text" datetime="2026-02-28">February 28, 2026</time></li>
+            
+            <li><a href="https://hanson-hschang.github.io/blogs/science/belief-net/">Belief Net: Bridging Probabilistic Modeling and Deep Learning for Sequential Data</a><time class="date-text" datetime="2026-02-21">February 21, 2026</time></li>
+            
+          </ul>
+        </section>
+      </aside>
+      
+    </div>
+    
+<dialog class="post__lightbox" id="post-lightbox" data-post-lightbox aria-labelledby="post-lightbox-title">
+  <header class="post__lightbox-header">
+    <div class="post__lightbox-heading">
+      <span class="post__lightbox-count" data-lightbox-count>Figure</span>
+      <p id="post-lightbox-title" data-lightbox-title>Figure viewer</p>
+    </div>
+    <div class="post__lightbox-actions">
+      <button class="post__button post__lightbox-close" type="button" data-lightbox-close aria-label="Close image viewer" title="Close" autofocus><i class="bi bi-x-lg" aria-hidden="true"></i></button>
+    </div>
+  </header>
+  <div class="post__lightbox-viewport" data-lightbox-viewport role="region" aria-label="Figure image">
+    <img data-lightbox-image alt="">
+    <p class="post__lightbox-status" data-lightbox-status role="status"></p>
+  </div>
+  <footer class="post__lightbox-footer">
+    <p class="post__lightbox-caption" data-lightbox-caption tabindex="0" role="region" aria-label="Figure caption"></p>
+  </footer>
+</dialog>
+
+  </article>
+
+    </main>
+
+    <!-- Footer -->
+    <footer id="footer" class="footer position-relative">
+  <div class="container">
+    <p class="footer__sitename">Hanson.HSChang</p>
+    <p class="footer__quote">Everything is theoretically impossible, until it is done. --- Robert A. Heinlein</p>
+    <nav class="footer__social-links d-flex justify-content-center" aria-label="Social links">
+      
+  <a href="https://github.com/hanson-hschang" 
+    aria-label="Link to my GitHub profile" 
+    target="_blank" 
+    rel="noopener noreferrer"
+  >
+    <i class="bi bi-github" aria-hidden="true"></i>
+  </a>
+
+  <a href="https://scholar.google.com/citations?user=S7AWv3oAAAAJ" 
+    aria-label="Link to my Google Scholar profile" 
+    target="_blank" 
+    rel="noopener noreferrer"
+  >
+    <i class="ai ai-google-scholar" aria-hidden="true"></i>
+  </a>
+
+  <a href="https://www.linkedin.com/in/hanson-hschang/" 
+    aria-label="Link to my LinkedIn profile" 
+    target="_blank" 
+    rel="noopener noreferrer"
+  >
+    <i class="bi bi-linkedin" aria-hidden="true"></i>
+  </a>
+
+  <a href="https://www.instagram.com/hanson.hschang/" 
+    aria-label="Link to my Instagram profile" 
+    target="_blank" 
+    rel="noopener noreferrer"
+  >
+    <i class="bi bi-instagram" aria-hidden="true"></i>
+  </a>
+
+    </nav>
+    <div class="container">
+      <div class="footer__copyright"><p>© All Rights Reserved</p>
+</div>
+      <div class="footer__credits"><p>Powered by <a rel="noopener noreferrer external" target="_blank" href="https://www.getzola.org/">Zola</a>, <a rel="noopener noreferrer external" target="_blank" href="https://getbootstrap.com/">Bootstrap</a>, and <a rel="noopener noreferrer external" target="_blank" href="https://web3forms.com/">Web3Forms</a></p>
+</div>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- Preloader -->
+    
+
+    <!-- Java Scripts -->
+    
+  
+      
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const katexMacros = {};
+    renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\[', right: '\\]', display: true},
+        {left: '\\(', right: '\\)', display: false},
+      ],
+      macros: katexMacros
+    });
+  });
+</script>
+
+      
+    
+  <script src="https://hanson-hschang.github.io/vendor/aos/aos.js"></script>
+  <script src="https://hanson-hschang.github.io/assets/script/home.js"></script>
+  <script src="https://hanson-hschang.github.io/assets/script/share.js" defer></script>
+  <script src="https://hanson-hschang.github.io/assets/script/post.js" defer></script>
+
+     
+  </body>
+
+</html>

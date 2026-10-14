@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+
+    <!-- Meta Info -->
+    <title>
+  
+    
+    A Polygraph for Language Models &middot; Hanson.HSChang
+  
+</title>
+    
+  
+  <meta name="description" content="Can a language model&#39;s internal activity reveal deception? 
+A look at early experiments and a proposal for making detector alarms more reliable.
+">
+  <link rel="canonical" href="https://hanson-hschang.github.io/blogs/science/machine-deception-detection/">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="A Polygraph for Language Models">
+  <meta property="og:description" content="Can a language model&#39;s internal activity reveal deception? 
+A look at early experiments and a proposal for making detector alarms more reliable.
+">
+  <meta property="og:url" content="https://hanson-hschang.github.io/blogs/science/machine-deception-detection/">
+  <meta property="og:site_name" content="Hanson.HSChang">
+  
+  
+  
+  
+  
+  
+  
+    <meta property="og:image" content="https://hanson-hschang.github.io/blogs/science/machine-deception-detection/img/machine-deception-detection.png?v=f182b9d7">
+    
+      
+      
+    <meta property="og:image:width" content="586">
+    <meta property="og:image:height" content="441">
+      
+      <meta property="og:image:type" content="image/png">
+      <meta property="og:image:alt" content="An examiner asks whether a man knew about a merger beforehand while a polygraph displays a high detection score.">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://hanson-hschang.github.io/blogs/science/machine-deception-detection/img/machine-deception-detection.png?v=f182b9d7">
+    <meta name="twitter:image:alt" content="An examiner asks whether a man knew about a merger beforehand while a polygraph displays a high detection score.">
+  
+  <meta name="citation_title" content="A Polygraph for Language Models">
+  
+  <meta name="author" content="Heng-Sheng Chang">
+  <meta name="citation_publication_date" content="2026/10/11">
+  
+  
+
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="https://hanson-hschang.github.io/assets/img/favicon.ico" >
+    <link rel="apple-touch-icon" href="https://hanson-hschang.github.io/assets/img/apple-touch-icon.png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400&family=Poppins:wght@400;700&display=swap">
+
+    <!-- Vendor CSS Files -->
+    <link rel="stylesheet" href="https://hanson-hschang.github.io/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://hanson-hschang.github.io/vendor/bootstrap-icons/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://hanson-hschang.github.io/vendor/aos/aos.css">
+    <link rel="stylesheet" href="https://hanson-hschang.github.io/vendor/academicons/css/academicons.min.css"/>
+
+    
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="https://hanson-hschang.github.io/assets/stylesheet/main.css">
+    
+  <link rel="stylesheet" href="https://hanson-hschang.github.io/assets/stylesheet/page-post.css">
+  <link rel="stylesheet" href="https://hanson-hschang.github.io/assets/stylesheet/citations.css">
+
+    
+  </head>
+
+  <body>
+
+    <!-- Header -->
+    
+  <a class="post__skip" href="#post-main">Skip to post</a>
+   
+      <!-- Navigation Menu -->
+
+
+
+  
+  
+    
+  
+
+  
+  
+    
+  
+
+  
+  
+    
+  
+
+
+
+  
+  
+  
+  
+    
+    
+    
+  
+  <header id="header" class="header d-flex justify-content-center">
+    <nav id="navmenu" class="navmenu">
+      <ul>
+        <li><a href="https://hanson-hschang.github.io" aria-label="Link to Home"><i class="bi bi-house"></i><span>Home</span></a></li>
+        
+          
+          
+          
+          <li>
+            <a href="https://hanson-hschang.github.io/about/"  aria-label="Link to About"><i class="bi bi-file-earmark-person" aria-hidden="true"></i><span>About</span></a>
+            
+          </li>
+        
+          
+          
+          
+          <li>
+            <a href="https://hanson-hschang.github.io/resume/"  aria-label="Link to Resume"><i class="bi bi-person-vcard" aria-hidden="true"></i><span>Resume</span></a>
+            
+          </li>
+        
+          
+          
+            
+              
+              
+                
+              
+            
+              
+              
+                
+              
+            
+              
+              
+                
+              
+            
+          
+          
+          <li class="dropdown">
+            <a href="https://hanson-hschang.github.io/blogs/" class="active" aria-label="Link to Blogs"><i class="bi bi-pencil-square" aria-hidden="true"></i><span>Blogs</span></a>
+            
+              <button class="navmenu__dropdown-toggle" type="button" aria-label="Toggle Blogs sections" aria-expanded="false" aria-controls="nav-subsections-blogs" hidden></button>
+              <ul id="nav-subsections-blogs" aria-label="Blogs sections">
+                
+                  
+                  <li><a href="https://hanson-hschang.github.io/blogs/life/">Life</a></li>
+                
+                  
+                  <li><a href="https://hanson-hschang.github.io/blogs/miscellanea/">Miscellanea</a></li>
+                
+                  
+                  <li><a href="https://hanson-hschang.github.io/blogs/science/" class="active" aria-current="location">Science</a></li>
+                
+              </ul>
+            
+          </li>
+        
+        
+          
+            
+              <li><a href="https://hanson-hschang.github.io#contact" aria-label="Link to Contact"><i class="bi bi-chat-text"></i><span>Contact</span></a></li>
+            
+          
+            
+          
+            
+          
+            
+          
+        
+      </ul>
+    </nav>
+  </header>
+
+
+    
+
+
+    <!-- Navigation Menu Toggle -->
+    
+    <i class="nav-toggle d-lg-none bi bi-list"></i>
+    
+
+    <!-- Main -->
+    <main class="main">
+    
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    
+    
+      
+      
+    
+      
+      
+        
+      
+    
+      
+      
+        
+      
+    
+      
+      
+        
+      
+    
+      
+      
+        
+      
+    
+      
+      
+        
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+  
+  
+  
+  
+  
+
+
+<header class="page-title d-flex align-items-center post-breadcrumbs">
+  <div class="container" data-aos="fade">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <ol>
+        
+        <li><a href="https://hanson-hschang.github.io">Home</a></li>
+        
+          
+          
+            
+            
+          
+            
+            
+            <li><a href="https://hanson-hschang.github.io/blogs/">Blogs</a></li>
+            
+          
+            
+            
+            <li><a href="https://hanson-hschang.github.io/blogs/science/">Science</a></li>
+            
+          
+          <li class="current" aria-current="page">Machine Deception Detection</li>
+        
+      </ol>
+    </nav>
+  </div>
+</header>
+
+  <article class="post container" id="post-main" aria-labelledby="post-title" tabindex="-1">
+    <header class="post__hero">
+      <div class="post__heading">
+        
+        
+        <div class="post__eyebrow">
+          
+  
+  
+  <ul class="taxonomy-labels taxonomy-labels--categories" aria-label="Categories" role="list">
+    
+    <li class="taxonomy-labels__item"><a class="taxonomy-labels__link" href="https://hanson-hschang.github.io/categories/research/">Research</a></li>
+    
+    <li class="taxonomy-labels__item"><a class="taxonomy-labels__link" href="https://hanson-hschang.github.io/categories/white-paper/">White Paper</a></li>
+    
+  </ul>
+  
+
+          
+        </div>
+        
+        <h1 id="post-title">A Polygraph for Language Models</h1>
+        
+        <p class="post__subtitle">Accuracy and uncertainty in machine deception detection</p>
+        
+  
+  
+  <ul class="taxonomy-labels taxonomy-labels--tags" aria-label="Tags" role="list">
+    
+    <li class="taxonomy-labels__item"><a class="taxonomy-labels__link" href="https://hanson-hschang.github.io/tags/language-models/">Language Models</a></li>
+    
+    <li class="taxonomy-labels__item"><a class="taxonomy-labels__link" href="https://hanson-hschang.github.io/tags/ai-safety/">AI Safety</a></li>
+    
+    <li class="taxonomy-labels__item"><a class="taxonomy-labels__link" href="https://hanson-hschang.github.io/tags/deception-detection/">Deception Detection</a></li>
+    
+    <li class="taxonomy-labels__item"><a class="taxonomy-labels__link" href="https://hanson-hschang.github.io/tags/uncertainty-quantification/">Uncertainty Quantification</a></li>
+    
+  </ul>
+  
+
+        
+      </div>
+      
+      
+<div class="article-meta">
+  <ul class="article-meta__details" aria-label="Article information">
+    
+    <li><time class="date-text article-meta__date" datetime="2026-10-11">October 11, 2026</time></li>
+    
+    <li><i class="bi bi-hourglass-split" aria-hidden="true"></i><span class="article-meta__reading-time">5 min read</span></li>
+  </ul>
+  
+<aside class="share" data-share aria-label="Article sharing">
+  <button class="share__button" data-share-toggle type="button" aria-expanded="false" aria-controls="article-share-menu" hidden>
+    <i class="bi bi-box-arrow-up" aria-hidden="true"></i><span>Share</span>
+  </button>
+  <nav id="article-share-menu" class="share-menu" aria-label="Share this article">
+    <a class="share-menu__item" href="https://hanson-hschang.github.io/blogs/science/machine-deception-detection/">
+      <i class="bi bi-link-45deg" aria-hidden="true"></i><span>Permalink</span>
+    </a>
+    <a class="share-menu__item" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A//hanson-hschang.github.io/blogs/science/machine-deception-detection/" target="_blank" rel="noopener noreferrer">
+      <i class="bi bi-linkedin" aria-hidden="true"></i>
+      <span>Share on LinkedIn</span>
+    </a>
+    <a class="share-menu__item" href="https://www.facebook.com/sharer/sharer.php?u=https%3A//hanson-hschang.github.io/blogs/science/machine-deception-detection/" target="_blank" rel="noopener noreferrer">
+      <i class="bi bi-facebook" aria-hidden="true"></i>
+      <span>Share on Facebook</span>
+    </a>
+    <a class="share-menu__item" href="https://x.com/intent/tweet?url=https%3A//hanson-hschang.github.io/blogs/science/machine-deception-detection/&text=A%20Polygraph%20for%20Language%20Models" target="_blank" rel="noopener noreferrer">
+      <i class="bi bi-twitter-x" aria-hidden="true"></i>
+      <span>Share on X</span>
+    </a>
+    <a class="share-menu__item" href="mailto:?subject=A%20Polygraph%20for%20Language%20Models&body=https%3A//hanson-hschang.github.io/blogs/science/machine-deception-detection/">
+      <i class="bi bi-envelope-fill" aria-hidden="true"></i>
+      <span>Email</span>
+    </a>
+  </nav>
+</aside>
+
+</div>
+
+      
+  
+  
+  
+    
+    
+      
+    
+  
+    
+    
+      
+        
+        
+      
+    
+  
+  
+  <nav class="post__resources" aria-label="Post resources">
+    
+      
+      
+      
+      <a class="post__button post__button--primary" href="https://arxiv.org/abs/2610.15314"><i class="bi bi-file-earmark-pdf" aria-hidden="true"></i>White paper</a>
+      
+    
+      
+      
+      
+      <span class="post__resource" data-copy-resource>
+        <a class="post__button" href="#post-citation" data-copy-citation-fallback><i class="bi bi-quote" aria-hidden="true"></i>Cite</a>
+        <button class="post__button" type="button" data-copy-citation data-copy-feedback="BibTex Copied!" aria-controls="post-bibtex" hidden><i class="bi bi-quote" aria-hidden="true"></i><span data-copy-label>Cite</span></button>
+      </span>
+      
+    
+    <p class="visually-hidden" data-copy-status role="status" aria-live="polite"></p>
+  </nav>
+  
+
+    </header>
+
+    
+    <div class="post__teaser"><figure class="post__figure"><a href="https://hanson-hschang.github.io/blogs/science/machine-deception-detection/img/polygraph-examination.png" data-post-lightbox-trigger aria-label="View full-size image: Three stages compare a human polygraph with a machine detector: learn from labeled honest and deceptive answers, set a threshold using honest answers, and score an unknown answer."><img src="https://hanson-hschang.github.io/blogs/science/machine-deception-detection/img/polygraph-examination.png" alt="Three stages compare a human polygraph with a machine detector: learn from labeled honest and deceptive answers, set a threshold using honest answers, and score an unknown answer." width="1800" height="446" loading="eager" decoding="async"></a><figcaption><p><strong>Learn, calibrate, detect.</strong>
+Learn from known examples, calibrate on honest examples, then examine new answers.
+The machine detector reads internal embeddings from a language model, while the polygraph reads physiological signals from a human.
+Both aim to catch deception while keeping false alarms rare.</p>
+</figcaption></figure></div>
+    
+
+    <div class="post__layout">
+      
+      <div class="post__sidebar">
+        <div class="post__sidebar-inner">
+      
+      <aside class="post__contents">
+        <details class="post__outline" data-post-outline>
+          <summary class="post__outline-toggle">
+            <span id="post-outline-title">Outline</span>
+            <i class="bi bi-chevron-down" aria-hidden="true"></i>
+          </summary>
+          <nav aria-labelledby="post-outline-title">
+            <ul>
+              
+              <li data-prose-heading><a href="https://hanson-hschang.github.io/blogs/science/machine-deception-detection/#looking-beyond-the-words">Looking beyond the words</a></li><li data-prose-heading><a href="https://hanson-hschang.github.io/blogs/science/machine-deception-detection/#finding-the-useful-features">Finding the useful features</a></li><li data-prose-heading><a href="https://hanson-hschang.github.io/blogs/science/machine-deception-detection/#better-scores-need-steadier-judgments">Better scores need steadier judgments</a></li><li data-prose-heading><a href="https://hanson-hschang.github.io/blogs/science/machine-deception-detection/#an-alarm-should-earn-trust">An alarm should earn trust</a></li><li data-prose-heading><a href="https://hanson-hschang.github.io/blogs/science/machine-deception-detection/#what-comes-next">What comes next?</a></li>
+              <li data-prose-toc-end hidden></li>
+              
+              
+              
+              <li><a href="#post-citation">Citation</a></li>
+              
+            </ul>
+          </nav>
+        </details>
+      </aside>
+      
+        </div>
+      </div>
+      
+      <div class="post__body">
+        
+
+        <div class="post__prose"><p>Imagine a language model acting as a trading assistant. It uses confidential information to make a trade, then tells its manager that the decision came from ordinary market analysis. The report sounds plausible. Its wording alone may give little reason to suspect that something was concealed.</p>
+<blockquote>
+<p>Could the model's internal activity provide another clue? And if a detector raises an alarm, how much should we trust that detector's decision?</p>
+</blockquote>
+<p>In this white paper, I propose a <strong>Machine Deception Detector</strong> that tackles both questions.
+The goal is to catch deceptive responses while keeping false alarms rare, and to reveal when the detector's own judgment is unstable.</p>
+<p>This is work in progress.
+The early experiments show why these questions matter; the full detector and its broader evaluation are still ahead.</p>
+<h2 id="looking-beyond-the-words">Looking beyond the words</h2>
+<p>As a language model processes text, it passes information through many layers.
+The numerical patterns inside those layers offer another source of evidence alongside the words in the answer.
+A small detector (compared to the size of the language model) can learn to read those patterns while the language model itself stays unchanged.</p>
+<p>The polygraph analogy gives us a useful workflow.
+First, learn from examples labeled honest or deceptive.
+Next, use a separate set of honest answers to decide how strong a signal should be before it triggers an alarm.
+Finally, examine new answers.</p>
+<p>The analogy has limits.
+An internal signal is a clue to investigate, not proof of a lie.
+Here, deception means concealing information or misreporting what a model is taken to know.
+An ordinary factual mistake does not, by itself, establish deception.</p>
+<h2 id="finding-the-useful-features">Finding the useful features</h2>
+<p>A detector has to decide where to look.
+Should it read one layer or several?
+Should it consider the whole answer equally, look for a pattern that persists across the answer, or focus on the most suspicious passage?</p>
+<p>The proposal combines information across layers and lets the detector learn from labels attached to whole responses.
+That matters because an otherwise ordinary answer might contain just one misleading claim.</p>
+<p>The first experiments also suggest that a detector can rely on a smaller set of signals.
+The figure below compares two ways of training it: <strong>ridge regression</strong>, which tends to spread weight across many signals, and <strong>lasso regression</strong>, which encourages a more selective readout.</p>
+<figure class="post__figure"><a href="https://hanson-hschang.github.io/blogs/science/machine-deception-detection/img/probe-weights.png" data-post-lightbox-trigger aria-label="View full-size image: Figure 2a, titled Trained Detectors&#39; Weights. Two heatmaps compare detectors that spread weight across many internal signals with detectors that focus on fewer signals. The more selective version has a much sparser pattern."><img src="https://hanson-hschang.github.io/processed_images/probe-weights.6bf5a75ed7b6eaf3.png" alt="Figure 2a, titled Trained Detectors&#39; Weights. Two heatmaps compare detectors that spread weight across many internal signals with detectors that focus on fewer signals. The more selective version has a much sparser pattern." width="512" height="351" loading="lazy" decoding="async"></a><figcaption><p><strong>Concentrated Deception Embedding Feature.</strong> On Qwen3-8B, the lasso detectors concentrate their weights much more than the ridge detectors. Darker marks indicate stronger weights; the middle plot compares their concentration. This supports exploring selective readouts, but does not identify a unique deception circuit.</p>
+</figcaption></figure>
+<h2 id="better-scores-need-steadier-judgments">Better scores need steadier judgments</h2>
+<p>The early tests involve two situations:
+<strong>Insider Trading</strong>, where a model conceals its use of an insider tip, and <strong>Convincing Game</strong>, where it claims a trait it lacks.
+These experiments read one layer at a time and report the best-performing layer for each setup.
+They provide a starting point for the proposed detector that combines layers.</p>
+<p>The two panels below tell a connected story.
+<strong>How we build a detector affects its performance, and training it again can change the result.</strong></p>
+<figure class="post__figure"><a href="https://hanson-hschang.github.io/blogs/science/machine-deception-detection/img/detector-performance.png" data-post-lightbox-trigger aria-label="View full-size image: Two related performance plots. The left compares ways to combine information and train a detector. The right shows that repeating training can produce widely different scores, including a Qwen3-4B run near chance."><img src="https://hanson-hschang.github.io/processed_images/detector-performance.591d6a0653097376.png" alt="Two related performance plots. The left compares ways to combine information and train a detector. The right shows that repeating training can produce widely different scores, including a Qwen3-4B run near chance." width="512" height="336" loading="lazy" decoding="async"></a><figcaption><p><strong>Design choices and repeatability belong together.</strong> Left: different regularization and averaging choices change performance on Qwen3-8B. Right: six independent training runs per model size reveal how much results vary. Both panels use AUROC, a measure of how well the detector separates honest and deceptive examples: 0.5 is chance and 1 is perfect separation.</p>
+</figcaption></figure>
+<p>On the left, most choices work well on Convincing Game, but Insider Trading is harder.
+Focusing on fewer signals helps with some ways of combining evidence and hurts with another.
+A good detector needs these choices to work together.</p>
+<p>On the right, the same training recipe is repeated with different random starting points.
+For the smallest model shown, one Insider Trading run scores <strong>0.59</strong>, while another reaches about <strong>0.93</strong>.
+One promising run can therefore give an incomplete picture of how reliable the method is.</p>
+<p>These scores measure how well the detector ranks examples. A score of 0.93 does not mean it catches 93% of lies.
+To know how it would behave in use, we also need to decide when to sound the alarm.</p>
+<h2 id="an-alarm-should-earn-trust">An alarm should earn trust</h2>
+<p>If a detector flags too many honest answers, reviewers will soon be overwhelmed.
+The proposal aims for roughly <strong>one false alarm per 1,000 honest answers</strong> on traffic like the examples used to set its threshold.
+This is a target for the next experiments, rather than a result established by the pilot plots.</p>
+<p>That qualification matters.
+A detector calibrated on everyday questions may react differently to an honest discussion of misconduct.
+Testing it on new situations is essential.</p>
+<p>There is a second check: train several detectors independently and compare their judgments.
+This group is called an <strong>ensemble</strong>.
+When its members give a response consistently high scores, the alarm is more stable.
+When they disagree, the system treats that disagreement as a reason for caution.</p>
+<p>Agreement still does not establish truth.
+Several detectors can learn the same shortcut and make the same mistake.
+The research question is whether their disagreement helps identify unreliable alarms on unfamiliar tasks.</p>
+<h2 id="what-comes-next">What comes next?</h2>
+<p>The planned study will test six Qwen3 model sizes across five kinds of deception.
+It will measure both the deceptive responses caught and the honest responses mistakenly flagged.</p>
+<p>A central challenge is moving beyond examples that explicitly tell a model to deceive.
+A detector might learn to recognize that instruction instead of deception more generally.
+It needs to work when a model has a reason to hide information without being directly told to lie.</p>
+<p>Another challenge comes from using stored responses written by other models.
+The Qwen3 model reading a response may not know what its original author knew.
+Generating new examples with each model would help make that comparison clearer.</p>
+<p>The next step is to establish whether these detectors produce useful, repeatable alarms across those different situations.
+That would give us a stronger basis for deciding when an apparently convincing answer deserves a closer look.</p>
+</div>
+
+        
+
+        
+
+        
+
+        
+        <section class="post__section post__citation" id="post-citation" aria-labelledby="post-citation-title">
+          <div class="post__section-heading">
+            <h2 id="post-citation-title">Citation</h2>
+            <button class="post__button" type="button" data-copy-citation data-copy-feedback="BibTex Copied!" aria-controls="post-bibtex" hidden><i class="bi bi-copy" aria-hidden="true"></i><span data-copy-label>Copy BibTeX</span></button>
+          </div>
+          <pre tabindex="0" aria-label="BibTeX citation"><code id="post-bibtex">@techreport{chang2026accuracy,
+  title = {Accuracy and Uncertainty in Machine Deception Detection},
+  author = {Chang, Heng-Sheng},
+  institution = {Coordinated Science Laboratory, University of Illinois Urbana-Champaign},
+  type = {Research white paper},
+  year = {2026},
+  month = oct,
+  eprint = {2610.15314},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.LG},
+  url = {https://arxiv.org/abs/2610.15314}
+}</code></pre>
+          <p class="post__copy-status visually-hidden" data-copy-status role="status" aria-live="polite"></p>
+        </section>
+        
+
+        
+
+      </div>
+      
+      <aside class="post__related sidebar" aria-labelledby="post-related-title">
+        <section class="widget">
+          <h2 class="widget__title" id="post-related-title">Related Posts</h2>
+          <ul class="post__related-list">
+            
+            <li><a href="https://hanson-hschang.github.io/blogs/science/diffusion-based-octopus-crawling/">Learning Many Ways to Crawl: Diffusion Models for an Adaptable CyberOctopus</a><time class="date-text" datetime="2026-10-02">October 02, 2026</time></li>
+            
+            <li><a href="https://hanson-hschang.github.io/blogs/science/transformer-inference-from-optimal-control/">From Optimal Control to Transformer-like Inference</a><time class="date-text" datetime="2026-05-15">May 15, 2026</time></li>
+            
+            <li><a href="https://hanson-hschang.github.io/blogs/science/transformers-and-state-space-models/">Transformers and State Space Models: A Connection in Sequential Data Modeling</a><time class="date-text" datetime="2026-02-28">February 28, 2026</time></li>
+            
+            <li><a href="https://hanson-hschang.github.io/blogs/science/belief-net/">Belief Net: Bridging Probabilistic Modeling and Deep Learning for Sequential Data</a><time class="date-text" datetime="2026-02-21">February 21, 2026</time></li>
+            
+            <li><a href="https://hanson-hschang.github.io/blogs/science/positional-encoding-in-transformer-language-models/">Positional Encoding in Transformer Language Models</a><time class="date-text" datetime="2026-02-13">February 13, 2026</time></li>
+            
+          </ul>
+        </section>
+      </aside>
+      
+    </div>
+    
+<dialog class="post__lightbox" id="post-lightbox" data-post-lightbox aria-labelledby="post-lightbox-title">
+  <header class="post__lightbox-header">
+    <div class="post__lightbox-heading">
+      <span class="post__lightbox-count" data-lightbox-count>Figure</span>
+      <p id="post-lightbox-title" data-lightbox-title>Figure viewer</p>
+    </div>
+    <div class="post__lightbox-actions">
+      <button class="post__button post__lightbox-close" type="button" data-lightbox-close aria-label="Close image viewer" title="Close" autofocus><i class="bi bi-x-lg" aria-hidden="true"></i></button>
+    </div>
+  </header>
+  <div class="post__lightbox-viewport" data-lightbox-viewport role="region" aria-label="Figure image">
+    <img data-lightbox-image alt="">
+    <p class="post__lightbox-status" data-lightbox-status role="status"></p>
+  </div>
+  <footer class="post__lightbox-footer">
+    <p class="post__lightbox-caption" data-lightbox-caption tabindex="0" role="region" aria-label="Figure caption"></p>
+  </footer>
+</dialog>
+
+  </article>
+
+    </main>
+
+    <!-- Footer -->
+    <footer id="footer" class="footer position-relative">
+  <div class="container">
+    <p class="footer__sitename">Hanson.HSChang</p>
+    <p class="footer__quote">Everything is theoretically impossible, until it is done. --- Robert A. Heinlein</p>
+    <nav class="footer__social-links d-flex justify-content-center" aria-label="Social links">
+      
+  <a href="https://github.com/hanson-hschang" 
+    aria-label="Link to my GitHub profile" 
+    target="_blank" 
+    rel="noopener noreferrer"
+  >
+    <i class="bi bi-github" aria-hidden="true"></i>
+  </a>
+
+  <a href="https://scholar.google.com/citations?user=S7AWv3oAAAAJ" 
+    aria-label="Link to my Google Scholar profile" 
+    target="_blank" 
+    rel="noopener noreferrer"
+  >
+    <i class="ai ai-google-scholar" aria-hidden="true"></i>
+  </a>
+
+  <a href="https://www.linkedin.com/in/hanson-hschang/" 
+    aria-label="Link to my LinkedIn profile" 
+    target="_blank" 
+    rel="noopener noreferrer"
+  >
+    <i class="bi bi-linkedin" aria-hidden="true"></i>
+  </a>
+
+  <a href="https://www.instagram.com/hanson.hschang/" 
+    aria-label="Link to my Instagram profile" 
+    target="_blank" 
+    rel="noopener noreferrer"
+  >
+    <i class="bi bi-instagram" aria-hidden="true"></i>
+  </a>
+
+    </nav>
+    <div class="container">
+      <div class="footer__copyright"><p>© All Rights Reserved</p>
+</div>
+      <div class="footer__credits"><p>Powered by <a rel="noopener noreferrer external" target="_blank" href="https://www.getzola.org/">Zola</a>, <a rel="noopener noreferrer external" target="_blank" href="https://getbootstrap.com/">Bootstrap</a>, and <a rel="noopener noreferrer external" target="_blank" href="https://web3forms.com/">Web3Forms</a></p>
+</div>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- Preloader -->
+    
+
+    <!-- Java Scripts -->
+    
+  
+      
+    
+  <script src="https://hanson-hschang.github.io/vendor/aos/aos.js"></script>
+  <script src="https://hanson-hschang.github.io/assets/script/home.js"></script>
+  <script src="https://hanson-hschang.github.io/assets/script/share.js" defer></script>
+  <script src="https://hanson-hschang.github.io/assets/script/post.js" defer></script>
+
+     
+  </body>
+
+</html>

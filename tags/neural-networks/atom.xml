@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title>Hanson.HSChang - Neural Networks</title>
+    <subtitle>This is Hanson&#39;s personal website.</subtitle>
+    <link rel="self" type="application/atom+xml" href="https://hanson-hschang.github.io/tags/neural-networks/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://hanson-hschang.github.io/"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2025-06-01T00:00:00+00:00</updated>
+    <id>https://hanson-hschang.github.io/tags/neural-networks/atom.xml</id>
+    <entry xml:lang="en">
+        <title>Reconstructing Soft Arms in Real Time with Neural Networks</title>
+        <published>2025-06-01T00:00:00+00:00</published>
+        <updated>2025-06-01T00:00:00+00:00</updated>
+        
+        <author>
+          <name>Heng-Sheng Chang</name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://hanson-hschang.github.io/blogs/science/neural-network-soft-arm-reconstruction/"/>
+        <id>https://hanson-hschang.github.io/blogs/science/neural-network-soft-arm-reconstruction/</id>
+        
+        <content type="html" xml:base="https://hanson-hschang.github.io/blogs/science/neural-network-soft-arm-reconstruction/">&lt;p&gt;A soft robot needs to know its shape while it moves. A few tracked markers can tell us where selected cross-sections are and how they are oriented, but the arm bends, twists, and stretches continuously between those observations. Recovering that continuous deformation is already difficult. Doing it quickly enough to keep up with motion adds another challenge.&lt;/p&gt;
+&lt;p&gt;In &lt;a href=&quot;https://hanson-hschang.github.io/blogs/science/vision-based-soft-arm-reconstruction/&quot;&gt;&lt;strong&gt;Seeing How Soft Arms Deform: From Camera Images to Six Strain Fields&lt;/strong&gt;&lt;/a&gt;, I described our earlier method for combining camera measurements with Cosserat rod mechanics. It reconstructs the arm&#39;s posture and strain fields by repeatedly solving an optimization problem. The results reveal deformations that an outline alone cannot show, but the calculation can require thousands of iterations for a single frame.&lt;/p&gt;
+&lt;p&gt;Our follow-up paper, &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://ieeexplore.ieee.org/abstract/document/11128142/&quot;&gt;&lt;em&gt;A Neural Network-Based Framework for Fast and Smooth Posture Reconstruction of a Soft Continuum Arm&lt;/em&gt;&lt;/a&gt;, addresses that bottleneck. Tixian Wang and I, together with our collaborators, develop a neural network that learns the mapping from sparse marker poses to a continuous strain representation. Rod mechanics then turns those strains into the reconstructed arm.&lt;/p&gt;
+&lt;p&gt;The reported reconstruction benchmark is &lt;strong&gt;more than five orders of magnitude faster&lt;/strong&gt; than the earlier forward-backward algorithm, with comparable normalized objective loss. The central idea is to move the repeated computational effort into training, so a new measurement can be processed with a network evaluation and a spatial integration.&lt;/p&gt;
+&lt;h2 id=&quot;reconstruction-in-action&quot;&gt;Reconstruction in action&lt;/h2&gt;
+&lt;figure class=&quot;post__figure&quot;&gt;
+&lt;div class=&quot;post__embed&quot;&gt;
+  &lt;iframe src=&quot;https://www.youtube-nocookie.com/embed/PYUYL4IFpiA&quot; title=&quot;Fast and smooth posture reconstruction of a soft continuum arm&quot; loading=&quot;lazy&quot; allow=&quot;fullscreen; picture-in-picture&quot; referrerpolicy=&quot;strict-origin-when-cross-origin&quot; allowfullscreen&gt;&lt;/iframe&gt;
+&lt;/div&gt;
+&lt;figcaption&gt;&lt;strong&gt;Watch the reconstruction in action.&lt;/strong&gt; &lt;a href=&quot;https://www.youtube.com/watch?v=PYUYL4IFpiA&quot;&gt;Open the video on YouTube&lt;/a&gt;.&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;h2 id=&quot;from-an-optimization-problem-to-a-learned-map&quot;&gt;From an optimization problem to a learned map&lt;/h2&gt;
+&lt;p&gt;The earlier approach asks: which smooth deformation best balances mechanical energy, agreement with observations, and the chosen regularization? It integrates the arm&#39;s pose from base to tip, propagates a costate backward, and updates the strain description until the optimization converges.&lt;/p&gt;
+&lt;p&gt;Each measurement set therefore defines a reconstruction problem. Across many frames, these problems have a common structure: the input is a collection of marker poses, and the output is a set of strain fields. We train a network to approximate that input-output relationship.&lt;/p&gt;
+&lt;p&gt;The input is already a &lt;strong&gt;three-dimensional pose estimate&lt;/strong&gt;. Each marker contributes its position and two perpendicular unit vectors, or directors, describing its orientation. These supply nine numbers per marker; the remaining director follows from orthonormality. The camera or motion-capture system provides these measurements before the network runs.&lt;/p&gt;
+&lt;p&gt;The output is more subtle. A neural network produces a finite vector, while bending, twist, shear, and stretch vary along the entire arm. We need a way to represent those continuous fields with a small number of numbers.&lt;/p&gt;
+&lt;h2 id=&quot;a-small-set-of-patterns-describes-continuous-strain&quot;&gt;A small set of patterns describes continuous strain&lt;/h2&gt;
+&lt;p&gt;We begin with simulated motions of the arm and collect the strain profiles that occur along its length. &lt;strong&gt;Principal component analysis (PCA)&lt;/strong&gt; identifies a compact set of spatial patterns that captures the main variations in each strain component.&lt;/p&gt;
+&lt;p&gt;For strain component $i$, the approximation takes the form&lt;/p&gt;
+&lt;div&gt;
+$$
+\hat\varepsilon^i(s)=\bar\varepsilon^i_0(s)
++\sum_{j=1}^{N_b}\alpha^i_j\bar\varepsilon^i_j(s).
+$$
+&lt;/div&gt;
+&lt;p&gt;Here, $s$ measures location along the reference length, $\bar\varepsilon^i_0$ is the mean strain profile, and the remaining $\bar\varepsilon^i_j$ are basis functions obtained from the simulated data. The coefficients $\alpha^i_j$ tell us how much of each pattern to use. The network predicts those coefficients.&lt;/p&gt;
+&lt;p&gt;For the simulated octopus arm, four components for each of six strain modes give &lt;strong&gt;24 network outputs&lt;/strong&gt;. Those 24 values specify strain profiles along the whole arm. This compact representation also limits which deformations the estimator can express: its vocabulary comes from the simulated motions used to construct the basis.&lt;/p&gt;
+&lt;p&gt;Once the strains are known, we reconstruct position $\mathbf x(s)$ and orientation $Q(s)$ using the Cosserat rod kinematics:&lt;/p&gt;
+&lt;div&gt;
+$$
+\frac{d\mathbf x}{ds}=Q\boldsymbol\nu,
+\qquad
+\frac{dQ}{ds}=Q[\boldsymbol\kappa]_\times.
+$$
+&lt;/div&gt;
+&lt;p&gt;The vector $\boldsymbol\kappa$ contains two bending strains and twist; $\boldsymbol\nu$ contains two shear strains and stretch. The matrix $[\boldsymbol\kappa]_\times$ represents taking a cross product with $\boldsymbol\kappa$. With the base pose specified, integrating these equations connects the predicted local deformations into a complete posture.&lt;/p&gt;
+&lt;h2 id=&quot;training-with-mechanics-and-marker-measurements&quot;&gt;Training with mechanics and marker measurements&lt;/h2&gt;
+&lt;p&gt;Collecting dense, accurate strain measurements from a physical soft arm would be expensive. Generating thousands of target reconstructions with the previous optimization algorithm would also carry a substantial computational cost.&lt;/p&gt;
+&lt;p&gt;Instead, we expand the simulated dataset by sampling strain coefficients from distributions fitted to the PCA results. We integrate the sampled strains into arm postures, extract virtual marker poses at the chosen locations, and add Gaussian noise to represent measurement uncertainty.&lt;/p&gt;
+&lt;p&gt;During training, the network receives these noisy poses and predicts strain coefficients. Its reconstruction is scored using&lt;/p&gt;
+&lt;div&gt;
+$$
+J(\hat q;\mathcal M)
+=U(\hat q)+\frac{\eta}{2}\Phi(\hat q;\mathcal M).
+$$
+&lt;/div&gt;
+&lt;p&gt;Here, $\hat q$ is the reconstructed posture, $\mathcal M$ is the marker measurement set, $U$ is the arm&#39;s potential energy, and $\Phi$ penalizes disagreement with measured positions and orientations. The weight $\eta$ controls the balance between the two terms. The rod equations constrain how strain becomes posture, while the energy term supplies a mechanical preference among possible reconstructions.&lt;/p&gt;
+&lt;p&gt;This is what the paper calls &lt;strong&gt;unsupervised learning&lt;/strong&gt;: the training loss does not require target strain labels. The method still uses a simulator to build its basis and synthetic training inputs, and it depends on a mechanical model. Learning takes place through the energy and observation costs evaluated on each predicted arm.&lt;/p&gt;
+&lt;h2 id=&quot;how-much-faster-is-reconstruction&quot;&gt;How much faster is reconstruction?&lt;/h2&gt;
+&lt;p&gt;The networks are small multilayer perceptrons with two hidden layers. The octopus model uses layers of 128 and 64 neurons; the physical-arm model uses 32 and 16. Training and inference were performed on a laptop with an Intel Core i7-12700H processor and 16 GB of memory, without a dedicated GPU.&lt;/p&gt;
+&lt;figure class=&quot;post__figure&quot;&gt;&lt;a href=&quot;https://hanson-hschang.github.io/blogs/science/neural-network-soft-arm-reconstruction/img/speed-and-training.png&quot; data-post-lightbox-trigger aria-label=&quot;View full-size image: A logarithmic timing plot compares neural reconstruction with the forward-backward algorithm. Adjacent plots show normalized objective loss and training and validation losses for both testbeds.&quot;&gt;&lt;img src=&quot;https://hanson-hschang.github.io/processed_images/speed-and-training.42ec1d1b5c8b7e54.png&quot; alt=&quot;A logarithmic timing plot compares neural reconstruction with the forward-backward algorithm. Adjacent plots show normalized objective loss and training and validation losses for both testbeds.&quot; width=&quot;2040&quot; height=&quot;514&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot;&gt;&lt;/a&gt;&lt;figcaption&gt;&lt;p&gt;&lt;strong&gt;The repeated solve is the computational bottleneck.&lt;/strong&gt; The neural method reduces reconstruction time by over five orders of magnitude in the reported benchmark, with normalized objective loss on a comparable scale. Training curves summarize fifty independent runs. Figure 3 from the &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://arxiv.org/abs/2409.12443v1&quot;&gt;preprint&lt;/a&gt;. &lt;a href=&quot;https://hanson-hschang.github.io/blogs/science/neural-network-soft-arm-reconstruction/img/speed-and-training.png&quot;&gt;Open full-size figure&lt;/a&gt;.&lt;/p&gt;
+&lt;/figcaption&gt;&lt;/figure&gt;
+&lt;p&gt;Figure 3 compares the learned reconstruction with the previous forward-backward algorithm. Five orders of magnitude corresponds to a factor of 100,000. This comparison measures the reconstruction calculation once marker poses are available; camera acquisition, tracking, communication, and any later control calculation have their own timing costs.&lt;/p&gt;
+&lt;p&gt;The accuracy comparison uses the reconstruction objective, normalized by the measurement weight and number of markers. It supports the claim that the speed improvement preserves a comparable level of fit under that objective. The separate demonstrations below show what the resulting shapes and strains look like.&lt;/p&gt;
+&lt;h2 id=&quot;recovering-six-strain-fields-in-a-simulated-octopus-arm&quot;&gt;Recovering six strain fields in a simulated octopus arm&lt;/h2&gt;
+&lt;p&gt;The first testbed is a 20 cm tapered muscular arm simulated with COOMM and Elastica. Energy-shaping control drives reaching motions toward 27 targets distributed through a three-dimensional workspace. Eight virtual markers provide the observations.&lt;/p&gt;
+&lt;p&gt;The network receives 72 input values and predicts the 24 coefficients representing all six strain modes. In simulation, the underlying strain fields are available, so we can compare the reconstructed profiles with the simulator&#39;s ground truth.&lt;/p&gt;
+&lt;figure class=&quot;post__figure&quot;&gt;&lt;a href=&quot;https://hanson-hschang.github.io/blogs/science/neural-network-soft-arm-reconstruction/img/octopus-reconstruction.png&quot; data-post-lightbox-trigger aria-label=&quot;View full-size image: Twenty-seven reaching targets are colored by average reconstruction error. Three snapshots compare simulated and reconstructed octopus-arm shapes, with plots of all six true and estimated strains.&quot;&gt;&lt;img src=&quot;https://hanson-hschang.github.io/processed_images/octopus-reconstruction.094ee78052ad9a9a.png&quot; alt=&quot;Twenty-seven reaching targets are colored by average reconstruction error. Three snapshots compare simulated and reconstructed octopus-arm shapes, with plots of all six true and estimated strains.&quot; width=&quot;2040&quot; height=&quot;879&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot;&gt;&lt;/a&gt;&lt;figcaption&gt;&lt;p&gt;&lt;strong&gt;Sparse poses recover a distributed deformation.&lt;/strong&gt; The snapshots show the reaching trajectory with the largest time-averaged error among the tested targets. Solid strain curves are estimates; dashed curves come from the simulator. Figure 4 from the &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://arxiv.org/abs/2409.12443v1&quot;&gt;preprint&lt;/a&gt;. &lt;a href=&quot;https://hanson-hschang.github.io/blogs/science/neural-network-soft-arm-reconstruction/img/octopus-reconstruction.png&quot;&gt;Open full-size figure&lt;/a&gt;.&lt;/p&gt;
+&lt;/figcaption&gt;&lt;/figure&gt;
+&lt;p&gt;For all 27 reaching trajectories, the time-averaged reconstruction error is below the reported &lt;strong&gt;0.2% level&lt;/strong&gt;. This percentage has a specific definition: it is the mean marker-pose mismatch, combining squared position differences normalized by arm length squared and squared orientation-matrix differences normalized by eight.&lt;/p&gt;
+&lt;p&gt;It therefore measures how well the reconstructed poses agree with the observations. It does not translate directly into a position error in millimeters or a percentage error in every strain field. The strain comparisons provide additional, separate evidence about the deformation recovered between markers.&lt;/p&gt;
+&lt;h2 id=&quot;from-simulation-to-a-physical-pneumatic-arm&quot;&gt;From simulation to a physical pneumatic arm&lt;/h2&gt;
+&lt;p&gt;The second testbed is a 30 cm BR² pneumatic manipulator. Its three pressure inputs produce bending and twisting in either direction. Three ring markers carry reflective tags, and a Vicon motion-capture system supplies their poses at &lt;strong&gt;100 Hz&lt;/strong&gt;. A complementary filter stabilizes the pose readings before reconstruction.&lt;/p&gt;
+&lt;p&gt;The training basis comes from COBRA, a simulator for the BR² arm. For this experiment, the model assumes the arm is inextensible and unshearable, so the learned variables are the three angular strains: two bends and twist. Three PCA components per angular strain give nine network outputs from 27 inputs.&lt;/p&gt;
+&lt;figure class=&quot;post__figure&quot;&gt;&lt;a href=&quot;https://hanson-hschang.github.io/blogs/science/neural-network-soft-arm-reconstruction/img/br2-reconstruction.png&quot; data-post-lightbox-trigger aria-label=&quot;View full-size image: Camera views, Vicon poses, reconstructed shapes, and angular strain profiles show a BR2 arm bending, combining bending with twist, and twisting. Tip trajectories and pose-mismatch curves compare three repeated motion cycles.&quot;&gt;&lt;img src=&quot;https://hanson-hschang.github.io/processed_images/br2-reconstruction.33f2aa42274a0356.png&quot; alt=&quot;Camera views, Vicon poses, reconstructed shapes, and angular strain profiles show a BR2 arm bending, combining bending with twist, and twisting. Tip trajectories and pose-mismatch curves compare three repeated motion cycles.&quot; width=&quot;2040&quot; height=&quot;879&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot;&gt;&lt;/a&gt;&lt;figcaption&gt;&lt;p&gt;&lt;strong&gt;A simulation-trained estimator follows a real arm.&lt;/strong&gt; The arm bends, adds twist, releases bending, and releases twist over three repeated cycles. The measured tip trajectory and marker frames are compared with the reconstruction. Figure 5 from the &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://arxiv.org/abs/2409.12443v1&quot;&gt;preprint&lt;/a&gt;. &lt;a href=&quot;https://hanson-hschang.github.io/blogs/science/neural-network-soft-arm-reconstruction/img/br2-reconstruction.png&quot;&gt;Open full-size figure&lt;/a&gt;.&lt;/p&gt;
+&lt;/figcaption&gt;&lt;/figure&gt;
+&lt;p&gt;The experiment reconstructs the arm in real time as it moves through bending, combined bending and twisting, and nearly straight twisting. The repeated trajectories and error curves show consistent behavior across three cycles.&lt;/p&gt;
+&lt;p&gt;This demonstrates transfer from simulation-generated training data to a physical manipulator. The hardware evaluation compares against measured marker poses and visually checks the reconstructed shape; it does not provide independent measurements of strain everywhere along the physical arm. The six-mode reconstruction is demonstrated in the octopus simulation, while the BR² experiment uses the more restricted model described above.&lt;/p&gt;
+&lt;h2 id=&quot;what-fast-and-smooth-makes-possible&quot;&gt;What “fast and smooth” makes possible&lt;/h2&gt;
+&lt;p&gt;The extension preserves the central aim of the earlier vision-based work: infer continuous deformation from sparse observations while using mechanics to connect the gaps. The learned representation makes that inference fast enough to accompany a live stream of marker measurements.&lt;/p&gt;
+&lt;p&gt;“Smooth” refers to variation &lt;strong&gt;along the arm&lt;/strong&gt;. The network reconstructs each time frame independently. Its present formulation does not learn temporal dynamics, and the paper leaves dynamic state estimation, more complex motions such as bend propagation, and sensory feedback control as future directions.&lt;/p&gt;
+&lt;p&gt;The basis, mechanical parameters, marker arrangement, and simulated workspace still shape what can be reconstructed reliably. New deformation patterns or a different robot can require a new basis and training data. Within the evaluated settings, the result is a practical step toward giving soft robots a continuously updated account of their own posture and deformation.&lt;/p&gt;
+&lt;h2 id=&quot;paper-and-attribution&quot;&gt;Paper and attribution&lt;/h2&gt;
+&lt;p&gt;This post is based on &lt;strong&gt;A Neural Network-Based Framework for Fast and Smooth Posture Reconstruction of a Soft Continuum Arm&lt;/strong&gt;, by Tixian Wang, Heng-Sheng Chang, Seung Hyun Kim, Jiamiao Guo, Ugur Akcal, Benjamin Walt, Darren Biskup, Udit Halder, Girish Krishnan, Girish Chowdhary, Mattia Gazzola, and Prashant G. Mehta, published in &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://doi.org/10.1109/ICRA55743.2025.11128142&quot;&gt;ICRA 2025, pp. 14015–14022&lt;/a&gt;. Tixian Wang and Heng-Sheng Chang contributed equally.&lt;/p&gt;
+&lt;p&gt;The method and results described here follow the published paper. Figures 2–5 are reproduced from the &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://arxiv.org/abs/2409.12443v1&quot;&gt;September 19, 2024 arXiv preprint&lt;/a&gt;, with explanatory captions supplied here. The figure assets retain the source&#39;s &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://creativecommons.org/licenses/by-nc-sa/4.0/&quot;&gt;CC BY-NC-SA 4.0 license&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://github.com/tixianw/FastRodReconstruction&quot;&gt;implementation is available on GitHub&lt;/a&gt;. For the optimization method that this work extends, see the earlier post, &lt;a href=&quot;https://hanson-hschang.github.io/blogs/science/vision-based-soft-arm-reconstruction/&quot;&gt;&lt;strong&gt;Seeing How Soft Arms Deform: From Camera Images to Six Strain Fields&lt;/strong&gt;&lt;/a&gt;. The BibTeX below cites the published conference paper.&lt;/p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>How regularization affects the critical points in linear neural networks</title>
+        <published>2018-11-08T00:00:00+00:00</published>
+        <updated>2019-02-20T00:00:00+00:00</updated>
+        
+        <author>
+          <name>Heng-Sheng Chang</name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://hanson-hschang.github.io/blogs/science/critical-points-in-linear-neural-networks/"/>
+        <id>https://hanson-hschang.github.io/blogs/science/critical-points-in-linear-neural-networks/</id>
+        
+        <content type="html" xml:base="https://hanson-hschang.github.io/blogs/science/critical-points-in-linear-neural-networks/">&lt;p&gt;Given an input initial random vector $X_0\in\Real{n}$ with $p_X$ distribution and covariance matrix $\Sigma_{X_0}=\expectation{X_0{X_0}^\transpose}$. Assume the input-output model is in the following linear form: $$Z=RX_0+\xi$$ where $\xi\in\Real{n}$ is the noise and $Z\in\Real{n}$ is the output. In addition, the noise $\xi$ is assumed to have $p_\xi$ distribution and be independent to the input $X_0$, i.e. $\expectation{\xi{X_0}^\transpose}=0$. The problem is using i.i.d. input-output samples ${({X_0}^{(k)},Z^{(k)})}_{k=1}^K$ to learn the weights of a linear feed-forward neural network $$\dfrac{\dif X_t}{\dif t}=A_tX_t$$ in order to match the input-output relation $R$. Note that $A_t$ are the network weights, $t$ denotes the input layer with at most depth $T$, and $K$ is the total number of training samples.&lt;/p&gt;
+&lt;p&gt;Consider the following regularized form of the optimization problem:
+$$
+\begin{align*}
+\underset{A_t}{\textsf{minimize}}\quad&amp;amp;\text{J}[A_t]=\expectation{\lambda\int_0^T\dfrac{1}{2}\text{tr}({A_t}^\transpose A_t)\ \dif t+\dfrac{1}{2}(X_T-Z)^2}\\
+\textsf{subject to}\quad&amp;amp;\dfrac{\dif X_t}{\dif t}=A_tX_t,\ X_0\textsf{ given}
+\end{align*}
+$$
+where $(\cdot)^2$ denotes the dot product of itself, and $\lambda\geq0$ is a regularization parameter.&lt;/p&gt;
+&lt;p&gt;To minimize $A_t$, we consider the Lagrange multiplier $Y_t$, a random process $[0,T]\rightarrow\Real{n}$, s.t.
+$$
+\mathcal{L}(X_t,A_t,Y_t)=\text{J}[A_t]+\expectation{\int_0^T{Y_t}^\transpose\left(\dfrac{\dif X_t}{\dif t}-A_tX_t\right)\ \dif t}
+$$
+then we have the necessary conditions: $\dfrac{\partial\mathcal{L}}{\partial Y_t}=0$ that is
+$$
+\begin{align}
+\expectation{\int_0^T{\delta Y_t}^\transpose\left(\dfrac{\dif X_t}{\dif t}-A_tX_t\right)\ \dif t}=0,\quad\forall\ \delta Y_t
+\end{align}
+$$
+$\dfrac{\partial\mathcal{L}}{\partial X_t}=0$ that is $\expectation{X_T-Z+Y_T}=0$ for $t=T$ and for $t\neq T$
+$$
+\begin{align}
+\expectation{-\displaystyle\int_0^T\left(\dfrac{\dif Y_t}{\dif t}+{A_t}^\transpose Y_t\right)^\transpose \delta X_t\ \dif t},\quad \forall\ \delta X_t
+\end{align}
+$$
+and $\dfrac{\partial\mathcal{L}}{\partial A_t}=0$ that is
+$$
+\begin{align}
+\expectation{\int_0^T(\lambda A_t-Y_t{X_t}^\transpose)\ \dif t}=0
+\end{align}
+$$
+Note that
+$$
+\int_0^T{Y_t}^\transpose\dfrac{\dif X_t}{\dif t}\ \dif t={Y_T}^\transpose X_T-{Y_0}^\transpose X_0-\int_0^T{\dfrac{\dif Y_t}{\dif t}}^\transpose X_t\ \dif t.
+$$
+Therefore, from (1), (2) and (3), we have
+$$
+\begin{align}
+\dfrac{\dif X_t}{\dif t}&amp;amp;=\ \ \ A_tX_t,\quad\textsf{with }X_0\textsf{ given}\\
+\dfrac{\dif Y_t}{\dif t}&amp;amp;=-{A_t}^\transpose Y_t,\quad\textsf{with }Y_T=Z-X_T\\
+A_t&amp;amp;=\dfrac{1}{\lambda}\expectation{Y_t{X_t}^\transpose}\
+\end{align}
+$$&lt;/p&gt;
+&lt;p&gt;Next, we would like to solve the 3 differential equation. We start with assuming the solution of equations (4) and (5) in the form of
+$$
+\begin{align}
+X_t&amp;amp;=\phi_{t;0}X_0\\
+Y_t&amp;amp;={\phi_{T;t}}^\transpose Y_T={\phi_{T;t}}^\transpose(Z-X_T)={\phi_{T;t}}^\transpose(RX_0+\xi-\phi_{T;0}X_0)
+\end{align}
+$$
+and also first, take the derivative of both sides of (6) with respect to $t$ and next, substitute the differentiate terms with equations (4) and (5), one obtain
+$$
+\begin{align}
+\dfrac{\dif A_t}{\dif t}=-{A_t}^\transpose A_t+A_t{A_t}^\transpose
+\end{align}
+$$&lt;/p&gt;
+&lt;p&gt;Since the differentiation of $A_t$ is a symmetric matrix, we decomposing $A_t$ into the combination of symmetric matrix $S_t$ and skew-symmetric matrix $\bar S_t$:
+$$
+A_t=\dfrac{A_t+{A_t}^\transpose}{2}+\dfrac{A_t-{A_t}^\transpose}{2}=S_t+\bar S_t
+$$
+and guess that the differentiation result of the skew-symmetric matrix $\bar S_t$ should be 0. The derivatives of $S_t$ and $\bar S_t$ are
+$$
+\dfrac{\dif S_t}{\dif t}=\dfrac{\dif}{\dif t}\dfrac{A_t+{A_t}^\transpose}{2}=-{A_t}^\transpose A_t+A_t{A_t}^\transpose
+$$
+$$
+\dfrac{\dif \bar S_t}{\dif t}=\dfrac{\dif}{\dif t}\dfrac{A_t-{A_t}^\transpose}{2}=0\qquad\qquad\qquad\quad
+$$
+which matches our assumption. We can further rewrite $\dfrac{\dif S_t}{\dif t}$ in terms of $S_t$ and $\bar S_t$:
+$$
+\dfrac{\dif S_t}{\dif t}=2(\bar S_tS_t-S_t\bar S_t)=MS_t-S_tM
+$$
+where $M=2\bar S_t=2\bar S_0$ is a constant matrix (i.e. not a matrix function of time $t$). From here, we can have the general solution of $S_t$ as
+$$
+S_t=e^{tM}S_0e^{-tM}
+$$
+and therefore,
+$$
+\begin{align}
+A_t=e^{t(A_0-{A_0}^\transpose)}A_0e^{-t(A_0-{A_0}^\transpose)}
+\end{align}
+$$
+with the derivation as follows
+$$
+\begin{align*}
+A_t&amp;amp;=S_t+\bar S_t\\
+&amp;amp;=e^{2t\bar S_0}S_0e^{-2t\bar S_0}+\bar S_0\\
+&amp;amp;=e^{2t\bar S_0}(S_0+\bar S_0)e^{-2t\bar S_0}\\
+&amp;amp;=e^{t(A_0-{A_0}^\transpose)}A_0e^{-t(A_0-{A_0}^\transpose)}
+\end{align*}
+$$
+Note that the third equality holds since any two functions of the same matrix are commutable. In addition, if we substitute (6) with (7) and (8), and set $t=0$, we will have a constrain on $A_0$:
+$$
+\begin{align}
+\lambda A_0={\phi_{T;0}}^\transpose(R-\phi_{T;0})\Sigma_{X_0}
+\end{align}
+$$&lt;/p&gt;
+&lt;p&gt;Finally, to solve $\phi_{t;0}$, first let $\bar X_t=e^{-t(A_0-{A_0}^\transpose)}X_t$, and substitute (4) with $\bar X_t$, $\bar X_0$ and (10), we have
+$$
+\dfrac{d\bar X_t}{dt}={A_0}^\transpose \bar X_t
+$$
+which can be easily solved. Thus, the solution to (4) is
+$$
+\begin{align}
+X_t=e^{t(A_0-{A_0}^\transpose)}\bar X_t=e^{t(A_0-{A_0}^\transpose)}e^{t{A_0}^\transpose}X_0
+\end{align}
+$$
+Similarly, the solution to (5) is
+$$
+\begin{align*}
+Y_t&amp;amp;=e^{t(A_0-{A_0}^\transpose)}e^{-tA_0}Y_0\\
+&amp;amp;=e^{t(A_0-{A_0}^\transpose)}e^{(T-t)A_0}e^{-T(A_0-{A_0}^\transpose)}Y_T\\
+&amp;amp;=e^{t(A_0-{A_0}^\transpose)}e^{(T-t)A_0}e^{-T(A_0-{A_0}^\transpose)}(Z-X_T)
+\end{align*}
+$$
+Note that $\phi_{t;0}$ is also solved by comparing (7) and (12)
+$$
+\phi_{t;0}=e^{t(A_0-{A_0}^\transpose)}e^{t{A_0}^\transpose}
+$$
+Furthermore, the constrain on $A_0$ can be rewritten as
+$$
+\begin{align*}
+\lambda A_0&amp;amp;=\left(e^{TA_0}e^{-T(A_0-{A_0}^\transpose)}\right)\left(R-e^{T(A_0-{A_0}^\transpose)}e^{T{A_0}^\transpose}\right)\Sigma_{X_0}\\
+&amp;amp;=\left(e^{TA_0}e^{-T(A_0-{A_0}^\transpose)}R-e^{TA_0}e^{T{A_0}^\transpose}\right)\Sigma_{X_0}
+\end{align*}
+$$&lt;/p&gt;
+&lt;p&gt;Reference: &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://papers.nips.cc/paper/6844-how-regularization-affects-the-critical-points-in-linear-networks&quot;&gt;How regularization affects the critical points in linear networks&lt;/a&gt;&lt;/p&gt;
+</content>
+        
+    </entry>
+</feed>

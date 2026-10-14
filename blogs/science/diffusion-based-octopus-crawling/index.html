@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+
+    <!-- Meta Info -->
+    <title>
+  
+    
+    Learning Many Ways to Crawl: Diffusion Models for an Adaptable CyberOctopus &middot; Hanson.HSChang
+  
+</title>
+    
+  
+  <meta name="description" content="How diffusion-based optimization discovers diverse octopus-arm coordination patterns and edits them to recover crawling performance under new actuation constraints.">
+  <link rel="canonical" href="https://hanson-hschang.github.io/blogs/science/diffusion-based-octopus-crawling/">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Learning Many Ways to Crawl: Diffusion Models for an Adaptable CyberOctopus">
+  <meta property="og:description" content="How diffusion-based optimization discovers diverse octopus-arm coordination patterns and edits them to recover crawling performance under new actuation constraints.">
+  <meta property="og:url" content="https://hanson-hschang.github.io/blogs/science/diffusion-based-octopus-crawling/">
+  <meta property="og:site_name" content="Hanson.HSChang">
+  
+  
+    
+  
+  
+  
+  
+    
+  
+  
+  
+    <meta property="og:image" content="https://hanson-hschang.github.io/blogs/science/diffusion-based-octopus-crawling/img/cyberoctopus-overview.png">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://hanson-hschang.github.io/blogs/science/diffusion-based-octopus-crawling/img/cyberoctopus-overview.png">
+    
+  
+  <meta name="citation_title" content="Learning Many Ways to Crawl: Diffusion Models for an Adaptable CyberOctopus">
+  
+  <meta name="author" content="Heng-Sheng Chang">
+  <meta name="citation_publication_date" content="2026/10/02">
+  
+  
+
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="https://hanson-hschang.github.io/assets/img/favicon.ico" >
+    <link rel="apple-touch-icon" href="https://hanson-hschang.github.io/assets/img/apple-touch-icon.png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400&family=Poppins:wght@400;700&display=swap">
+
+    <!-- Vendor CSS Files -->
+    <link rel="stylesheet" href="https://hanson-hschang.github.io/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://hanson-hschang.github.io/vendor/bootstrap-icons/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://hanson-hschang.github.io/vendor/aos/aos.css">
+    <link rel="stylesheet" href="https://hanson-hschang.github.io/vendor/academicons/css/academicons.min.css"/>
+
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css">
+
+    
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="https://hanson-hschang.github.io/assets/stylesheet/main.css">
+    
+  <link rel="stylesheet" href="https://hanson-hschang.github.io/assets/stylesheet/page-post.css">
+  <link rel="stylesheet" href="https://hanson-hschang.github.io/assets/stylesheet/citations.css">
+
+    
+  </head>
+
+  <body>
+
+    <!-- Header -->
+    
+  <a class="post__skip" href="#post-main">Skip to post</a>
+   
+      <!-- Navigation Menu -->
+
+
+
+  
+  
+    
+  
+
+  
+  
+    
+  
+
+  
+  
+    
+  
+
+
+
+  
+  
+  
+  
+    
+    
+    
+  
+  <header id="header" class="header d-flex justify-content-center">
+    <nav id="navmenu" class="navmenu">
+      <ul>
+        <li><a href="https://hanson-hschang.github.io" aria-label="Link to Home"><i class="bi bi-house"></i><span>Home</span></a></li>
+        
+          
+          
+          
+          <li>
+            <a href="https://hanson-hschang.github.io/about/"  aria-label="Link to About"><i class="bi bi-file-earmark-person" aria-hidden="true"></i><span>About</span></a>
+            
+          </li>
+        
+          
+          
+          
+          <li>
+            <a href="https://hanson-hschang.github.io/resume/"  aria-label="Link to Resume"><i class="bi bi-person-vcard" aria-hidden="true"></i><span>Resume</span></a>
+            
+          </li>
+        
+          
+          
+            
+              
+              
+                
+              
+            
+              
+              
+                
+              
+            
+              
+              
+                
+              
+            
+          
+          
+          <li class="dropdown">
+            <a href="https://hanson-hschang.github.io/blogs/" class="active" aria-label="Link to Blogs"><i class="bi bi-pencil-square" aria-hidden="true"></i><span>Blogs</span></a>
+            
+              <button class="navmenu__dropdown-toggle" type="button" aria-label="Toggle Blogs sections" aria-expanded="false" aria-controls="nav-subsections-blogs" hidden></button>
+              <ul id="nav-subsections-blogs" aria-label="Blogs sections">
+                
+                  
+                  <li><a href="https://hanson-hschang.github.io/blogs/life/">Life</a></li>
+                
+                  
+                  <li><a href="https://hanson-hschang.github.io/blogs/miscellanea/">Miscellanea</a></li>
+                
+                  
+                  <li><a href="https://hanson-hschang.github.io/blogs/science/" class="active" aria-current="location">Science</a></li>
+                
+              </ul>
+            
+          </li>
+        
+        
+          
+            
+              <li><a href="https://hanson-hschang.github.io#contact" aria-label="Link to Contact"><i class="bi bi-chat-text"></i><span>Contact</span></a></li>
+            
+          
+            
+          
+            
+          
+            
+          
+        
+      </ul>
+    </nav>
+  </header>
+
+
+    
+
+
+    <!-- Navigation Menu Toggle -->
+    
+    <i class="nav-toggle d-lg-none bi bi-list"></i>
+    
+
+    <!-- Main -->
+    <main class="main">
+    
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    
+    
+      
+      
+        
+      
+    
+      
+      
+    
+      
+      
+        
+      
+    
+      
+      
+        
+      
+    
+      
+      
+        
+      
+    
+      
+      
+        
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+  
+  
+  
+  
+  
+
+
+<header class="page-title d-flex align-items-center post-breadcrumbs">
+  <div class="container" data-aos="fade">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <ol>
+        
+        <li><a href="https://hanson-hschang.github.io">Home</a></li>
+        
+          
+          
+            
+            
+          
+            
+            
+            <li><a href="https://hanson-hschang.github.io/blogs/">Blogs</a></li>
+            
+          
+            
+            
+            <li><a href="https://hanson-hschang.github.io/blogs/science/">Science</a></li>
+            
+          
+          <li class="current" aria-current="page">Learning Many Ways to Crawl: Diffusion Models for an Adaptable CyberOctopus</li>
+        
+      </ol>
+    </nav>
+  </div>
+</header>
+
+  <article class="post container" id="post-main" aria-labelledby="post-title" tabindex="-1">
+    <header class="post__hero">
+      <div class="post__heading">
+        
+        
+        <div class="post__eyebrow">
+          
+  
+  
+  <ul class="taxonomy-labels taxonomy-labels--categories" aria-label="Categories" role="list">
+    
+    <li class="taxonomy-labels__item"><a class="taxonomy-labels__link" href="https://hanson-hschang.github.io/categories/research/">Research</a></li>
+    
+    <li class="taxonomy-labels__item"><a class="taxonomy-labels__link" href="https://hanson-hschang.github.io/categories/paper/">Paper</a></li>
+    
+  </ul>
+  
+
+          
+        </div>
+        
+        <h1 id="post-title">Learning Many Ways to Crawl: Diffusion Models for an Adaptable CyberOctopus</h1>
+        
+        <p class="post__subtitle">Turning redundant arms into options for adaptation</p>
+        
+  
+  
+  <ul class="taxonomy-labels taxonomy-labels--tags" aria-label="Tags" role="list">
+    
+    <li class="taxonomy-labels__item"><a class="taxonomy-labels__link" href="https://hanson-hschang.github.io/tags/soft-robotics/">Soft Robotics</a></li>
+    
+    <li class="taxonomy-labels__item"><a class="taxonomy-labels__link" href="https://hanson-hschang.github.io/tags/diffusion-models/">Diffusion Models</a></li>
+    
+    <li class="taxonomy-labels__item"><a class="taxonomy-labels__link" href="https://hanson-hschang.github.io/tags/optimization/">Optimization</a></li>
+    
+    <li class="taxonomy-labels__item"><a class="taxonomy-labels__link" href="https://hanson-hschang.github.io/tags/adaptive-control/">Adaptive Control</a></li>
+    
+  </ul>
+  
+
+        
+      </div>
+      
+      
+<div class="article-meta">
+  <ul class="article-meta__details" aria-label="Article information">
+    
+    <li><time class="date-text article-meta__date" datetime="2026-10-02">October 02, 2026</time></li>
+    
+    <li><i class="bi bi-hourglass-split" aria-hidden="true"></i><span class="article-meta__reading-time">8 min read</span></li>
+  </ul>
+  
+<aside class="share" data-share aria-label="Article sharing">
+  <button class="share__button" data-share-toggle type="button" aria-expanded="false" aria-controls="article-share-menu" hidden>
+    <i class="bi bi-box-arrow-up" aria-hidden="true"></i><span>Share</span>
+  </button>
+  <nav id="article-share-menu" class="share-menu" aria-label="Share this article">
+    <a class="share-menu__item" href="https://hanson-hschang.github.io/blogs/science/diffusion-based-octopus-crawling/">
+      <i class="bi bi-link-45deg" aria-hidden="true"></i><span>Permalink</span>
+    </a>
+    <a class="share-menu__item" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A//hanson-hschang.github.io/blogs/science/diffusion-based-octopus-crawling/" target="_blank" rel="noopener noreferrer">
+      <i class="bi bi-linkedin" aria-hidden="true"></i>
+      <span>Share on LinkedIn</span>
+    </a>
+    <a class="share-menu__item" href="https://www.facebook.com/sharer/sharer.php?u=https%3A//hanson-hschang.github.io/blogs/science/diffusion-based-octopus-crawling/" target="_blank" rel="noopener noreferrer">
+      <i class="bi bi-facebook" aria-hidden="true"></i>
+      <span>Share on Facebook</span>
+    </a>
+    <a class="share-menu__item" href="https://x.com/intent/tweet?url=https%3A//hanson-hschang.github.io/blogs/science/diffusion-based-octopus-crawling/&text=Learning%20Many%20Ways%20to%20Crawl%3A%20Diffusion%20Models%20for%20an%20Adaptable%20CyberOctopus" target="_blank" rel="noopener noreferrer">
+      <i class="bi bi-twitter-x" aria-hidden="true"></i>
+      <span>Share on X</span>
+    </a>
+    <a class="share-menu__item" href="mailto:?subject=Learning%20Many%20Ways%20to%20Crawl%3A%20Diffusion%20Models%20for%20an%20Adaptable%20CyberOctopus&body=https%3A//hanson-hschang.github.io/blogs/science/diffusion-based-octopus-crawling/">
+      <i class="bi bi-envelope-fill" aria-hidden="true"></i>
+      <span>Email</span>
+    </a>
+  </nav>
+</aside>
+
+</div>
+
+      
+  
+  
+  
+    
+    
+      
+    
+  
+    
+    
+      
+    
+  
+    
+    
+      
+    
+  
+    
+    
+      
+    
+  
+  
+  <nav class="post__resources" aria-label="Post resources">
+    
+      
+      
+      
+      <a class="post__button post__button--primary" href="https://arxiv.org/abs/2609.21138v1"><i class="bi bi-file-earmark-text" aria-hidden="true"></i>Read the paper</a>
+      
+    
+      
+      
+      
+      <a class="post__button" href="https://arxiv.org/pdf/2609.21138v1"><i class="bi bi-file-earmark-pdf" aria-hidden="true"></i>Paper PDF</a>
+      
+    
+      
+      
+      
+      <a class="post__button" href="https://skim0119.github.io/adaptive-crawling/"><i class="bi bi-globe" aria-hidden="true"></i>Project page</a>
+      
+    
+      
+      
+      
+      <a class="post__button" href="#crawling-in-action"><i class="bi bi-play-circle" aria-hidden="true"></i>Watch video</a>
+      
+    
+    
+  </nav>
+  
+
+    </header>
+
+    
+    <div class="post__teaser"><figure class="post__figure"><img src="https://hanson-hschang.github.io/blogs/science/diffusion-based-octopus-crawling/img/cyberoctopus-overview.png" alt="CyberOctopus crawls along waypoint directions on a frictional plane; an inactive arm illustrates the motivation for adapting its controls." width="1338" height="552" loading="eager" decoding="async"><figcaption><p><strong>CyberOctopus.</strong> The study uses an eight-arm soft-body simulation to learn crawling coordination and investigate adaptation. Figure 1 from <a rel="noopener noreferrer external" target="_blank" href="https://arxiv.org/abs/2609.21138v1">Kim et al. (2026)</a>.</p>
+</figcaption></figure></div>
+    
+
+    <div class="post__layout">
+      
+      <div class="post__sidebar">
+        <div class="post__sidebar-inner">
+      
+      <aside class="post__contents">
+        <details class="post__outline" data-post-outline>
+          <summary class="post__outline-toggle">
+            <span id="post-outline-title">Outline</span>
+            <i class="bi bi-chevron-down" aria-hidden="true"></i>
+          </summary>
+          <nav aria-labelledby="post-outline-title">
+            <ul>
+              
+              <li data-prose-heading><a href="https://hanson-hschang.github.io/blogs/science/diffusion-based-octopus-crawling/#crawling-in-action">Crawling in action</a></li><li data-prose-heading><a href="https://hanson-hschang.github.io/blogs/science/diffusion-based-octopus-crawling/#why-learn-a-family-of-controls">Why learn a family of controls?</a></li><li data-prose-heading><a href="https://hanson-hschang.github.io/blogs/science/diffusion-based-octopus-crawling/#use-symmetry-then-check-the-gaps">Use symmetry, then check the gaps</a></li><li data-prose-heading><a href="https://hanson-hschang.github.io/blogs/science/diffusion-based-octopus-crawling/#duo-generate-broadly-simulate-selectively">DUO: generate broadly, simulate selectively</a></li><li data-prose-heading><a href="https://hanson-hschang.github.io/blogs/science/diffusion-based-octopus-crawling/#what-does-the-learned-diversity-look-like">What does the learned diversity look like?</a></li><li data-prose-heading><a href="https://hanson-hschang.github.io/blogs/science/diffusion-based-octopus-crawling/#adaptation-by-editing-a-control">Adaptation by editing a control</a></li><li data-prose-heading><a href="https://hanson-hschang.github.io/blogs/science/diffusion-based-octopus-crawling/#what-this-opens-up">What this opens up</a></li><li data-prose-heading><a href="https://hanson-hschang.github.io/blogs/science/diffusion-based-octopus-crawling/#paper-and-attribution">Paper and attribution</a></li>
+              <li data-prose-toc-end hidden></li>
+              
+              
+              
+              <li><a href="#post-citation">Citation</a></li>
+              
+            </ul>
+          </nav>
+        </details>
+      </aside>
+      
+        </div>
+      </div>
+      
+      <div class="post__body">
+        
+
+        <div class="post__prose"><p>An octopus has many ways to move in the same direction. Different arms can push, pull, bend, and anchor against the ground, giving the animal a large set of possible coordination patterns. For a soft robot, this <strong>motor abundance</strong> creates a difficult search problem, but it also offers options when a familiar movement stops working.</p>
+<p>In our <a rel="noopener noreferrer external" target="_blank" href="https://arxiv.org/abs/2609.21138v1">recent preprint</a>, Seung Hyun Kim, Kimia Kazemi, Prashant G. Mehta, Mattia Gazzola, and I investigate how to learn and reuse those options. We introduce <strong>Diffusion-based Uncertainty-aware Optimization (DUO)</strong>, which discovers crawling controls for a simulated, muscle-actuated CyberOctopus without prior demonstrations.</p>
+<p>The central idea is to learn a <strong>distribution of useful controls</strong>. When actuation constraints change, we can edit a control using that learned distribution while keeping the model fixed. In the tested scenarios, this recovers roughly half or more of the crawling performance lost to the constraint.</p>
+<h2 id="crawling-in-action">Crawling in action</h2>
+<figure class="post__figure">
+<video controls playsinline preload="metadata" data-start-time="3" aria-label="CyberOctopus adaptive crawling demonstration">
+<source src="https://d1hwl9j5fn5ugq.cloudfront.net/ICRA2027Octopus/vid01.mp4#t=3" type="video/mp4">
+<a href="https://d1hwl9j5fn5ugq.cloudfront.net/ICRA2027Octopus/vid01.mp4#t=3">Open CyberOctopus adaptive crawling demonstration</a>.
+</video>
+<script src="https://hanson-hschang.github.io/assets/script/video-start.js" defer></script>
+<figcaption><strong>CyberOctopus in motion.</strong> Visit the <a href="https://skim0119.github.io/adaptive-crawling/">project page</a> for more about the work, or <a href="https://d1hwl9j5fn5ugq.cloudfront.net/ICRA2027Octopus/vid01.mp4">open the video directly</a>.</figcaption>
+</figure>
+<h2 id="why-learn-a-family-of-controls">Why learn a family of controls?</h2>
+<p>Imagine learning one highly effective crawling motion that depends heavily on suction. If suction becomes weaker, that motion may perform poorly. A controller family containing other patterns of arm recruitment gives adaptation more possibilities to work with.</p>
+<p>Capturing this variety is difficult because the robot's body is highly deformable. Our CyberOctopus has eight soft arms, each modeled as a <strong>Cosserat rod</strong>: a continuum description that accounts for bending, twisting, stretching, and shearing. Muscle forces interact with gravity, ground friction, contact between arms, and sucker adhesion.</p>
+<p>Each arm has nine actuation channels: four longitudinal muscles for directional bending, one transverse muscle for elongation, two oblique muscles for twisting, and two sucker groups for anchoring. Every channel follows a Gaussian activation pulse with three parameters: amplitude, width, and peak phase. A crawling control therefore contains</p>
+<div>
+$$
+d = 8 \times 9 \times 3 = 216
+$$
+</div>
+<p>parameters. Testing one setting requires a dynamic simulation. Searching this space for many useful settings makes the evaluation budget a central concern.</p>
+<h2 id="use-symmetry-then-check-the-gaps">Use symmetry, then check the gaps</h2>
+<p>The robot's eight equally spaced arms provide a useful shortcut. Cyclically shifting the assignment of controls among arms gives symmetry-related directions separated by $45^\circ$. We can concentrate the directional search on a canonical sector from $-22.5^\circ$ to $22.5^\circ$, then reuse the result around the body.</p>
+<p>This reduces the directional search while leaving the 216 actuation parameters to optimize. For directions between discrete symmetry rotations, we interpolate adjacent arm assignments. The interpolated control stays within the allowed parameter bounds, but its physical performance still needs to be checked.</p>
+<p>For a commanded direction $\phi$, the starting objective is</p>
+<div>
+$$
+\begin{aligned}
+q(u;\phi) = {} & \cos\phi\,\Delta x(u) + \sin\phi\,\Delta y(u) \\
+& - \frac{\lambda}{2}\bigl[J_{\mathrm{ang}}(u;\phi)+J_{\mathrm{rot}}(u)\bigr].
+\end{aligned}
+$$
+</div>
+<p>Here, $u$ is the control, $(\Delta x,\Delta y)$ is the resulting displacement, $J_{\mathrm{ang}}$ measures directional error, and $J_{\mathrm{rot}}$ measures net body rotation. The weight $\lambda$ balances progress against those penalties.</p>
+<p>The objective used for learning, $f(u)$, combines evaluations at the <strong>sector center and boundary</strong>, with equal weights and angular penalties at both. This encourages a control to work between the symmetry directions as well as at the center.</p>
+<figure class="post__figure"><a href="https://hanson-hschang.github.io/blogs/science/diffusion-based-octopus-crawling/img/directional-crawling.png" data-post-lightbox-trigger aria-label="View full-size image: Boundary-aware training produces more consistent directional crawling and closer waypoint tracking; 128 generated controls complete the illustrated curved path."><img src="https://hanson-hschang.github.io/processed_images/directional-crawling.45e417294ef10a0f.png" alt="Boundary-aware training produces more consistent directional crawling and closer waypoint tracking; 128 generated controls complete the illustrated curved path." width="1518" height="351" loading="lazy" decoding="async"></a><figcaption><p><strong>Crawling between symmetry directions.</strong> Blue curves include the boundary objective; orange curves omit it. The right panel shows the illustrated curved-path test. Figure 4(a-d) from the paper. <a href="https://hanson-hschang.github.io/blogs/science/diffusion-based-octopus-crawling/img/directional-crawling.png">Open full-size figure</a>.</p>
+</figcaption></figure>
+<p>The experiments show the tradeoff: adding the boundary evaluation gives up some center-direction performance while improving directional consistency and waypoint tracking. In the illustrated curved-path experiment, all 128 generated controls reach the end. That result describes this particular test, rather than a guarantee for arbitrary paths.</p>
+<h2 id="duo-generate-broadly-simulate-selectively">DUO: generate broadly, simulate selectively</h2>
+<p>A conditional diffusion model learns to generate controls for a requested objective value:</p>
+<div>
+$$
+u \sim p_\theta(\cdot\mid y).
+$$
+</div>
+<p>During training, the model learns to remove noise from evaluated controls. During generation, it starts with noise and progressively denoises it into a candidate control. Different noise samples can produce different coordination patterns for the same requested score. The requested score guides generation; simulation determines what the candidate actually achieves.</p>
+<p>The training data grows through an online optimization loop:</p>
+<ol>
+<li>Train the diffusion generators and objective predictors on the controls evaluated so far.</li>
+<li>Generate a larger pool of candidate controls, conditioning on a range of target scores.</li>
+<li>Rank candidates using predicted performance and uncertainty.</li>
+<li>Simulate the selected batch, add the measured outcomes to the dataset, and repeat.</li>
+</ol>
+<p>In the reported setup, each iteration proposes 5,400 controls and selects 1,800 for objective evaluation. Training runs for 100 iterations. Each objective evaluation includes the center and boundary simulations. <strong>Demonstration-free learning still requires substantial simulation data.</strong></p>
+<figure class="post__figure"><a href="https://hanson-hschang.github.io/blogs/science/diffusion-based-octopus-crawling/img/duo-method.png" data-post-lightbox-trigger aria-label="View full-size image: DUO generates controls by denoising, ranks candidates before center and boundary simulations, and later edits controls under actuation constraints."><img src="https://hanson-hschang.github.io/processed_images/duo-method.1ae27ac5cb9ff391.png" alt="DUO generates controls by denoising, ranks candidates before center and boundary simulations, and later edits controls under actuation constraints." width="1518" height="432" loading="lazy" decoding="async"></a><figcaption><p><strong>Discover, evaluate, and edit.</strong> The training loop builds its own control dataset through simulation. After training, constrained editing reuses the learned denoiser. Figure 3 from the paper. <a href="https://hanson-hschang.github.io/blogs/science/diffusion-based-octopus-crawling/img/duo-method.png">Open full-size figure</a>.</p>
+</figcaption></figure>
+<h3 id="two-roles-for-uncertainty">Two roles for uncertainty</h3>
+<p>DUO combines two scores when deciding which controls deserve simulation.</p>
+<p>The first uses an ensemble of forward predictors to estimate a candidate's objective. Its upper-confidence-bound score is</p>
+<div>
+$$
+\alpha_{\mathrm{control}}(u)=\mu(u)+\kappa\sigma(u),
+$$
+</div>
+<p>where $\mu$ is the ensemble's mean prediction and $\sigma$ measures disagreement. This rewards promising predictions and gives an exploration bonus to uncertain candidates.</p>
+<p>The second score, $\alpha_{\mathrm{target}}(y)$, uses disagreement among diffusion generators to assess the reliability of the requested target value. It favors high targets with lower generator disagreement. The paper estimates that disagreement through the generators' expected normalized control norms.</p>
+<p>These terms combine as</p>
+<div>
+$$
+\alpha(u,y)=\alpha_{\mathrm{control}}(u)
++\eta\,\alpha_{\mathrm{target}}(y).
+$$
+</div>
+<p>The distinction matters: uncertainty about an individual control can motivate exploration, while disagreement about a target can discourage an unreliable query. Sampling a range of target scores also helps the search retain alternatives as performance improves.</p>
+<h2 id="what-does-the-learned-diversity-look-like">What does the learned diversity look like?</h2>
+<p>The generated controls use different patterns of muscle and suction recruitment. The differences are especially visible in transverse-muscle activation and suction, while longitudinal- and oblique-muscle activation levels are comparatively similar across the control family.</p>
+<figure class="post__figure"><a href="https://hanson-hschang.github.io/blogs/science/diffusion-based-octopus-crawling/img/control-diversity.png" data-post-lightbox-trigger aria-label="View full-size image: Actuation profiles show different muscle and suction recruitment patterns. DUO and DiBO achieve similar high objective values, while DUO evaluates a broader range of controls."><img src="https://hanson-hschang.github.io/processed_images/control-diversity.27b7a61146e98e40.png" alt="Actuation profiles show different muscle and suction recruitment patterns. DUO and DiBO achieve similar high objective values, while DUO evaluates a broader range of controls." width="1518" height="372" loading="lazy" decoding="async"></a><figcaption><p><strong>Performance and variety.</strong> Actuation profiles, optimization curves, and principal-component projections provide complementary views of the learned controls. Figure 4(e-g) from the paper. <a href="https://hanson-hschang.github.io/blogs/science/diffusion-based-octopus-crawling/img/control-diversity.png">Open full-size figure</a>.</p>
+</figcaption></figure>
+<p>The comparison with other optimization methods is informative. Under the matched simulator-evaluation budget, <strong>DUO and DiBO reach similarly high objective values</strong>, with DiBO converging slightly earlier. DUO continues evaluating controls over a wider objective range. The actuation profiles and projections of the control distribution provide additional evidence of retained variety; a wide score range alone would not establish distinct behaviors.</p>
+<p>These results support diverse coordination patterns within the crawling task. As the paper notes, they do not establish mechanically distinct gaits.</p>
+<p>The ablation study also helps explain the method's design. Across five independent runs, the mean final best objective falls from 0.384 to 0.256 when generation conditions only on the highest observed score. Removing control-level acquisition gives 0.243; removing target-level acquisition gives 0.328. In this experiment, both selective evaluation and broader target sampling contribute to the result.</p>
+<h2 id="adaptation-by-editing-a-control">Adaptation by editing a control</h2>
+<p>Once the diffusion model has learned useful coordination patterns, we can use it to modify a control under new limits. The procedure resembles image inpainting: some coordinates are constrained, and the model helps adjust the remaining coordinates into a compatible whole.</p>
+<p>For CyberOctopus, the constraints act on muscle or suction amplitudes. Repeated denoising, constraint enforcement, and noising alter the control while the <strong>trained denoiser remains frozen</strong>. There is no model retraining during this editing stage.</p>
+<figure class="post__figure"><a href="https://hanson-hschang.github.io/blogs/science/diffusion-based-octopus-crawling/img/control-adaptation.png" data-post-lightbox-trigger aria-label="View full-size image: Control editing recovers a mean 46.8 percent of lost objective with weaker muscles, 54.0 percent with weaker suction, and 60.7 percent with actuation disabled on four alternating arms."><img src="https://hanson-hschang.github.io/processed_images/control-adaptation.bd94fb66d26f595f.png" alt="Control editing recovers a mean 46.8 percent of lost objective with weaker muscles, 54.0 percent with weaker suction, and 60.7 percent with actuation disabled on four alternating arms." width="1518" height="207" loading="lazy" decoding="async"></a><figcaption><p><strong>Recovery with a frozen denoiser.</strong> Each panel follows performance from the original control through the imposed constraint and subsequent editing. Violin plots summarize 64 generated controls. Figure 5 from the paper. <a href="https://hanson-hschang.github.io/blogs/science/diffusion-based-octopus-crawling/img/control-adaptation.png">Open full-size figure</a>.</p>
+</figcaption></figure>
+<p>The paper tests three constraints that were absent during training:</p>
+<table><thead><tr><th style="text-align: left">Imposed constraint</th><th style="text-align: right">Mean recovery of lost objective</th></tr></thead><tbody>
+<tr><td style="text-align: left">Muscle amplitudes reduced by 25% across all arms</td><td style="text-align: right">46.8%</td></tr>
+<tr><td style="text-align: left">Suction amplitudes reduced by 75% across all arms</td><td style="text-align: right">54.0%</td></tr>
+<tr><td style="text-align: left">Muscle and suction actuation disabled on arms 1, 3, 5, and 7</td><td style="text-align: right">60.7%</td></tr>
+</tbody></table>
+<p>In the third case, the four inactive arms remain physically present. Their actuation is suppressed.</p>
+<p>To interpret the percentages, let $y_{\mathrm{initial}}$ be the original objective, $y_{\mathrm{constrained}}$ the objective after imposing the constraint, and $y_{\mathrm{adapted}}$ the result after editing. Recovery for an individual control is</p>
+<div>
+$$
+\mathrm{recovery}
+=\frac{y_{\mathrm{adapted}}-y_{\mathrm{constrained}}}
+{y_{\mathrm{initial}}-y_{\mathrm{constrained}}}\times100\%.
+$$
+</div>
+<p>The table reports the mean of this quantity across 64 generated controls. Thus, 60.7% means recovering that fraction of the <strong>lost composite crawling score</strong>. It is not a speed increase or a claim that the robot operates at 60.7% of its original performance.</p>
+<h2 id="what-this-opens-up">What this opens up</h2>
+<p>The study demonstrates a useful connection between controller discovery and reuse: a distribution learned for ordinary crawling can support partial recovery under new actuation constraints. Preserving alternative coordination patterns gives the editing procedure room to reorganize how the arms work together.</p>
+<p>The evidence is currently limited to <strong>planar crawling in simulation</strong>. Reduced suction provides a test of weakened grip; it does not establish adaptation to arbitrary terrain. The experiments also do not establish automatic failure detection or real-time recovery. Hardware validation, richer sensory feedback, and three-dimensional locomotion remain future directions.</p>
+<p>For soft robotics, this suggests a productive design goal: learn useful alternatives alongside high performance, then develop ways to reshape those alternatives when the body or its available actuation changes.</p>
+<h2 id="paper-and-attribution">Paper and attribution</h2>
+<p>This post is based on <strong>Diverse and Adaptable Arm Coordination for Octopus-Crawling via Diffusion-Based Uncertainty-Aware Optimization</strong>, by Seung Hyun Kim, Heng-Sheng Chang, Kimia Kazemi, Prashant G. Mehta, and Mattia Gazzola, University of Illinois Urbana-Champaign. The source reviewed here is <a rel="noopener noreferrer external" target="_blank" href="https://arxiv.org/abs/2609.21138v1">arXiv:2609.21138v1</a>, dated September 17, 2026.</p>
+<p>The figures are reproduced as crops from that version. Directional control and diversity results appear in Figure 4, adaptation results in Figure 5, and the ablations in Table I. The BibTeX citation below refers to the source paper.</p>
+</div>
+
+        
+
+        
+
+        
+
+        
+        <section class="post__section post__citation" id="post-citation" aria-labelledby="post-citation-title">
+          <div class="post__section-heading">
+            <h2 id="post-citation-title">Citation</h2>
+            <button class="post__button" type="button" data-copy-citation data-copy-feedback="BibTex Copied!" aria-controls="post-bibtex" hidden><i class="bi bi-copy" aria-hidden="true"></i><span data-copy-label>Copy BibTeX</span></button>
+          </div>
+          <pre tabindex="0" aria-label="BibTeX citation"><code id="post-bibtex">@misc{kim2026diverse,
+  title = {Diverse and Adaptable Arm Coordination for Octopus-Crawling via Diffusion-Based Uncertainty-Aware Optimization},
+  author = {Kim, Seung Hyun and Chang, Heng-Sheng and Kazemi, Kimia and Mehta, Prashant G. and Gazzola, Mattia},
+  year = {2026},
+  eprint = {2609.21138},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.RO},
+  url = {https://arxiv.org/abs/2609.21138v1}
+}</code></pre>
+          <p class="post__copy-status visually-hidden" data-copy-status role="status" aria-live="polite"></p>
+        </section>
+        
+
+        
+
+      </div>
+      
+      <aside class="post__related sidebar" aria-labelledby="post-related-title">
+        <section class="widget">
+          <h2 class="widget__title" id="post-related-title">Related Posts</h2>
+          <ul class="post__related-list">
+            
+            <li><a href="https://hanson-hschang.github.io/blogs/science/machine-deception-detection/">A Polygraph for Language Models</a><time class="date-text" datetime="2026-10-11">October 11, 2026</time></li>
+            
+            <li><a href="https://hanson-hschang.github.io/blogs/science/transformer-inference-from-optimal-control/">From Optimal Control to Transformer-like Inference</a><time class="date-text" datetime="2026-05-15">May 15, 2026</time></li>
+            
+            <li><a href="https://hanson-hschang.github.io/blogs/science/transformers-and-state-space-models/">Transformers and State Space Models: A Connection in Sequential Data Modeling</a><time class="date-text" datetime="2026-02-28">February 28, 2026</time></li>
+            
+            <li><a href="https://hanson-hschang.github.io/blogs/science/belief-net/">Belief Net: Bridging Probabilistic Modeling and Deep Learning for Sequential Data</a><time class="date-text" datetime="2026-02-21">February 21, 2026</time></li>
+            
+            <li><a href="https://hanson-hschang.github.io/blogs/science/positional-encoding-in-transformer-language-models/">Positional Encoding in Transformer Language Models</a><time class="date-text" datetime="2026-02-13">February 13, 2026</time></li>
+            
+          </ul>
+        </section>
+      </aside>
+      
+    </div>
+    
+<dialog class="post__lightbox" id="post-lightbox" data-post-lightbox aria-labelledby="post-lightbox-title">
+  <header class="post__lightbox-header">
+    <div class="post__lightbox-heading">
+      <span class="post__lightbox-count" data-lightbox-count>Figure</span>
+      <p id="post-lightbox-title" data-lightbox-title>Figure viewer</p>
+    </div>
+    <div class="post__lightbox-actions">
+      <button class="post__button post__lightbox-close" type="button" data-lightbox-close aria-label="Close image viewer" title="Close" autofocus><i class="bi bi-x-lg" aria-hidden="true"></i></button>
+    </div>
+  </header>
+  <div class="post__lightbox-viewport" data-lightbox-viewport role="region" aria-label="Figure image">
+    <img data-lightbox-image alt="">
+    <p class="post__lightbox-status" data-lightbox-status role="status"></p>
+  </div>
+  <footer class="post__lightbox-footer">
+    <p class="post__lightbox-caption" data-lightbox-caption tabindex="0" role="region" aria-label="Figure caption"></p>
+  </footer>
+</dialog>
+
+  </article>
+
+    </main>
+
+    <!-- Footer -->
+    <footer id="footer" class="footer position-relative">
+  <div class="container">
+    <p class="footer__sitename">Hanson.HSChang</p>
+    <p class="footer__quote">Everything is theoretically impossible, until it is done. --- Robert A. Heinlein</p>
+    <nav class="footer__social-links d-flex justify-content-center" aria-label="Social links">
+      
+  <a href="https://github.com/hanson-hschang" 
+    aria-label="Link to my GitHub profile" 
+    target="_blank" 
+    rel="noopener noreferrer"
+  >
+    <i class="bi bi-github" aria-hidden="true"></i>
+  </a>
+
+  <a href="https://scholar.google.com/citations?user=S7AWv3oAAAAJ" 
+    aria-label="Link to my Google Scholar profile" 
+    target="_blank" 
+    rel="noopener noreferrer"
+  >
+    <i class="ai ai-google-scholar" aria-hidden="true"></i>
+  </a>
+
+  <a href="https://www.linkedin.com/in/hanson-hschang/" 
+    aria-label="Link to my LinkedIn profile" 
+    target="_blank" 
+    rel="noopener noreferrer"
+  >
+    <i class="bi bi-linkedin" aria-hidden="true"></i>
+  </a>
+
+  <a href="https://www.instagram.com/hanson.hschang/" 
+    aria-label="Link to my Instagram profile" 
+    target="_blank" 
+    rel="noopener noreferrer"
+  >
+    <i class="bi bi-instagram" aria-hidden="true"></i>
+  </a>
+
+    </nav>
+    <div class="container">
+      <div class="footer__copyright"><p>© All Rights Reserved</p>
+</div>
+      <div class="footer__credits"><p>Powered by <a rel="noopener noreferrer external" target="_blank" href="https://www.getzola.org/">Zola</a>, <a rel="noopener noreferrer external" target="_blank" href="https://getbootstrap.com/">Bootstrap</a>, and <a rel="noopener noreferrer external" target="_blank" href="https://web3forms.com/">Web3Forms</a></p>
+</div>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- Preloader -->
+    
+
+    <!-- Java Scripts -->
+    
+  
+      
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const katexMacros = {};
+    renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\[', right: '\\]', display: true},
+        {left: '\\(', right: '\\)', display: false},
+      ],
+      macros: katexMacros
+    });
+  });
+</script>
+
+      
+    
+  <script src="https://hanson-hschang.github.io/vendor/aos/aos.js"></script>
+  <script src="https://hanson-hschang.github.io/assets/script/home.js"></script>
+  <script src="https://hanson-hschang.github.io/assets/script/share.js" defer></script>
+  <script src="https://hanson-hschang.github.io/assets/script/post.js" defer></script>
+
+     
+  </body>
+
+</html>
