@@ -21,7 +21,7 @@ subtitle = "Accuracy and uncertainty in machine deception detection"
 thumbnail = "img/polygraph-examination.png"
 thumbnail_alt = "A polygraph analogy connects training on known answers, calibration on honest answers, and detection on unknown answers."
 links = [
-  { name = "White paper", url = "machine-deception-detection-white-paper.pdf", icon_class = "bi bi-file-earmark-pdf" },
+  { name = "White paper", url = "https://arxiv.org/abs/2610.15314", icon_class = "bi bi-file-earmark-pdf" },
   { name = "Cite", action = "copy-bibtex", icon_class = "bi bi-quote" },
 ]
 bibtex = '''
@@ -32,6 +32,10 @@ bibtex = '''
   type = {Research white paper},
   year = {2026},
   month = oct,
+  eprint = {2610.15314},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.LG},
+  url = {https://arxiv.org/abs/2610.15314}
 }
 '''
 
