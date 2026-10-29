@@ -40,7 +40,7 @@ bibtex = '''
 src = "img/control-hierarchy.png"
 alt = "The central level selects behaviors, the arm level supplies muscle activations, and local compliance helps a simulated CyberOctopus reach food around obstacles."
 size = [1616, 452]
-caption = "**Three levels of coordination.** Decisions about what to do are translated into muscle commands, then adjusted through local interaction with the environment. Figure 1 from [Shih et al. (2023)](https://doi.org/10.1002/aisy.202300088). Octopus photograph: Anneli Salo, [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/). [Open full-size figure](img/control-hierarchy.png)."
+caption = "**Three levels of coordination.** Decisions about what to do are translated into muscle commands, then adjusted through local interaction with the environment. Figure 1 from [Shih et al. (2023)](https://doi.org/10.1002/aisy.202300088). Octopus photograph: Anneli Salo, [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/)."
 
 [extra.tex]
 +++
@@ -96,7 +96,7 @@ To represent continuous activation profiles with a finite network output, we exp
 
 Training uses this mechanical objective directly: it does not require a collection of optimal activation labels produced by the older solver. Once trained, the network supplies the activations in a forward pass, and the simulated arm's dynamics carry out the movement.
 
-{{ <media.image page={page} path="img/neural-network-energy-shaping.png" width={1816} alt="NN-ES learns muscle activations from target position and current activation. Workspace maps show configuration-dependent costs, and comparisons with iterative energy shaping show similar reaching accuracy with shorter computation times." caption="**A fast arm controller.** The learned map is trained through the mechanical objective. The lower panels compare arm shapes, computation times, reaching errors, and activation costs with iterative energy shaping. Figure 3 from the paper. [Open full-size figure](img/neural-network-energy-shaping.png)." full_size={true} /> }}
+{{ <media.image page={page} path="img/neural-network-energy-shaping.png" width={1816} alt="NN-ES learns muscle activations from target position and current activation. Workspace maps show configuration-dependent costs, and comparisons with iterative energy shaping show similar reaching accuracy with shorter computation times." caption="**A fast arm controller.** The learned map is trained through the mechanical objective. The lower panels compare arm shapes, computation times, reaching errors, and activation costs with iterative energy shaping. Figure 3 from the paper." full_size={true} /> }}
 
 Across 100 random reaching cases, NN-ES and iterative energy shaping both achieve **median tip errors below 1% of resting arm length**. NN-ES computes solutions about **200 times faster**, with slightly higher muscle activation costs. This speedup concerns the computation of arm controls; it is not a claim that the entire foraging simulation or learning process runs 200 times faster.
 
@@ -111,7 +111,7 @@ Reaching uses repeated NN-ES evaluations, while crawling uses a prescribed activ
 
 An immediate food target is not always the best reason to stop. Crawling a little farther can bring several targets into an easier part of the workspace, allowing the arm to collect them with less effort. Learning when to make that tradeoff is the central policy's job.
 
-{{ <media.image page={page} path="img/foraging-controller.png" width={1508} alt="Food targets lie on a grid around the CyberOctopus inside a bounded attention region. Diagrams compare a central-policy and NN-ES hierarchy with a single end-to-end network." caption="**Choose a behavior, then execute it.** A limited attention region keeps the planning input manageable. The hierarchical and end-to-end formulations receive the same overall information, but organize the computation differently. Figure 4 from the paper. [Open full-size figure](img/foraging-controller.png)." full_size={true} /> }}
+{{ <media.image page={page} path="img/foraging-controller.png" width={1508} alt="Food targets lie on a grid around the CyberOctopus inside a bounded attention region. Diagrams compare a central-policy and NN-ES hierarchy with a single end-to-end network." caption="**Choose a behavior, then execute it.** A limited attention region keeps the planning input manageable. The hierarchical and end-to-end formulations receive the same overall information, but organize the computation differently. Figure 4 from the paper." full_size={true} /> }}
 
 The policy observes a fixed maximum number of nearby, uncollected targets within an attention region. This is a spatial selection rule that limits the input size. Target coordinates are supplied by the simulation; the study does not solve visual detection.
 
@@ -133,7 +133,7 @@ An arm reaching toward food can become stuck against an obstacle even when the t
 
 At contact, the part of the arm beyond the contact point relaxes. Toward the base, longitudinal muscles on the contacting side increase activation while the other muscles relax. This reshapes the compliant arm so that it can slide past the obstacle. When contact ends, the original muscle command resumes. The model treats the activation signals as propagating instantaneously.
 
-{{ <media.image page={page} path="img/obstacle-reflex.png" width={1620} alt="Without local feedback an arm gets stuck at a spherical obstacle; with feedback it slides past. Food-collection results and a four-arm foraging sequence show the benefit of the contact reflex." caption="**Local feedback restores access to food.** The central policy was trained without obstacles. Enabling the contact reflex improves food collection when obstacles are introduced. Panel b summarizes 100 evaluation episodes; panel c illustrates one foraging sequence. Figure 7 from the paper. [Open full-size figure](img/obstacle-reflex.png)." full_size={true} /> }}
+{{ <media.image page={page} path="img/obstacle-reflex.png" width={1620} alt="Without local feedback an arm gets stuck at a spherical obstacle; with feedback it slides past. Food-collection results and a four-arm foraging sequence show the benefit of the contact reflex." caption="**Local feedback restores access to food.** The central policy was trained without obstacles. Enabling the contact reflex improves food collection when obstacles are introduced. Panel b summarizes 100 evaluation episodes; panel c illustrates one foraging sequence. Figure 7 from the paper." full_size={true} /> }}
 
 The four-arm results show both the benefit and its limits:
 

@@ -71,7 +71,7 @@ The geometry of a muscle matters as much as its ability to contract. In an octop
 | Longitudinal | Along the arm, away from its center line | Shortens the arm and produces bending when activation is uneven across its sides |
 | Oblique | Helically around the arm, with opposite handedness | Produces twisting together with other coupled deformations |
 
-{{ <media.image page={page} path="img/musculature.png" width={1600} alt="Transverse muscles form green rings, longitudinal muscles run lengthwise in purple, and orange oblique muscles wind around the arm in opposite directions; insets show anatomical cross-sections." caption="**Geometry turns contraction into motion.** The virtual muscles follow the arrangement of the arm's major muscle groups. Anatomical cross-sections appear in the insets. Figure 2 from the preprint. [Open full-size figure](img/musculature.png)." full_size={true} /> }}
+{{ <media.image page={page} path="img/musculature.png" width={1600} alt="Transverse muscles form green rings, longitudinal muscles run lengthwise in purple, and orange oblique muscles wind around the arm in opposite directions; insets show anatomical cross-sections." caption="**Geometry turns contraction into motion.** The virtual muscles follow the arrangement of the arm's major muscle groups. Anatomical cross-sections appear in the insets. Figure 2 from the preprint." full_size={true} /> }}
 
 We describe the arm as a **Cosserat rod**. At each location along its center line, the model tracks both a position and the orientation of a small material frame. This lets it describe stretching, shearing, bending, and twisting in one continuum model.
 
@@ -146,7 +146,7 @@ The simulated arm is 20 cm long and tapers from a base radius of 1.2 cm to a tip
 
 In a representative reaching movement, transverse activation extends the distal arm, longitudinal activation near the base bends it toward the target, and oblique activation twists it to orient the suckers. The three muscle groups cooperate to meet a position-and-orientation objective.
 
-{{ <media.image page={page} path="img/reaching.png" width={1600} alt="A simulated arm reaches toward an orange target using transverse, longitudinal, and oblique activations. A 125-target workspace study shows position and orientation errors, including difficult distant and near-base targets." caption="**Reach, bend, and turn the sucker side toward the target.** The upper panels show the task and a representative movement; the lower panels characterize errors across 125 target positions. Figure 5 from the preprint. [Open full-size figure](img/reaching.png)." full_size={true} /> }}
+{{ <media.image page={page} path="img/reaching.png" width={1600} alt="A simulated arm reaches toward an orange target using transverse, longitudinal, and oblique activations. A 125-target workspace study shows position and orientation errors, including difficult distant and near-base targets." caption="**Reach, bend, and turn the sucker side toward the target.** The upper panels show the task and a representative movement; the lower panels characterize errors across 125 target positions. Figure 5 from the preprint." full_size={true} /> }}
 
 We test 125 targets distributed within a cube of side length 20 cm. The largest position errors occur at distant corners outside the arm's reachable workspace. Targets close to the base also challenge the arm's ability to bend and twist at the same time.
 
@@ -158,7 +158,7 @@ Grasping asks more of the arm than bringing its tip to a point. A substantial le
 
 We express these requirements through an objective acting on the distal 70% of the arm, together with a non-penetration penalty. Longitudinal and oblique activation then produce a spiral-like configuration around a cylindrical target.
 
-{{ <media.image page={page} path="img/grasping.png" width={1600} alt="An octopus-arm simulation wraps around a cylinder while turning the sucker-facing side inward. Additional tests vary cylinder radius from one to four centimeters and tilt cylinders in two directions." caption="**A grasp depends on shape and orientation.** The simulated arm wraps around cylinders with different radii and tilts. The lower plots compare position and director errors relative to the indicated reference cases. Figure 6 from the preprint. [Open full-size figure](img/grasping.png)." full_size={true} /> }}
+{{ <media.image page={page} path="img/grasping.png" width={1600} alt="An octopus-arm simulation wraps around a cylinder while turning the sucker-facing side inward. Additional tests vary cylinder radius from one to four centimeters and tilt cylinders in two directions." caption="**A grasp depends on shape and orientation.** The simulated arm wraps around cylinders with different radii and tilts. The lower plots compare position and director errors relative to the indicated reference cases. Figure 6 from the preprint." full_size={true} /> }}
 
 The tests vary cylinder radius from 1 to 4 cm. Thinner cylinders are harder to wrap around: their surfaces require tighter bending, which competes with the activation-effort penalty. Separate tests keep the radius at 2 cm and vary the cylinder's tilt from $-60^\circ$ to $60^\circ$ about each of two axes.
 

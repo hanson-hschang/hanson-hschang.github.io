@@ -38,7 +38,7 @@ bibtex = '''
 src = "img/bending-and-twisting.png"
 alt = "Three rows show bending, twisting, and mixed actuation of a soft arm. Reconstructed frames overlay the camera images, and plots show bending and twisting strains along the arm."
 size = [1600, 839]
-caption = "**Similar center lines can hide different deformations.** During twisting, the arm remains nearly straight while its cross-sections rotate. Figure 4 from [Kim et al., arXiv:2109.08372v1](https://arxiv.org/abs/2109.08372v1). [Open full-size figure](img/bending-and-twisting.png)."
+caption = "**Similar center lines can hide different deformations.** During twisting, the arm remains nearly straight while its cross-sections rotate. Figure 4 from [Kim et al., arXiv:2109.08372v1](https://arxiv.org/abs/2109.08372v1)."
 
 [extra.tex]
 +++
@@ -93,7 +93,7 @@ Our laboratory setup surrounds the arm with five action cameras recording at 60 
 
 Before tracking the arm, we calibrate the cameras throughout a $40\times30\times40$ cm workspace. Colored flags hang along weighted nylon wires, and moving this grid through the volume provides more than 1,000 reference points. The reported calibration errors are 1.4 mm on average and 2.6 mm at maximum.
 
-{{ <media.image page={page} path="img/camera-pipeline.png" width={1600} alt="A movable grid of colored flags calibrates the camera volume. Optical flow tracks arm markers, direct linear transformation recovers three-dimensional points, and rod smoothing reconstructs the arm's position and orientation." caption="**Calibrate, track, reconstruct.** Multiple views provide discrete three-dimensional marker positions and cross-section orientations. The rightmost panel illustrates how other camera views help recover a marker when it reappears. Figure 2 from the [preprint](https://arxiv.org/abs/2109.08372v1). [Open full-size figure](img/camera-pipeline.png)." full_size={true} /> }}
+{{ <media.image page={page} path="img/camera-pipeline.png" width={1600} alt="A movable grid of colored flags calibrates the camera volume. Optical flow tracks arm markers, direct linear transformation recovers three-dimensional points, and rod smoothing reconstructs the arm's position and orientation." caption="**Calibrate, track, reconstruct.** Multiple views provide discrete three-dimensional marker positions and cross-section orientations. The rightmost panel illustrates how other camera views help recover a marker when it reappears. Figure 2 from the [preprint](https://arxiv.org/abs/2109.08372v1)." full_size={true} /> }}
 
 After an initial manual selection, Lucas–Kanade optical flow follows marker points through successive images. Direct Linear Transformation (DLT) combines the calibrated views to estimate their three-dimensional coordinates. The cross-section markers then supply discrete position-and-orientation measurements along the arm.
 
@@ -141,7 +141,7 @@ We first generate synthetic rods from known, smoothly varying strain functions. 
 
 For the tested synthetic curves, the reported relative reconstruction errors fall to roughly 1% with five sampled poses and remain around 5% with two. These are results for the chosen smooth strain profiles, rather than a general sampling rule for every possible soft-body shape.
 
-{{ <media.image page={page} path="img/synthetic-reconstruction.png" width={1400} alt="Reconstructed material frames align with five synthetic pose samples. Recovered shear, stretch, bending, and twist curves follow their known references, and reconstruction error decreases with sample count." caption="**Checking against known strains.** Synthetic data makes it possible to compare the recovered strain fields with their generating functions. The right-hand plot varies the number of sampled poses. Figure 3 from the [preprint](https://arxiv.org/abs/2109.08372v1). [Open full-size figure](img/synthetic-reconstruction.png)." full_size={true} /> }}
+{{ <media.image page={page} path="img/synthetic-reconstruction.png" width={1400} alt="Reconstructed material frames align with five synthetic pose samples. Recovered shear, stretch, bending, and twist curves follow their known references, and reconstruction error decreases with sample count." caption="**Checking against known strains.** Synthetic data makes it possible to compare the recovered strain fields with their generating functions. The right-hand plot varies the number of sampled poses. Figure 3 from the [preprint](https://arxiv.org/abs/2109.08372v1)." full_size={true} /> }}
 
 For the first hardware experiment, we use an 18 cm pneumatic **BR² arm** made from three parallel fiber-reinforced elastomeric actuators: one designed to bend and two to twist in opposite directions. Five cross-section markers provide the observations.
 
@@ -165,7 +165,7 @@ In the 38 cm BR² arm, one section receives a bending command and the other a tw
 
 The 35 cm cable-driven arm uses twelve markers and bends its two sections in different directions. Its softer construction and cable routing let its cross-sectional holders tilt away from perpendicular to the center line. The reconstructed shear captures this visible feature of the deformation.
 
-{{ <media.image page={page} path="img/all-deformation-modes.png" width={1600} alt="A two-section pneumatic arm bends above and twists below, while a cable-driven arm bends in two directions and shears. Image overlays and six reconstructed strain profiles describe each experiment." caption="**One description for different soft arms.** The upper row shows the multi-section BR² arm; the lower row shows the cable-driven arm. Position and orientation overlays connect the camera observations to the recovered strain fields. Figure 5 from the [preprint](https://arxiv.org/abs/2109.08372v1). [Open full-size figure](img/all-deformation-modes.png)." full_size={true} /> }}
+{{ <media.image page={page} path="img/all-deformation-modes.png" width={1600} alt="A two-section pneumatic arm bends above and twists below, while a cable-driven arm bends in two directions and shears. Image overlays and six reconstructed strain profiles describe each experiment." caption="**One description for different soft arms.** The upper row shows the multi-section BR² arm; the lower row shows the cable-driven arm. Position and orientation overlays connect the camera observations to the recovered strain fields. Figure 5 from the [preprint](https://arxiv.org/abs/2109.08372v1)." full_size={true} /> }}
 
 We also perturb the cable-driven arm's measured marker positions with uniform noise of up to 5 mm. Reconstructing again changes the strain fields by about 10% on average in the paper's relative $L_2$ measure. This tests sensitivity to added noise by comparing two reconstructions; it is not a comparison with independently known physical strains.
 

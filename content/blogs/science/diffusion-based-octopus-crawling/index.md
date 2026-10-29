@@ -94,7 +94,7 @@ Here, $u$ is the control, $(\Delta x,\Delta y)$ is the resulting displacement, $
 
 The objective used for learning, $f(u)$, combines evaluations at the **sector center and boundary**, with equal weights and angular penalties at both. This encourages a control to work between the symmetry directions as well as at the center.
 
-{{ <media.image page={page} path="img/directional-crawling.png" width={1518} alt="Boundary-aware training produces more consistent directional crawling and closer waypoint tracking; 128 generated controls complete the illustrated curved path." caption="**Crawling between symmetry directions.** Blue curves include the boundary objective; orange curves omit it. The right panel shows the illustrated curved-path test. Figure 4(a-d) from the paper. [Open full-size figure](img/directional-crawling.png)." full_size={true} /> }}
+{{ <media.image page={page} path="img/directional-crawling.png" width={1518} alt="Boundary-aware training produces more consistent directional crawling and closer waypoint tracking; 128 generated controls complete the illustrated curved path." caption="**Crawling between symmetry directions.** Blue curves include the boundary objective; orange curves omit it. The right panel shows the illustrated curved-path test. Figure 4(a-d) from the paper." full_size={true} /> }}
 
 The experiments show the tradeoff: adding the boundary evaluation gives up some center-direction performance while improving directional consistency and waypoint tracking. In the illustrated curved-path experiment, all 128 generated controls reach the end. That result describes this particular test, rather than a guarantee for arbitrary paths.
 
@@ -119,7 +119,7 @@ The training data grows through an online optimization loop:
 
 In the reported setup, each iteration proposes 5,400 controls and selects 1,800 for objective evaluation. Training runs for 100 iterations. Each objective evaluation includes the center and boundary simulations. **Demonstration-free learning still requires substantial simulation data.**
 
-{{ <media.image page={page} path="img/duo-method.png" width={1518} alt="DUO generates controls by denoising, ranks candidates before center and boundary simulations, and later edits controls under actuation constraints." caption="**Discover, evaluate, and edit.** The training loop builds its own control dataset through simulation. After training, constrained editing reuses the learned denoiser. Figure 3 from the paper. [Open full-size figure](img/duo-method.png)." full_size={true} /> }}
+{{ <media.image page={page} path="img/duo-method.png" width={1518} alt="DUO generates controls by denoising, ranks candidates before center and boundary simulations, and later edits controls under actuation constraints." caption="**Discover, evaluate, and edit.** The training loop builds its own control dataset through simulation. After training, constrained editing reuses the learned denoiser. Figure 3 from the paper." full_size={true} /> }}
 
 ### Two roles for uncertainty
 
@@ -152,7 +152,7 @@ The distinction matters: uncertainty about an individual control can motivate ex
 
 The generated controls use different patterns of muscle and suction recruitment. The differences are especially visible in transverse-muscle activation and suction, while longitudinal- and oblique-muscle activation levels are comparatively similar across the control family.
 
-{{ <media.image page={page} path="img/control-diversity.png" width={1518} alt="Actuation profiles show different muscle and suction recruitment patterns. DUO and DiBO achieve similar high objective values, while DUO evaluates a broader range of controls." caption="**Performance and variety.** Actuation profiles, optimization curves, and principal-component projections provide complementary views of the learned controls. Figure 4(e-g) from the paper. [Open full-size figure](img/control-diversity.png)." full_size={true} /> }}
+{{ <media.image page={page} path="img/control-diversity.png" width={1518} alt="Actuation profiles show different muscle and suction recruitment patterns. DUO and DiBO achieve similar high objective values, while DUO evaluates a broader range of controls." caption="**Performance and variety.** Actuation profiles, optimization curves, and principal-component projections provide complementary views of the learned controls. Figure 4(e-g) from the paper." full_size={true} /> }}
 
 The comparison with other optimization methods is informative. Under the matched simulator-evaluation budget, **DUO and DiBO reach similarly high objective values**, with DiBO converging slightly earlier. DUO continues evaluating controls over a wider objective range. The actuation profiles and projections of the control distribution provide additional evidence of retained variety; a wide score range alone would not establish distinct behaviors.
 
@@ -166,7 +166,7 @@ Once the diffusion model has learned useful coordination patterns, we can use it
 
 For CyberOctopus, the constraints act on muscle or suction amplitudes. Repeated denoising, constraint enforcement, and noising alter the control while the **trained denoiser remains frozen**. There is no model retraining during this editing stage.
 
-{{ <media.image page={page} path="img/control-adaptation.png" width={1518} alt="Control editing recovers a mean 46.8 percent of lost objective with weaker muscles, 54.0 percent with weaker suction, and 60.7 percent with actuation disabled on four alternating arms." caption="**Recovery with a frozen denoiser.** Each panel follows performance from the original control through the imposed constraint and subsequent editing. Violin plots summarize 64 generated controls. Figure 5 from the paper. [Open full-size figure](img/control-adaptation.png)." full_size={true} /> }}
+{{ <media.image page={page} path="img/control-adaptation.png" width={1518} alt="Control editing recovers a mean 46.8 percent of lost objective with weaker muscles, 54.0 percent with weaker suction, and 60.7 percent with actuation disabled on four alternating arms." caption="**Recovery with a frozen denoiser.** Each panel follows performance from the original control through the imposed constraint and subsequent editing. Violin plots summarize 64 generated controls. Figure 5 from the paper." full_size={true} /> }}
 
 The paper tests three constraints that were absent during training:
 

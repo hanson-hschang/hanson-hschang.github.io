@@ -36,7 +36,7 @@ bibtex = '''
 src = "img/attention-and-control.png"
 alt = "A trained nanoGPT attention heatmap and a dual-filter control heatmap both concentrate on informative observations; the right panel compares their weights for query index 54."
 size = [1504, 462]
-caption = "**Two routes to prediction.** Learned attention weights (left) and optimal control weights (middle) emphasize similar observations in a two-cycle hidden Markov model. Their values differ; the control weights can be negative. Figure 3 from [Kudre, Chang, and Mehta (2026)](https://arxiv.org/abs/2605.15608v1). [Open full-size figure](img/attention-and-control.png)."
+caption = "**Two routes to prediction.** Learned attention weights (left) and optimal control weights (middle) emphasize similar observations in a two-cycle hidden Markov model. Their values differ; the control weights can be negative. Figure 3 from [Kudre, Chang, and Mehta (2026)](https://arxiv.org/abs/2605.15608v1)."
 
 [extra.tex]
 +++
@@ -124,7 +124,7 @@ For hidden dynamics with long memory, the linear formulation also offers a compu
 
 To compare control and attention, we use a process that concatenates independently chosen binary patterns. With the paper's main settings, the long pattern has two ones followed by fourteen zeros; the short pattern has one one followed by four zeros. Each new cycle is chosen with equal probability.
 
-{{ <media.image page={page} path="img/two-cycle-model.png" width={1504} alt="A sixteen-state hidden Markov model branches between long and short cycles; a sample binary sequence shows ones separated by runs of zeros." caption="**Two cycles, one prediction task.** The hidden state tracks progress around the cycles. The locations of the ones help identify that progress. Figure 2 from the paper, with long-cycle length $d=16$ and short-cycle length $q+1=5$. [Open full-size figure](img/two-cycle-model.png)." full_size={true} /> }}
+{{ <media.image page={page} path="img/two-cycle-model.png" width={1504} alt="A sixteen-state hidden Markov model branches between long and short cycles; a sample binary sequence shows ones separated by runs of zeros." caption="**Two cycles, one prediction task.** The hidden state tracks progress around the cycles. The locations of the ones help identify that progress. Figure 2 from the paper, with long-cycle length $d=16$ and short-cycle length $q+1=5$." full_size={true} /> }}
 
 Because the generating HMM is known, its exact filter provides an optimal next-token prediction benchmark. We train a nanoGPT with **one layer and one attention head**, using sequences of length $T=64$ and initially an embedding dimension of $16$.
 
@@ -136,7 +136,7 @@ The resemblance is qualitative. Attention weights are nonnegative and normalized
 
 The next experiment holds the true hidden-state dimension at $d=16$ and varies the candidate dimension $\hat d$. For every candidate dimension, the HMM parameters are estimated from data using Baum-Welch; nanoGPT is trained on the same dataset. This differs from the preceding comparison, which used known HMM parameters.
 
-{{ <media.image page={page} path="img/dimension-and-prediction.png" width={1512} alt="Next-token cross-entropy approaches the exact-filter benchmark for nanoGPT at embedding dimension eight, while the fitted HMM dual filter degrades below sixteen states. Heatmaps compare dimensions eight, sixteen, and thirty-two." caption="**Prediction under a dimension constraint.** Lower cross-entropy is better. At $\\hat d=8$, nanoGPT stays close to the optimal HMM-filter benchmark while the smaller fitted HMM loses accuracy. The lower panels compare control and attention patterns. Figure 4 from the paper. [Open full-size figure](img/dimension-and-prediction.png)." full_size={true} /> }}
+{{ <media.image page={page} path="img/dimension-and-prediction.png" width={1512} alt="Next-token cross-entropy approaches the exact-filter benchmark for nanoGPT at embedding dimension eight, while the fitted HMM dual filter degrades below sixteen states. Heatmaps compare dimensions eight, sixteen, and thirty-two." caption="**Prediction under a dimension constraint.** Lower cross-entropy is better. At $\\hat d=8$, nanoGPT stays close to the optimal HMM-filter benchmark while the smaller fitted HMM loses accuracy. The lower panels compare control and attention patterns. Figure 4 from the paper." full_size={true} /> }}
 
 When $\hat d\geq16$, both methods achieve near-optimal performance. At $\hat d=8$, the fitted Markovian model loses predictive accuracy, while nanoGPT remains near the benchmark.
 

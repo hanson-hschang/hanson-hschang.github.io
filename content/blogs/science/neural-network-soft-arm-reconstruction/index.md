@@ -44,7 +44,7 @@ image = "img/reconstruction-framework.png"
 src = "img/reconstruction-framework.png"
 alt = "Simulated strain trajectories supply a compact basis and synthetic marker measurements. A neural network learns from a mechanics-based loss, then reconstructs a simulated octopus arm and a physical pneumatic arm."
 size = [2040, 822]
-caption = "**From simulated deformations to fast reconstruction.** A compact strain representation connects the simulator, training data, physics-informed learning, and deployment. Figure 2 from [Wang et al., arXiv:2409.12443v1](https://arxiv.org/abs/2409.12443v1). [Open full-size figure](img/reconstruction-framework.png)."
+caption = "**From simulated deformations to fast reconstruction.** A compact strain representation connects the simulator, training data, physics-informed learning, and deployment. Figure 2 from [Wang et al., arXiv:2409.12443v1](https://arxiv.org/abs/2409.12443v1)."
 
 [extra.tex]
 +++
@@ -126,7 +126,7 @@ This is what the paper calls **unsupervised learning**: the training loss does n
 
 The networks are small multilayer perceptrons with two hidden layers. The octopus model uses layers of 128 and 64 neurons; the physical-arm model uses 32 and 16. Training and inference were performed on a laptop with an Intel Core i7-12700H processor and 16 GB of memory, without a dedicated GPU.
 
-{{ <media.image page={page} path="img/speed-and-training.png" width={2040} alt="A logarithmic timing plot compares neural reconstruction with the forward-backward algorithm. Adjacent plots show normalized objective loss and training and validation losses for both testbeds." caption="**The repeated solve is the computational bottleneck.** The neural method reduces reconstruction time by over five orders of magnitude in the reported benchmark, with normalized objective loss on a comparable scale. Training curves summarize fifty independent runs. Figure 3 from the [preprint](https://arxiv.org/abs/2409.12443v1). [Open full-size figure](img/speed-and-training.png)." full_size={true} /> }}
+{{ <media.image page={page} path="img/speed-and-training.png" width={2040} alt="A logarithmic timing plot compares neural reconstruction with the forward-backward algorithm. Adjacent plots show normalized objective loss and training and validation losses for both testbeds." caption="**The repeated solve is the computational bottleneck.** The neural method reduces reconstruction time by over five orders of magnitude in the reported benchmark, with normalized objective loss on a comparable scale. Training curves summarize fifty independent runs. Figure 3 from the [preprint](https://arxiv.org/abs/2409.12443v1)." full_size={true} /> }}
 
 Figure 3 compares the learned reconstruction with the previous forward-backward algorithm. Five orders of magnitude corresponds to a factor of 100,000. This comparison measures the reconstruction calculation once marker poses are available; camera acquisition, tracking, communication, and any later control calculation have their own timing costs.
 
@@ -138,7 +138,7 @@ The first testbed is a 20 cm tapered muscular arm simulated with COOMM and Elast
 
 The network receives 72 input values and predicts the 24 coefficients representing all six strain modes. In simulation, the underlying strain fields are available, so we can compare the reconstructed profiles with the simulator's ground truth.
 
-{{ <media.image page={page} path="img/octopus-reconstruction.png" width={2040} alt="Twenty-seven reaching targets are colored by average reconstruction error. Three snapshots compare simulated and reconstructed octopus-arm shapes, with plots of all six true and estimated strains." caption="**Sparse poses recover a distributed deformation.** The snapshots show the reaching trajectory with the largest time-averaged error among the tested targets. Solid strain curves are estimates; dashed curves come from the simulator. Figure 4 from the [preprint](https://arxiv.org/abs/2409.12443v1). [Open full-size figure](img/octopus-reconstruction.png)." full_size={true} /> }}
+{{ <media.image page={page} path="img/octopus-reconstruction.png" width={2040} alt="Twenty-seven reaching targets are colored by average reconstruction error. Three snapshots compare simulated and reconstructed octopus-arm shapes, with plots of all six true and estimated strains." caption="**Sparse poses recover a distributed deformation.** The snapshots show the reaching trajectory with the largest time-averaged error among the tested targets. Solid strain curves are estimates; dashed curves come from the simulator. Figure 4 from the [preprint](https://arxiv.org/abs/2409.12443v1)." full_size={true} /> }}
 
 For all 27 reaching trajectories, the time-averaged reconstruction error is below the reported **0.2% level**. This percentage has a specific definition: it is the mean marker-pose mismatch, combining squared position differences normalized by arm length squared and squared orientation-matrix differences normalized by eight.
 
@@ -150,7 +150,7 @@ The second testbed is a 30 cm BR² pneumatic manipulator. Its three pressure inp
 
 The training basis comes from COBRA, a simulator for the BR² arm. For this experiment, the model assumes the arm is inextensible and unshearable, so the learned variables are the three angular strains: two bends and twist. Three PCA components per angular strain give nine network outputs from 27 inputs.
 
-{{ <media.image page={page} path="img/br2-reconstruction.png" width={2040} alt="Camera views, Vicon poses, reconstructed shapes, and angular strain profiles show a BR2 arm bending, combining bending with twist, and twisting. Tip trajectories and pose-mismatch curves compare three repeated motion cycles." caption="**A simulation-trained estimator follows a real arm.** The arm bends, adds twist, releases bending, and releases twist over three repeated cycles. The measured tip trajectory and marker frames are compared with the reconstruction. Figure 5 from the [preprint](https://arxiv.org/abs/2409.12443v1). [Open full-size figure](img/br2-reconstruction.png)." full_size={true} /> }}
+{{ <media.image page={page} path="img/br2-reconstruction.png" width={2040} alt="Camera views, Vicon poses, reconstructed shapes, and angular strain profiles show a BR2 arm bending, combining bending with twist, and twisting. Tip trajectories and pose-mismatch curves compare three repeated motion cycles." caption="**A simulation-trained estimator follows a real arm.** The arm bends, adds twist, releases bending, and releases twist over three repeated cycles. The measured tip trajectory and marker frames are compared with the reconstruction. Figure 5 from the [preprint](https://arxiv.org/abs/2409.12443v1)." full_size={true} /> }}
 
 The experiment reconstructs the arm in real time as it moves through bending, combined bending and twisting, and nearly straight twisting. The repeated trajectories and error curves show consistent behavior across three cycles.
 
