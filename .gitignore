@@ -3,6 +3,7 @@
 
 # Zola build directory
 public/
+.persona-build/
 
 # processed images
 static/processed_images/

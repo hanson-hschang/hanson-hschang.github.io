@@ -1,26 +1,17 @@
-# Persona site build helpers.
-#
-# Targets:
-#   make build  - preprocess citation sources, then run zola build
-#   make serve  - preprocess citation sources, watch them, then run zola serve
-#   make clean  - remove generated Markdown files produced from *.src.md
-
+# Ordinary .md sources stay in content/; Persona processes a separate build copy.
 SHELL := /usr/bin/env bash
+ZOLA_ARGS ?=
 
-.PHONY: build serve clean
+.PHONY: build serve check clean
 
 build:
-	bash build.sh
-	zola build
+	bash build.sh $(ZOLA_ARGS)
 
 serve:
-	bash serve.sh
+	bash serve.sh $(ZOLA_ARGS)
+
+check:
+	python3 -B themes/persona/scripts/persona.py check --root "$(CURDIR)" -- $(ZOLA_ARGS)
 
 clean:
-	find content -name "*.src.md" -type f | while read -r src; do \
-		out="$${src%.src.md}.md"; \
-		if [ -f "$$out" ]; then \
-			rm "$$out"; \
-			echo "Removed $$out"; \
-		fi; \
-	done
+	python3 -B themes/persona/scripts/persona.py clean --root "$(CURDIR)"
