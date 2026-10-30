@@ -80,12 +80,10 @@ We begin with simulated motions of the arm and collect the strain profiles that 
 
 For strain component $i$, the approximation takes the form
 
-<div>
 $$
 \hat\varepsilon^i(s)=\bar\varepsilon^i_0(s)
 +\sum_{j=1}^{N_b}\alpha^i_j\bar\varepsilon^i_j(s).
 $$
-</div>
 
 Here, $s$ measures location along the reference length, $\bar\varepsilon^i_0$ is the mean strain profile, and the remaining $\bar\varepsilon^i_j$ are basis functions obtained from the simulated data. The coefficients $\alpha^i_j$ tell us how much of each pattern to use. The network predicts those coefficients.
 
@@ -93,13 +91,11 @@ For the simulated octopus arm, four components for each of six strain modes give
 
 Once the strains are known, we reconstruct position $\mathbf x(s)$ and orientation $Q(s)$ using the Cosserat rod kinematics:
 
-<div>
 $$
 \frac{d\mathbf x}{ds}=Q\boldsymbol\nu,
 \qquad
 \frac{dQ}{ds}=Q[\boldsymbol\kappa]_\times.
 $$
-</div>
 
 The vector $\boldsymbol\kappa$ contains two bending strains and twist; $\boldsymbol\nu$ contains two shear strains and stretch. The matrix $[\boldsymbol\kappa]_\times$ represents taking a cross product with $\boldsymbol\kappa$. With the base pose specified, integrating these equations connects the predicted local deformations into a complete posture.
 
@@ -111,12 +107,10 @@ Instead, we expand the simulated dataset by sampling strain coefficients from di
 
 During training, the network receives these noisy poses and predicts strain coefficients. Its reconstruction is scored using
 
-<div>
 $$
 J(\hat q;\mathcal M)
 =U(\hat q)+\frac{\eta}{2}\Phi(\hat q;\mathcal M).
 $$
-</div>
 
 Here, $\hat q$ is the reconstructed posture, $\mathcal M$ is the marker measurement set, $U$ is the arm's potential energy, and $\Phi$ penalizes disagreement with measured positions and orientations. The weight $\eta$ controls the balance between the two terms. The rod equations constrain how strain becomes posture, while the energy term supplies a mechanical preference among possible reconstructions.
 

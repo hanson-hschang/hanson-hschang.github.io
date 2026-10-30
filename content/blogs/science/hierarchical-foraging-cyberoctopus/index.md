@@ -82,13 +82,11 @@ The difficulty for foraging is computational cost. The controller must repeatedl
 
 We therefore train a neural network to map the **current muscle activation and target position** to a new activation profile. Let $\alpha_0(s)$ denote the current activation, $\alpha(s)$ the proposed activation, and $q$ the target. The arm-level objective is
 
-<div>
 $$
 J(\alpha;\alpha_0,q)
 =\int_0^{L_0}\|\alpha(s)-\alpha_0(s)\|^2\,ds
 +\mu_{\mathrm{tip}}\|q-x_\alpha(L_0)\|.
 $$
-</div>
 
 Here, $L_0$ is the arm's resting length and $x_\alpha(L_0)$ is the tip position at the equilibrium induced by $\alpha$. The first term penalizes changes in muscle activation; the second penalizes missing the target. Muscle activations remain between zero and one. The activation term is a model of control effort, not a direct measurement of biological energy consumption.
 

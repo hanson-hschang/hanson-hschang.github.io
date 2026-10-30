@@ -102,11 +102,9 @@ The experiments show the tradeoff: adding the boundary evaluation gives up some 
 
 A conditional diffusion model learns to generate controls for a requested objective value:
 
-<div>
 $$
 u \sim p_\theta(\cdot\mid y).
 $$
-</div>
 
 During training, the model learns to remove noise from evaluated controls. During generation, it starts with noise and progressively denoises it into a candidate control. Different noise samples can produce different coordination patterns for the same requested score. The requested score guides generation; simulation determines what the candidate actually achieves.
 
@@ -127,11 +125,9 @@ DUO combines two scores when deciding which controls deserve simulation.
 
 The first uses an ensemble of forward predictors to estimate a candidate's objective. Its upper-confidence-bound score is
 
-<div>
 $$
 \alpha_{\mathrm{control}}(u)=\mu(u)+\kappa\sigma(u),
 $$
-</div>
 
 where $\mu$ is the ensemble's mean prediction and $\sigma$ measures disagreement. This rewards promising predictions and gives an exploration bonus to uncertain candidates.
 
@@ -139,12 +135,10 @@ The second score, $\alpha_{\mathrm{target}}(y)$, uses disagreement among diffusi
 
 These terms combine as
 
-<div>
 $$
 \alpha(u,y)=\alpha_{\mathrm{control}}(u)
 +\eta\,\alpha_{\mathrm{target}}(y).
 $$
-</div>
 
 The distinction matters: uncertainty about an individual control can motivate exploration, while disagreement about a target can discourage an unreliable query. Sampling a range of target scores also helps the search retain alternatives as performance improves.
 
@@ -180,13 +174,11 @@ In the third case, the four inactive arms remain physically present. Their actua
 
 To interpret the percentages, let $y_{\mathrm{initial}}$ be the original objective, $y_{\mathrm{constrained}}$ the objective after imposing the constraint, and $y_{\mathrm{adapted}}$ the result after editing. Recovery for an individual control is
 
-<div>
 $$
 \mathrm{recovery}
 =\frac{y_{\mathrm{adapted}}-y_{\mathrm{constrained}}}
 {y_{\mathrm{initial}}-y_{\mathrm{constrained}}}\times100\%.
 $$
-</div>
 
 The table reports the mean of this quantity across 64 generated controls. Thus, 60.7% means recovering that fraction of the **lost composite crawling score**. It is not a speed increase or a claim that the robot operates at 60.7% of its original performance.
 

@@ -55,20 +55,16 @@ Imagine observing a sequence of symbols produced by a system whose internal stat
 
 For a discrete state space with $d$ possible states, the estimate is a probability vector:
 
-<div>
 $$
 \pi_T(x)=\mathbb{P}(X_T=x\mid Z_{1:T}).
 $$
-</div>
 
 Here, $X_T$ is the hidden state and $Z_{1:T}$ is the observed sequence. If $C(x,z)$ is the probability that state $x$ emits token $z$, the next-token distribution follows from
 
-<div>
 $$
 \mathbb{P}(Z_{T+1}=z\mid Z_{1:T})
 =\sum_{x=1}^{d}\pi_T(x)C(x,z).
 $$
-</div>
 
 This is a probabilistic analogue of decoding an internal representation into token probabilities. Each coordinate of $\pi_T$ has a concrete meaning: the probability assigned to one hidden state.
 
@@ -78,11 +74,9 @@ The paper studies two settings. A **linear Gaussian model** provides a tractable
 
 The key step is to represent a prediction as a weighted combination of observations. In the nonlinear setting, for a function $f$ of the hidden state, the paper establishes a representation of the form
 
-<div>
 $$
 \pi_T(f)=c_f-\sum_{t=1}^{T}U_{t-1}^{\mathsf T}e(Z_t).
 $$
-</div>
 
 The left-hand side is the conditional expectation of $f(X_T)$. Choosing $f$ to indicate a particular state gives that state's posterior probability. On the right, $c_f$ is a deterministic constant, $e$ encodes tokens, and the weights $U_{t-1}$ can depend on the observations preceding $Z_t$. For binary observations, the encoding is simply $e(1)=1$ and $e(0)=-1$.
 
@@ -90,11 +84,9 @@ Although the expression looks like a linear sum, **its weights depend on the dat
 
 The next step is to choose those weights. For a hidden Markov model (HMM), the duality principle constructs an auxiliary control system and a cost that equals the estimator's mean squared error:
 
-<div>
 $$
 J_T(U;f)=\mathbb{E}\!\left[\bigl(f(X_T)-S_T\bigr)^2\right].
 $$
-</div>
 
 Here, $S_T$ is the estimator associated with the chosen controls. Solving the control problem therefore produces the minimum mean squared error estimate, $\pi_T(f)$. The controls determine how observations contribute to inference; they do not physically steer the system generating the tokens.
 
@@ -106,13 +98,11 @@ For the HMM, the optimal control law depends on the hidden-state probabilities w
 
 This suggests a layer operation. Start with approximate probability vectors at all $T$ positions, use them to compute controls through the dual equations, and produce a new sequence:
 
-<div>
 $$
 [\rho_1,\ldots,\rho_T]
 \longmapsto
 [\rho_1^+,\ldots,\rho_T^+].
 $$
-</div>
 
 Both input and output have shape $d\times T$. Repeating the operation gives a layered inference architecture. The linear Gaussian case has a similar construction using a sequence of auxiliary vectors called momenta, with updates supplied by the optimality equations.
 

@@ -75,13 +75,11 @@ The changes in position and orientation are governed by six components:
 
 With $Q$ mapping local coordinates into the laboratory frame, the rod's kinematics can be written as
 
-<div>
 $$
 \frac{d\mathbf r}{ds}=Q\boldsymbol\nu,
 \qquad
 \frac{dQ}{ds}=Q[\boldsymbol\kappa]_\times.
 $$
-</div>
 
 The notation $[\boldsymbol\kappa]_\times$ denotes the matrix that takes a cross product with $\boldsymbol\kappa$. Given these strain fields and a base pose, we can integrate the equations to reconstruct the rod.
 
@@ -107,7 +105,6 @@ We instead optimize a single rod over its full length. Three terms guide the est
 
 Collect the six strains into $\varepsilon=(\boldsymbol\kappa,\boldsymbol\nu)$, and let $\varepsilon^\circ$ be their intrinsic, stress-free values. Using the paper's quadratic elastic model, the objective is
 
-<div>
 $$
 \begin{aligned}
 J={}&\frac12\int_0^L
@@ -121,7 +118,6 @@ J={}&\frac12\int_0^L
 \right].
 \end{aligned}
 $$
-</div>
 
 Here, $R(s)$ is the rigidity matrix, $(\mathbf r_j,Q_j)$ are measured poses, and the positive weights $\chi_u,\chi_r,\chi_Q$ balance smoothness and data agreement. The Frobenius norm $\lVert\cdot\rVert_F$ measures the orientation-matrix mismatch.
 

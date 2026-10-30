@@ -85,26 +85,22 @@ An elastic rod stores energy when it deforms. Its internal forces and bending or
 
 For muscle $m$, the paper constructs a scalar function $W^m$ whose strain derivatives generate its active force and moment. The construction incorporates the muscle's geometry and a force-length relation fitted to experimental data. Multiplying by its activation $u^m$ scales its contribution:
 
-<div>
 $$
 \mathbf n^m=u^m\frac{\partial W^m}{\partial\boldsymbol\nu},
 \qquad
 \mathbf m^m=u^m\frac{\partial W^m}{\partial\boldsymbol\kappa}.
 $$
-</div>
 
 Here, $\boldsymbol\nu$ describes shear and stretch, while $\boldsymbol\kappa$ describes bending and twist. The vectors $\mathbf n^m$ and $\mathbf m^m$ are the muscle's internal force and moment in the arm's local frame.
 
 For a fixed spatial activation profile $\alpha^m(s)$, the combined potential energy becomes
 
-<div>
 $$
 V(q;\alpha)=\int_0^L\left[
 W^e(\varepsilon(s))+
 \sum_m\alpha^m(s)W^m(s,\varepsilon(s))
 \right]\,ds.
 $$
-</div>
 
 The notation $q$ represents the arm's position and orientation along its length, $\varepsilon=(\boldsymbol\nu,\boldsymbol\kappa)$ collects its strains, and $W^e$ is the passive elastic energy density. The muscle term is written here with its dependence on muscle strain absorbed into $\varepsilon$.
 
@@ -120,13 +116,11 @@ Our muscle-energy formulation builds those restrictions into the family $V(q;\al
 
 The search minimizes a combination of activation effort and task error:
 
-<div>
 $$
 J(\alpha,q)=
 \frac12\sum_m\int_0^L[\alpha^m(s)]^2\,ds
 +J_{\mathrm{task}}(q).
 $$
-</div>
 
 For reaching, the task cost penalizes tip-position and tip-orientation errors. For grasping, it encourages the arm to approach the object and face its suckers toward it, while a penalty discourages penetration. The squared-activation term regularizes muscle effort; minimizing it is not a claim of optimal metabolic efficiency.
 
