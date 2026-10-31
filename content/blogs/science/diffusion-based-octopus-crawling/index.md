@@ -63,15 +63,7 @@ Imagine learning one highly effective crawling motion that depends heavily on su
 
 Capturing this variety is difficult because the robot's body is highly deformable. Our CyberOctopus has eight soft arms, each modeled as a **Cosserat rod**: a continuum description that accounts for bending, twisting, stretching, and shearing. Muscle forces interact with gravity, ground friction, contact between arms, and sucker adhesion.
 
-Each arm has nine actuation channels: four longitudinal muscles for directional bending, one transverse muscle for elongation, two oblique muscles for twisting, and two sucker groups for anchoring. Every channel follows a Gaussian activation pulse with three parameters: amplitude, width, and peak phase. A crawling control therefore contains
-
-<div>
-$$
-d = 8 \times 9 \times 3 = 216
-$$
-</div>
-
-parameters. Testing one setting requires a dynamic simulation. Searching this space for many useful settings makes the evaluation budget a central concern.
+Each arm has nine actuation channels: four longitudinal muscles for directional bending, one transverse muscle for elongation, two oblique muscles for twisting, and two sucker groups for anchoring. Every channel follows a Gaussian activation pulse with three parameters: amplitude, width, and peak phase. A crawling control therefore contains $d = 8 \times 9 \times 3 = 216$ parameters. Testing one setting requires a dynamic simulation. Searching this space for many useful settings makes the evaluation budget a central concern.
 
 ## Use symmetry, then check the gaps
 
@@ -81,14 +73,9 @@ This reduces the directional search while leaving the 216 actuation parameters t
 
 For a commanded direction $\phi$, the starting objective is
 
-<div>
 $$
-\begin{aligned}
-q(u;\phi) = {} & \cos\phi\,\Delta x(u) + \sin\phi\,\Delta y(u) \\
-& - \frac{\lambda}{2}\bigl[J_{\mathrm{ang}}(u;\phi)+J_{\mathrm{rot}}(u)\bigr].
-\end{aligned}
+q(u;\phi) = \cos\phi\,\Delta x(u) + \sin\phi\,\Delta y(u) - \frac{\lambda}{2}\bigl[J_{\mathrm{ang}}(u;\phi)+J_{\mathrm{rot}}(u)\bigr].
 $$
-</div>
 
 Here, $u$ is the control, $(\Delta x,\Delta y)$ is the resulting displacement, $J_{\mathrm{ang}}$ measures directional error, and $J_{\mathrm{rot}}$ measures net body rotation. The weight $\lambda$ balances progress against those penalties.
 
