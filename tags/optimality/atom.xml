@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title>Hanson.HSChang - Optimality</title>
+    <subtitle>This is Hanson&#39;s personal website.</subtitle>
+    <link rel="self" type="application/atom+xml" href="https://hanson-hschang.github.io/tags/optimality/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://hanson-hschang.github.io/"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2019-02-20T00:00:00+00:00</updated>
+    <id>https://hanson-hschang.github.io/tags/optimality/atom.xml</id>
+    <entry xml:lang="en">
+        <title>How regularization affects the critical points in linear neural networks</title>
+        <published>2018-11-08T00:00:00+00:00</published>
+        <updated>2019-02-20T00:00:00+00:00</updated>
+        
+        <author>
+          <name>Heng-Sheng Chang</name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://hanson-hschang.github.io/blogs/science/critical-points-in-linear-neural-networks/"/>
+        <id>https://hanson-hschang.github.io/blogs/science/critical-points-in-linear-neural-networks/</id>
+        
+        <content type="html" xml:base="https://hanson-hschang.github.io/blogs/science/critical-points-in-linear-neural-networks/">&lt;!-- persona-math-protected --&gt;
+&lt;p&gt;Given an input initial random vector &lt;span class=&quot;persona-math&quot;&gt;$X_0\in\Real{n}$&lt;/span&gt; with &lt;span class=&quot;persona-math&quot;&gt;$p_X$&lt;/span&gt; distribution and covariance matrix &lt;span class=&quot;persona-math&quot;&gt;$\Sigma_{X_0}=\expectation{X_0{X_0}^\transpose}$&lt;/span&gt;. Assume the input-output model is in the following linear form: &lt;span class=&quot;persona-math&quot;&gt;$$Z=RX_0+\xi$$&lt;/span&gt; where &lt;span class=&quot;persona-math&quot;&gt;$\xi\in\Real{n}$&lt;/span&gt; is the noise and &lt;span class=&quot;persona-math&quot;&gt;$Z\in\Real{n}$&lt;/span&gt; is the output. In addition, the noise &lt;span class=&quot;persona-math&quot;&gt;$\xi$&lt;/span&gt; is assumed to have &lt;span class=&quot;persona-math&quot;&gt;$p_\xi$&lt;/span&gt; distribution and be independent to the input &lt;span class=&quot;persona-math&quot;&gt;$X_0$&lt;/span&gt;, i.e. &lt;span class=&quot;persona-math&quot;&gt;$\expectation{\xi{X_0}^\transpose}=0$&lt;/span&gt;. The problem is using i.i.d. input-output samples &lt;span class=&quot;persona-math&quot;&gt;$\{({X_0}^{(k)},Z^{(k)})\}_{k=1}^K$&lt;/span&gt; to learn the weights of a linear feed-forward neural network &lt;span class=&quot;persona-math&quot;&gt;$$\dfrac{\dif X_t}{\dif t}=A_tX_t$$&lt;/span&gt; in order to match the input-output relation &lt;span class=&quot;persona-math&quot;&gt;$R$&lt;/span&gt;. Note that &lt;span class=&quot;persona-math&quot;&gt;$A_t$&lt;/span&gt; are the network weights, &lt;span class=&quot;persona-math&quot;&gt;$t$&lt;/span&gt; denotes the input layer with at most depth &lt;span class=&quot;persona-math&quot;&gt;$T$&lt;/span&gt;, and &lt;span class=&quot;persona-math&quot;&gt;$K$&lt;/span&gt; is the total number of training samples.&lt;/p&gt;
+&lt;p&gt;Consider the following regularized form of the optimization problem:
+&lt;span class=&quot;persona-math&quot;&gt;$$
+\begin{align*}
+\underset{A_t}{\textsf{minimize}}\quad&amp;amp;\text{J}[A_t]=\expectation{\lambda\int_0^T\dfrac{1}{2}\text{tr}({A_t}^\transpose A_t)\ \dif t+\dfrac{1}{2}(X_T-Z)^2}\\\\
+\textsf{subject to}\quad&amp;amp;\dfrac{\dif X_t}{\dif t}=A_tX_t,\ X_0\textsf{ given}
+\end{align*}
+$$&lt;/span&gt;
+where &lt;span class=&quot;persona-math&quot;&gt;$(\cdot)^2$&lt;/span&gt; denotes the dot product of itself, and &lt;span class=&quot;persona-math&quot;&gt;$\lambda\geq0$&lt;/span&gt; is a regularization parameter.&lt;/p&gt;
+&lt;p&gt;To minimize &lt;span class=&quot;persona-math&quot;&gt;$A_t$&lt;/span&gt;, we consider the Lagrange multiplier &lt;span class=&quot;persona-math&quot;&gt;$Y_t$&lt;/span&gt;, a random process &lt;span class=&quot;persona-math&quot;&gt;$[0,T]\rightarrow\Real{n}$&lt;/span&gt;, s.t.
+&lt;span class=&quot;persona-math&quot;&gt;$$
+\mathcal{L}(X_t,A_t,Y_t)=\text{J}[A_t]+\expectation{\int_0^T{Y_t}^\transpose\left(\dfrac{\dif X_t}{\dif t}-A_tX_t\right)\ \dif t}
+$$&lt;/span&gt;
+then we have the necessary conditions: &lt;span class=&quot;persona-math&quot;&gt;$\dfrac{\partial\mathcal{L}}{\partial Y_t}=0$&lt;/span&gt; that is
+&lt;span class=&quot;persona-math&quot;&gt;$$
+\begin{align}
+\expectation{\int_0^T{\delta Y_t}^\transpose\left(\dfrac{\dif X_t}{\dif t}-A_tX_t\right)\ \dif t}=0,\quad\forall\ \delta Y_t
+\end{align}
+$$&lt;/span&gt;
+&lt;span class=&quot;persona-math&quot;&gt;$\dfrac{\partial\mathcal{L}}{\partial X_t}=0$&lt;/span&gt; that is &lt;span class=&quot;persona-math&quot;&gt;$\expectation{X_T-Z+Y_T}=0$&lt;/span&gt; for &lt;span class=&quot;persona-math&quot;&gt;$t=T$&lt;/span&gt; and for &lt;span class=&quot;persona-math&quot;&gt;$t\neq T$&lt;/span&gt;
+&lt;span class=&quot;persona-math&quot;&gt;$$
+\begin{align}
+\expectation{-\displaystyle\int_0^T\left(\dfrac{\dif Y_t}{\dif t}+{A_t}^\transpose Y_t\right)^\transpose \delta X_t\ \dif t},\quad \forall\ \delta X_t
+\end{align}
+$$&lt;/span&gt;
+and &lt;span class=&quot;persona-math&quot;&gt;$\dfrac{\partial\mathcal{L}}{\partial A_t}=0$&lt;/span&gt; that is
+&lt;span class=&quot;persona-math&quot;&gt;$$
+\begin{align}
+\expectation{\int_0^T(\lambda A_t-Y_t{X_t}^\transpose)\ \dif t}=0
+\end{align}
+$$&lt;/span&gt;
+Note that
+&lt;span class=&quot;persona-math&quot;&gt;$$
+\int_0^T{Y_t}^\transpose\dfrac{\dif X_t}{\dif t}\ \dif t={Y_T}^\transpose X_T-{Y_0}^\transpose X_0-\int_0^T{\dfrac{\dif Y_t}{\dif t}}^\transpose X_t\ \dif t.
+$$&lt;/span&gt;
+Therefore, from (1), (2) and (3), we have
+&lt;span class=&quot;persona-math&quot;&gt;$$
+\begin{align}
+\dfrac{\dif X_t}{\dif t}&amp;amp;=\ \ \ A_tX_t,\quad\textsf{with }X_0\textsf{ given}\\\\
+\dfrac{\dif Y_t}{\dif t}&amp;amp;=-{A_t}^\transpose Y_t,\quad\textsf{with }Y_T=Z-X_T\\\\
+A_t&amp;amp;=\dfrac{1}{\lambda}\expectation{Y_t{X_t}^\transpose}\\
+\end{align}
+$$&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Next, we would like to solve the 3 differential equation. We start with assuming the solution of equations (4) and (5) in the form of
+&lt;span class=&quot;persona-math&quot;&gt;$$
+\begin{align}
+X_t&amp;amp;=\phi_{t;0}X_0\\\\
+Y_t&amp;amp;={\phi_{T;t}}^\transpose Y_T={\phi_{T;t}}^\transpose(Z-X_T)={\phi_{T;t}}^\transpose(RX_0+\xi-\phi_{T;0}X_0)
+\end{align}
+$$&lt;/span&gt;
+and also first, take the derivative of both sides of (6) with respect to &lt;span class=&quot;persona-math&quot;&gt;$t$&lt;/span&gt; and next, substitute the differentiate terms with equations (4) and (5), one obtain
+&lt;span class=&quot;persona-math&quot;&gt;$$
+\begin{align}
+\dfrac{\dif A_t}{\dif t}=-{A_t}^\transpose A_t+A_t{A_t}^\transpose
+\end{align}
+$$&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Since the differentiation of &lt;span class=&quot;persona-math&quot;&gt;$A_t$&lt;/span&gt; is a symmetric matrix, we decomposing &lt;span class=&quot;persona-math&quot;&gt;$A_t$&lt;/span&gt; into the combination of symmetric matrix &lt;span class=&quot;persona-math&quot;&gt;$S_t$&lt;/span&gt; and skew-symmetric matrix &lt;span class=&quot;persona-math&quot;&gt;$\bar S_t$&lt;/span&gt;:
+&lt;span class=&quot;persona-math&quot;&gt;$$
+A_t=\dfrac{A_t+{A_t}^\transpose}{2}+\dfrac{A_t-{A_t}^\transpose}{2}=S_t+\bar S_t
+$$&lt;/span&gt;
+and guess that the differentiation result of the skew-symmetric matrix &lt;span class=&quot;persona-math&quot;&gt;$\bar S_t$&lt;/span&gt; should be 0. The derivatives of &lt;span class=&quot;persona-math&quot;&gt;$S_t$&lt;/span&gt; and &lt;span class=&quot;persona-math&quot;&gt;$\bar S_t$&lt;/span&gt; are
+&lt;span class=&quot;persona-math&quot;&gt;$$
+\dfrac{\dif S_t}{\dif t}=\dfrac{\dif}{\dif t}\dfrac{A_t+{A_t}^\transpose}{2}=-{A_t}^\transpose A_t+A_t{A_t}^\transpose
+$$&lt;/span&gt;
+&lt;span class=&quot;persona-math&quot;&gt;$$
+\dfrac{\dif \bar S_t}{\dif t}=\dfrac{\dif}{\dif t}\dfrac{A_t-{A_t}^\transpose}{2}=0\qquad\qquad\qquad\quad
+$$&lt;/span&gt;
+which matches our assumption. We can further rewrite &lt;span class=&quot;persona-math&quot;&gt;$\dfrac{\dif S_t}{\dif t}$&lt;/span&gt; in terms of &lt;span class=&quot;persona-math&quot;&gt;$S_t$&lt;/span&gt; and &lt;span class=&quot;persona-math&quot;&gt;$\bar S_t$&lt;/span&gt;:
+&lt;span class=&quot;persona-math&quot;&gt;$$
+\dfrac{\dif S_t}{\dif t}=2(\bar S_tS_t-S_t\bar S_t)=MS_t-S_tM
+$$&lt;/span&gt;
+where &lt;span class=&quot;persona-math&quot;&gt;$M=2\bar S_t=2\bar S_0$&lt;/span&gt; is a constant matrix (i.e. not a matrix function of time &lt;span class=&quot;persona-math&quot;&gt;$t$&lt;/span&gt;). From here, we can have the general solution of &lt;span class=&quot;persona-math&quot;&gt;$S_t$&lt;/span&gt; as
+&lt;span class=&quot;persona-math&quot;&gt;$$
+S_t=e^{tM}S_0e^{-tM}
+$$&lt;/span&gt;
+and therefore,
+&lt;span class=&quot;persona-math&quot;&gt;$$
+\begin{align}
+A_t=e^{t(A_0-{A_0}^\transpose)}A_0e^{-t(A_0-{A_0}^\transpose)}
+\end{align}
+$$&lt;/span&gt;
+with the derivation as follows
+&lt;span class=&quot;persona-math&quot;&gt;$$
+\begin{align*}
+A_t&amp;amp;=S_t+\bar S_t\\\\
+&amp;amp;=e^{2t\bar S_0}S_0e^{-2t\bar S_0}+\bar S_0\\\\
+&amp;amp;=e^{2t\bar S_0}(S_0+\bar S_0)e^{-2t\bar S_0}\\\\
+&amp;amp;=e^{t(A_0-{A_0}^\transpose)}A_0e^{-t(A_0-{A_0}^\transpose)}
+\end{align*}
+$$&lt;/span&gt;
+Note that the third equality holds since any two functions of the same matrix are commutable. In addition, if we substitute (6) with (7) and (8), and set &lt;span class=&quot;persona-math&quot;&gt;$t=0$&lt;/span&gt;, we will have a constrain on &lt;span class=&quot;persona-math&quot;&gt;$A_0$&lt;/span&gt;:
+&lt;span class=&quot;persona-math&quot;&gt;$$
+\begin{align}
+\lambda A_0={\phi_{T;0}}^\transpose(R-\phi_{T;0})\Sigma_{X_0}
+\end{align}
+$$&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Finally, to solve &lt;span class=&quot;persona-math&quot;&gt;$\phi_{t;0}$&lt;/span&gt;, first let &lt;span class=&quot;persona-math&quot;&gt;$\bar X_t=e^{-t(A_0-{A_0}^\transpose)}X_t$&lt;/span&gt;, and substitute (4) with &lt;span class=&quot;persona-math&quot;&gt;$\bar X_t$&lt;/span&gt;, &lt;span class=&quot;persona-math&quot;&gt;$\bar X_0$&lt;/span&gt; and (10), we have
+&lt;span class=&quot;persona-math&quot;&gt;$$
+\dfrac{d\bar X_t}{dt}={A_0}^\transpose \bar X_t
+$$&lt;/span&gt;
+which can be easily solved. Thus, the solution to (4) is
+&lt;span class=&quot;persona-math&quot;&gt;$$
+\begin{align}
+X_t=e^{t(A_0-{A_0}^\transpose)}\bar X_t=e^{t(A_0-{A_0}^\transpose)}e^{t{A_0}^\transpose}X_0
+\end{align}
+$$&lt;/span&gt;
+Similarly, the solution to (5) is
+&lt;span class=&quot;persona-math&quot;&gt;$$
+\begin{align*}
+Y_t&amp;amp;=e^{t(A_0-{A_0}^\transpose)}e^{-tA_0}Y_0\\\\
+&amp;amp;=e^{t(A_0-{A_0}^\transpose)}e^{(T-t)A_0}e^{-T(A_0-{A_0}^\transpose)}Y_T\\\\
+&amp;amp;=e^{t(A_0-{A_0}^\transpose)}e^{(T-t)A_0}e^{-T(A_0-{A_0}^\transpose)}(Z-X_T)
+\end{align*}
+$$&lt;/span&gt;
+Note that &lt;span class=&quot;persona-math&quot;&gt;$\phi_{t;0}$&lt;/span&gt; is also solved by comparing (7) and (12)
+&lt;span class=&quot;persona-math&quot;&gt;$$
+\phi_{t;0}=e^{t(A_0-{A_0}^\transpose)}e^{t{A_0}^\transpose}
+$$&lt;/span&gt;
+Furthermore, the constrain on &lt;span class=&quot;persona-math&quot;&gt;$A_0$&lt;/span&gt; can be rewritten as
+&lt;span class=&quot;persona-math&quot;&gt;$$
+\begin{align*}
+\lambda A_0&amp;amp;=\left(e^{TA_0}e^{-T(A_0-{A_0}^\transpose)}\right)\left(R-e^{T(A_0-{A_0}^\transpose)}e^{T{A_0}^\transpose}\right)\Sigma_{X_0}\\\\
+&amp;amp;=\left(e^{TA_0}e^{-T(A_0-{A_0}^\transpose)}R-e^{TA_0}e^{T{A_0}^\transpose}\right)\Sigma_{X_0}
+\end{align*}
+$$&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Reference: &lt;a rel=&quot;noopener noreferrer external&quot; target=&quot;_blank&quot; href=&quot;https://papers.nips.cc/paper/6844-how-regularization-affects-the-critical-points-in-linear-networks&quot;&gt;How regularization affects the critical points in linear networks&lt;/a&gt;&lt;/p&gt;
+</content>
+        
+    </entry>
+</feed>
